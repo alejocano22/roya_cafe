@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'apps.lote',
+    'apps.finca',
+    'apps.usuario',
 ]
 
 MIDDLEWARE = [
@@ -120,3 +122,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR,'static'),)  
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 25
+EMAIL_HOST_USER  = 'coffeerescuer@gmail.com'
+EMAIL_HOST_PASSWORD = 'cafe1235'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

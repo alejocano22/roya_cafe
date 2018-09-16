@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":2,"key":{"_id":1},"name":"_id_","ns":"coffee_rescuer_db.finca_finca"},{"v":2,"unique":true,"key":{"id":1},"name":"__primary_key__","ns":"coffee_rescuer_db.finca_finca"},{"v":2,"key":{"usuario_id":1},"name":"finca_finca_usuario_id_c00e8f41","ns":"coffee_rescuer_db.finca_finca"}],"uuid":"7aa29ae497a542a4a4f5ca3093e5d082"}
