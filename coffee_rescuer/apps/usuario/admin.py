@@ -1,4 +1,4 @@
 from django.contrib import admin
-from apps.usuario.models import UserProfile
+from apps.usuario.models import PerfilUsuario
 # Register your models here.
-admin.site.register(UserProfile)
+admin.site.register(PerfilUsuario)
