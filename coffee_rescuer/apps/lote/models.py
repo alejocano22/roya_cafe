@@ -13,6 +13,7 @@ class Lote(models.Model):
 
 	finca = models.ForeignKey(Finca,on_delete=models.CASCADE)
 	nombre = models.CharField(max_length=50,null=True,blank=True)
+
 	def obtener_nombre_finca(self):
 		return self.finca.nombre
 	def obtener_correo_usuario(self):

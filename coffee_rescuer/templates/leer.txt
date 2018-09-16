@@ -1,1 +1,0 @@
-Aqui deben ir todas las templates, la idea seria una carpeta por cada app
