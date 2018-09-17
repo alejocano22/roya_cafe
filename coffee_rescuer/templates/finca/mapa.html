@@ -1,27 +1,23 @@
-<!DOCTYPE html>
-<html>
-<body>
+{% extends "base/base.html" %}
 
+{% block content %}
 <h1>{{finca.nombre}}</h1>
 <h1>{{coordenadas}}</h1>
+<h1>Etapa del hongo en el lote1 segun el ultimo diagnostico: {{detalles_lote.1.etapa_hongo}}</h1>
 <h1 id="selected">Seleccionado</h1>
 <canvas id="myCanvas" style="border:1px solid #d3d3d3;">
 Your browser does not support the HTML5 canvas tag.</canvas>
 
-<script>
-
     
+<script>
     var jsonContext = "{{coordenadas}}".replace(/(&quot\;)/g,"\"");
-    var json = JSON.parse(jsonContext);
-            
-  
-
+    var json = JSON.parse(jsonContext);       
     var c = document.getElementById("myCanvas");
     var ctx = c.getContext("2d");
     ctx.canvas.width = 500;
     ctx.canvas.height = 500;
     for (var i = 1; i <=4; i++) {
-        ctx.fillRect(json["coordenada"+i].x, json["coordenada"+i].y, json["coordenada"+i].w, json["coordenada"+i].h);
+        ctx.fillRect(json["lot_"+i].x, json["lot_"+i].y, json["lot_"+i].w, json["lot_"+i].h);
         ctx.stroke();
     }
     var posx;
@@ -44,25 +40,19 @@ Your browser does not support the HTML5 canvas tag.</canvas>
         posy = pos.y - canva.top;
 
         for (var i = 1; i <=4; i++) {
-            var x = json["coordenada"+i].x;
-            var y = json["coordenada"+i].y;
-            var w = json["coordenada"+i].w;
-            var h = json["coordenada"+i].h;
+            var x = json["lot_"+i].x;
+            var y = json["lot_"+i].y;
+            var w = json["lot_"+i].w;
+            var h = json["lot_"+i].h;
             if(posx<=x+w&&posx>=x&&posy<=y+h&&posy>=y){
              document.getElementById("selected").innerHTML = "cuadro"+i;
-                 var win = window.open("http://127.0.0.1:8000/admin/lote/lote/"+(i+2)+"/change/", '_blank');
+                 var win = window.open("http://127.0.0.1:8000/admin/lote/lote/"+i+"/change/", '_blank');
                 win.focus();
              
             }
 
         }
-
-       
-        
-      
     }
 
 </script> 
-
-</body>
-</html>
+{% endblock content %}

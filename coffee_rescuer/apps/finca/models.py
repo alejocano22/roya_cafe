@@ -7,21 +7,12 @@ import json
 
 class Finca(models.Model):
 
-	def obtener_correo_usuario(self):
-		return self.usuario.email
-
-	def obtener_username(self):
-		return self.usuario.username
-
-	def obtener_id(self):
-		return self.id
 	def __str__(self):
 		return self.nombre if self.nombre else self.id
 
 	nombre = models.CharField(null=True,blank=True, max_length=50)
 	usuario = models.ForeignKey(User, on_delete = models.CASCADE)
 	archivo_coordenadas = models.FilePathField(path=os.path.join(BASE_DIR,'data'),match='coordenadas.json',recursive=True,allow_files=True,unique=True)
-	
 	
 	def obtener_coordenadas(self,id_lote):
 		archivo = open(self.archivo_coordenadas)
