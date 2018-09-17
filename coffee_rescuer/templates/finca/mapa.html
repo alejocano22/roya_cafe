@@ -3,21 +3,34 @@
 {% block content %}
 <h1>{{finca.nombre}}</h1>
 <h1>{{coordenadas}}</h1>
-<h1>Etapa del hongo en el lote1 segun el ultimo diagnostico: {{detalles_lote.1.etapa_hongo}}</h1>
+<h1>{{etapas}}</h1>
+<h1>{{lotes}}</h1>
 <h1 id="selected">Seleccionado</h1>
 <canvas id="myCanvas" style="border:1px solid #d3d3d3;">
 Your browser does not support the HTML5 canvas tag.</canvas>
 
     
 <script>
-    var jsonContext = "{{coordenadas}}".replace(/(&quot\;)/g,"\"");
-    var json = JSON.parse(jsonContext);       
+    var jsonContextoCoordenadas = "{{coordenadas}}".replace(/(&quot\;)/g,"\"");
+    var coordenadas = JSON.parse(jsonContextoCoordenadas);  
+
+    var jsonContextoEtapas = "{{etapas}}".replace(/(&quot\;)/g,"\"");     
+    var etapas = JSON.parse(jsonContextoEtapas);
+
+    var jsonContextoLotes = "{{lotes}}".replace(/(&quot\;)/g,"\"");     
+    var lotes = JSON.parse(jsonContextoLotes);
+
     var c = document.getElementById("myCanvas");
     var ctx = c.getContext("2d");
     ctx.canvas.width = 500;
     ctx.canvas.height = 500;
-    for (var i = 1; i <=4; i++) {
-        ctx.fillRect(json["lot_"+i].x, json["lot_"+i].y, json["lot_"+i].w, json["lot_"+i].h);
+    var colores = ["#15A630","#FFE328","#FF5519","#D60000"]
+    
+    for (var i in coordenadas){
+        ctx.fillStyle = colores[etapas[i]];
+        ctx.font = "20px Arial";
+        ctx.fillText(lotes[parseInt(i-1)]["fields"]["nombre"],coordenadas[i].x,coordenadas[i].y - 10);
+        ctx.fillRect(coordenadas[i].x, coordenadas[i].y, coordenadas[i].w, coordenadas[i].h);
         ctx.stroke();
     }
     var posx;
@@ -39,11 +52,11 @@ Your browser does not support the HTML5 canvas tag.</canvas>
         posx = pos.x - canva.left;
         posy = pos.y - canva.top;
 
-        for (var i = 1; i <=4; i++) {
-            var x = json["lot_"+i].x;
-            var y = json["lot_"+i].y;
-            var w = json["lot_"+i].w;
-            var h = json["lot_"+i].h;
+        for (var i in coordenadas){
+            var x = coordenadas[i].x;
+            var y = coordenadas[i].y;
+            var w = coordenadas[i].w;
+            var h = coordenadas[i].h;
             if(posx<=x+w&&posx>=x&&posy<=y+h&&posy>=y){
              document.getElementById("selected").innerHTML = "cuadro"+i;
                  var win = window.open("http://127.0.0.1:8000/admin/lote/lote/"+i+"/change/", '_blank');
