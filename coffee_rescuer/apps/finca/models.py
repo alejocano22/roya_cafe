@@ -8,7 +8,7 @@ import json
 class Finca(models.Model):
 
 	def __str__(self):
-		return self.nombre if self.nombre else self.id
+		return self.nombre if self.nombre else str(self.id)
 
 	nombre = models.CharField(null=True,blank=True, max_length=50)
 	usuario = models.ForeignKey(User, on_delete = models.CASCADE)

@@ -9,63 +9,67 @@
 <canvas id="myCanvas" style="border:1px solid #d3d3d3;">
 Your browser does not support the HTML5 canvas tag.</canvas>
 
-    
+
 <script>
-    var jsonContextoCoordenadas = "{{coordenadas}}".replace(/(&quot\;)/g,"\"");
-    var coordenadas = JSON.parse(jsonContextoCoordenadas);  
+var jsonContextoCoordenadas = "{{coordenadas}}".replace(/(&quot\;)/g,"\"");
+var coordenadas = JSON.parse(jsonContextoCoordenadas);  
 
-    var jsonContextoEtapas = "{{etapas}}".replace(/(&quot\;)/g,"\"");     
-    var etapas = JSON.parse(jsonContextoEtapas);
+var jsonContextoEtapas = "{{etapas}}".replace(/(&quot\;)/g,"\"");     
+var etapas = JSON.parse(jsonContextoEtapas);
 
-    var jsonContextoLotes = "{{lotes}}".replace(/(&quot\;)/g,"\"");     
-    var lotes = JSON.parse(jsonContextoLotes);
+var jsonContextoLotes = "{{lotes}}".replace(/(&quot\;)/g,"\"");     
+var lotes = JSON.parse(jsonContextoLotes);
 
-    var c = document.getElementById("myCanvas");
-    var ctx = c.getContext("2d");
-    ctx.canvas.width = 500;
-    ctx.canvas.height = 500;
-    var colores = ["#15A630","#FFE328","#FF5519","#D60000"]
-    
-    for (var i in coordenadas){
-        ctx.fillStyle = colores[etapas[i]];
-        ctx.font = "20px Arial";
+var c = document.getElementById("myCanvas");
+var ctx = c.getContext("2d");
+ctx.canvas.width = 500;
+ctx.canvas.height = 500;
+var colores = ["#15A630","#009AFC","#FFE328","#F15B00","#D60000"]
+
+for (var i in coordenadas){
+    ctx.fillStyle = colores[etapas[i]];
+    ctx.font = "20px Arial";
+    if(lotes[parseInt(i-1)]["fields"]["nombre"] != null){
         ctx.fillText(lotes[parseInt(i-1)]["fields"]["nombre"],coordenadas[i].x,coordenadas[i].y - 10);
-        ctx.fillRect(coordenadas[i].x, coordenadas[i].y, coordenadas[i].w, coordenadas[i].h);
-        ctx.stroke();
-    }
-    var posx;
-    var posy;
-    c.addEventListener("click",handleClick);
+    } else{
+       ctx.fillText(lotes[parseInt(i-1)]["pk"],coordenadas[i].x,coordenadas[i].y - 10);
+   }
+   ctx.fillRect(coordenadas[i].x, coordenadas[i].y, coordenadas[i].w, coordenadas[i].h);
+   ctx.stroke();
+}
+var posx;
+var posy;
+c.addEventListener("click",handleClick);
 
-    function getMousePos(c,evt){
-    	var rect = c.getBoundingClientRect();
-    	return {
-    		x: evt.clientX,
-        	y: evt.clientY
-    	}
-    }
+function getMousePos(c,evt){
+   var rect = c.getBoundingClientRect();
+   return {
+      x: evt.clientX,
+      y: evt.clientY
+  }
+}
 
-    function handleClick(e){
+function handleClick(e){
 
-    	var pos = getMousePos(c,e);
-        var canva = c.getBoundingClientRect();
-        posx = pos.x - canva.left;
-        posy = pos.y - canva.top;
+   var pos = getMousePos(c,e);
+   var canva = c.getBoundingClientRect();
+   posx = pos.x - canva.left;
+   posy = pos.y - canva.top;
 
-        for (var i in coordenadas){
-            var x = coordenadas[i].x;
-            var y = coordenadas[i].y;
-            var w = coordenadas[i].w;
-            var h = coordenadas[i].h;
-            if(posx<=x+w&&posx>=x&&posy<=y+h&&posy>=y){
-             document.getElementById("selected").innerHTML = "cuadro"+i;
-                 var win = window.open("http://127.0.0.1:8000/admin/lote/lote/"+i+"/change/", '_blank');
-                win.focus();
-             
-            }
+   for (var i in coordenadas){
+    var x = coordenadas[i].x;
+    var y = coordenadas[i].y;
+    var w = coordenadas[i].w;
+    var h = coordenadas[i].h;
+    if(posx<=x+w&&posx>=x&&posy<=y+h&&posy>=y){
+       document.getElementById("selected").innerHTML = "cuadro"+i;
+       var win = window.open("http://127.0.0.1:8000/admin/lote/lote/"+i+"/change/", '_blank');
+       win.focus();
 
-        }
-    }
+   }
+
+}
+}
 
 </script> 
 {% endblock content %}

@@ -13,6 +13,7 @@ ETAPA_ROYA =  (
 		(1,"Etapa 1"),
 		(2,"Etapa 2"),
 		(3,"Etapa 3"),
+		(4,"Etapa 4"),
 	)
 
 class Lote(models.Model):
@@ -34,7 +35,7 @@ class Lote(models.Model):
 				fecha_mas_actual = fecha
 		return detalle_lote_actual
 	def __str__(self):
-		return self.nombre if self.nombre else self.id
+		return self.nombre if self.nombre else str(self.id)
 
 class DetalleLote(models.Model):
 

@@ -13,6 +13,7 @@ def mapa_view(request,id_finca):
 	finca = Finca.objects.get(id = id_finca)
 	lotes = Lote.objects.filter(finca = id_finca)
 	coordenadas = finca.obtener_coordenadas(str(id_finca))
+	print(type(coordenadas))
 	etapas = {}
 	for lote in lotes:
 		detalle_lote_actual = lote.obtener_detalle_lote_actual()
