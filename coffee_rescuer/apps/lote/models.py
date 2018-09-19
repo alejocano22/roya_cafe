@@ -61,6 +61,11 @@ class DetalleLote(models.Model):
 		datos_json = json.loads(contenido_archivo)
 		return datos_json['timestamp']
 
+	def obtener_infosensores(self):
+		archivo = open(self.info_sensores)
+		contenido_archivo = archivo.read()
+		datos_json = json.loads(contenido_archivo)
+		return datos_json	
 
 	def __str__(self):
 		if self.lote.nombre:

@@ -1,0 +1,32 @@
+	{% extends "base/base.html" %}
+	{% block content %}
+ 	<canvas id="circle" width="150" height="150"></canvas>
+	<h1>{{lote.nombre}}</h1>
+	<h1>Nivel de desarollo de la roya: {{ etapa_hongo}}</h1>
+	<h1>Temperatura: {{info_sensores.env_temperature}}</h1>
+	<h1>Humedad: {{info_sensores.env_humidity}}</h1>
+	<h2>Ph: {{info_sensores.ph}}</h2>
+
+ 
+
+	<script>
+	var etapa = '{{etapa_hongo}}';
+	//etapa = parseInt(etapa);
+	var canvas = document.getElementById('circle');
+	var ctx = canvas.getContext('2d'); 
+	var X = canvas.width / 2;
+	var Y = canvas.height / 2;
+	var R = 45;
+var colores = ["#009AFC", "#15A630","#FFE328","#F15B00","#D60000"];
+ctx.beginPath();
+ctx.arc(X, Y, R, 0, 2 * Math.PI, false);
+ ctx.fillStyle = colores[parseInt(etapa)];
+ ctx.fill();
+ctx.lineWidth = 3;
+ctx.strokeStyle = '#000000';
+ctx.stroke();
+
+
+
+	</script>
+	{% endblock content %}

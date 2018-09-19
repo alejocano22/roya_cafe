@@ -2,9 +2,6 @@
 
 {% block content %}
 <h1>{{finca.nombre}}</h1>
-<h1>{{coordenadas}}</h1>
-<h1>{{etapas}}</h1>
-<h1>{{lotes}}</h1>
 <h1 id="selected">Seleccionado</h1>
 <canvas id="myCanvas" style="border:1px solid #d3d3d3;">
 Your browser does not support the HTML5 canvas tag.</canvas>
@@ -24,7 +21,7 @@ var c = document.getElementById("myCanvas");
 var ctx = c.getContext("2d");
 ctx.canvas.width = 500;
 ctx.canvas.height = 500;
-var colores = ["#15A630","#009AFC","#FFE328","#F15B00","#D60000"]
+var colores = ["#009AFC", "#15A630","#FFE328","#F15B00","#D60000"];
 
 for (var i in coordenadas){
     ctx.fillStyle = colores[etapas[i]];
@@ -63,7 +60,7 @@ function handleClick(e){
     var h = coordenadas[i].h;
     if(posx<=x+w&&posx>=x&&posy<=y+h&&posy>=y){
        document.getElementById("selected").innerHTML = "cuadro"+i;
-       var win = window.open("http://127.0.0.1:8000/admin/lote/lote/"+i+"/change/", '_blank');
+       var win = window.open("http://127.0.0.1:8000/lote/"+i);
        win.focus();
 
    }
