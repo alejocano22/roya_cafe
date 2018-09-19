@@ -1,10 +1,26 @@
 {% extends "base/base.html" %}
 
 {% block content %}
-<h1>{{finca.nombre}}</h1>
-<h1 id="selected">Seleccionado</h1>
+<canvas id="circle" width="100" height="120"></canvas>
+<SPAN style="position: absolute; top: 80 px; left 100 px;">
+    <br>
+    <FONT SIZE=10 ><b>{{finca.nombre}}</b></FONT>
+</SPAN>
+
+<hr>
+<h1 id="Map">Mapa</h1>
+
 <canvas id="myCanvas" style="border:1px solid #d3d3d3;">
 Your browser does not support the HTML5 canvas tag.</canvas>
+
+<a href="#openModal">Lanzar el modal</a>
+
+<div id="openModal" class="modalDialog">
+    <div>
+        <a href="#close" title="Close" class="close">X</a>
+        <iframe src="http://127.0.0.1:8000/lote/4/" frameborder="0"></iframe>
+    </div>
+</div>
 
 
 <script>
@@ -19,12 +35,19 @@ var lotes = JSON.parse(jsonContextoLotes);
 
 var c = document.getElementById("myCanvas");
 var ctx = c.getContext("2d");
-ctx.canvas.width = 500;
-ctx.canvas.height = 500;
+c.width = window.innerWidth;
+c.height = 500;
 var colores = ["#009AFC", "#15A630","#FFE328","#F15B00","#D60000"];
 
+var pro = 0;
+var cont = 0;
 for (var i in coordenadas){
+    cont++;
+    ctx.fillStyle = "#000000";
+    ctx.rect(coordenadas[i].x, coordenadas[i].y, coordenadas[i].w, coordenadas[i].h);
+    ctx.rect(coordenadas[i].x+1, coordenadas[i].y+1, coordenadas[i].w-1, coordenadas[i].h-1);
     ctx.fillStyle = colores[etapas[i]];
+    pro = pro + etapas[i];
     ctx.font = "20px Arial";
     if(lotes[parseInt(i-1)]["fields"]["nombre"] != null){
         ctx.fillText(lotes[parseInt(i-1)]["fields"]["nombre"],coordenadas[i].x,coordenadas[i].y - 10);
@@ -34,6 +57,21 @@ for (var i in coordenadas){
    ctx.fillRect(coordenadas[i].x, coordenadas[i].y, coordenadas[i].w, coordenadas[i].h);
    ctx.stroke();
 }
+
+pro = parseInt(pro/cont);
+var canvas = document.getElementById('circle');
+    var ctx = canvas.getContext('2d'); 
+    var X = canvas.width / 2;
+    var Y = canvas.height / 2;
+    var R = 45;
+ctx.beginPath();
+ctx.arc(X, Y+6, R, 0, 2 * Math.PI, false);
+ ctx.fillStyle = colores[parseInt(pro)];
+ ctx.fill();
+ctx.lineWidth = 3;
+ctx.strokeStyle = '#000000';
+ctx.stroke();
+
 var posx;
 var posy;
 c.addEventListener("click",handleClick);
@@ -59,7 +97,6 @@ function handleClick(e){
     var w = coordenadas[i].w;
     var h = coordenadas[i].h;
     if(posx<=x+w&&posx>=x&&posy<=y+h&&posy>=y){
-       document.getElementById("selected").innerHTML = "cuadro"+i;
        var win = window.open("http://127.0.0.1:8000/lote/"+i);
        win.focus();
 
