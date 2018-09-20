@@ -1,5 +1,7 @@
 {% extends "base/base.html" %}
-
+{% block extrastatic %}
+  <link rel="stylesheet" href="{%static 'css/bootstrap.min.css'%}">
+{% endblock extrastatic %}
 {% block content %}
 <canvas id="circle" width="100" height="120"></canvas>
 <SPAN style="position: absolute; top: 80 px; left 100 px;">
@@ -39,15 +41,13 @@ c.width = window.innerWidth;
 c.height = 500;
 var colores = ["#009AFC", "#15A630","#FFE328","#F15B00","#D60000"];
 
-var pro = 0;
-var cont = 0;
+
 for (var i in coordenadas){
-    cont++;
+
     ctx.fillStyle = "#000000";
     ctx.rect(coordenadas[i].x, coordenadas[i].y, coordenadas[i].w, coordenadas[i].h);
     ctx.rect(coordenadas[i].x+1, coordenadas[i].y+1, coordenadas[i].w-1, coordenadas[i].h-1);
     ctx.fillStyle = colores[etapas[i]];
-    pro = pro + etapas[i];
     ctx.font = "20px Arial";
     if(lotes[parseInt(i-1)]["fields"]["nombre"] != null){
         ctx.fillText(lotes[parseInt(i-1)]["fields"]["nombre"],coordenadas[i].x,coordenadas[i].y - 10);
@@ -58,7 +58,7 @@ for (var i in coordenadas){
    ctx.stroke();
 }
 
-pro = parseInt(pro/cont);
+var pro = "{{promedio_estado_lotes}}"
 var canvas = document.getElementById('circle');
     var ctx = canvas.getContext('2d'); 
     var X = canvas.width / 2;

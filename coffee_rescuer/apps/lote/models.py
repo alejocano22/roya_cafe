@@ -61,7 +61,7 @@ class DetalleLote(models.Model):
 		datos_json = json.loads(contenido_archivo)
 		return datos_json['timestamp']
 
-	def obtener_infosensores(self):
+	def obtener_info_sensores(self):
 		archivo = open(self.info_sensores)
 		contenido_archivo = archivo.read()
 		datos_json = json.loads(contenido_archivo)
@@ -70,7 +70,7 @@ class DetalleLote(models.Model):
 	def __str__(self):
 		if self.lote.nombre:
 			return self.lote.nombre + "-"  + self.obtener_fecha()
-		return self.lote.id + "-" + self.obtener_fecha()
+		return str(self.lote.id) + "-" + self.obtener_fecha()
 
 @receiver(post_save,sender=DetalleLote)
 def post_save_Lote(sender,instance,**kwargs):
@@ -84,7 +84,7 @@ def post_save_Lote(sender,instance,**kwargs):
 			es_detalle_actual = False
 			break
 
-	if es_detalle_actual and instance.lote.ultimo_estado_hongo != instance.etapa_hongo:
+	if es_detalle_actual and instance.etapa_hongo >= 3 and instance.lote.ultimo_estado_hongo != instance.etapa_hongo:
 		usuario = instance.lote.finca.usuario
 		correo = usuario.email	
 		nombre_finca  = instance.lote.finca.nombre

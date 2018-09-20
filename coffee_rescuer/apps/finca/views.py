@@ -21,8 +21,11 @@ def mapa_view(request,id_finca):
 			etapas[lote.id]= detalle_lote_actual.etapa_hongo
 		else:
 			etapas[lote.id]=lote.ultimo_estado_hongo
-			
-	context = {"finca": finca, "lotes":serializers.serialize('json',lotes,fields=["id","nombre"]), "etapas": json.dumps(etapas),"coordenadas":json.dumps(coordenadas)}
+	promedio_estado_lotes = 0
+	for etapa in etapas.values():		
+		promedio_estado_lotes += etapa
+	promedio_estado_lotes = int(promedio_estado_lotes / len(etapas))
+	context = {"promedio_estado_lotes": promedio_estado_lotes,"finca": finca, "lotes":serializers.serialize('json',lotes,fields=["id","nombre"]), "etapas": json.dumps(etapas),"coordenadas":json.dumps(coordenadas)}
 	return render(request,"finca/mapa.html",context)
 
 
