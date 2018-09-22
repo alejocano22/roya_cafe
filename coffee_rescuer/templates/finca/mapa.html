@@ -1,6 +1,7 @@
 {% extends "base/base.html" %}
+{%load staticfiles%}
 {% block extrastatic %}
-  <link rel="stylesheet" href="{%static 'css/bootstrap.min.css'%}">
+  <link rel="stylesheet" href="{%static 'css/modalStyle.css'%}">
 {% endblock extrastatic %}
 {% block content %}
 <canvas id="circle" width="100" height="120"></canvas>
