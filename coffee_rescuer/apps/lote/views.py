@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from apps.lote.models import Lote
-
+from apps.lote.models import Lote, DetalleLote
+from django.contrib import messages
+import json
 
 #import os
 # Create your views here.
@@ -11,7 +12,25 @@ def vista_lote(request,id_lote):
 	lote = Lote.objects.get(id = id_lote)
 	detalle_lote = lote.obtener_detalle_lote_actual()
 
-	info_sensores = detalle_lote.obtener_info_sensores()
-
-	context = {"info_sensores":info_sensores, "lote":lote, "etapa_hongo": detalle_lote.etapa_hongo}
+	if detalle_lote:
+		info_sensores = detalle_lote.obtener_info_sensores()
+		context = {"info_sensores":info_sensores, "lote":lote, "etapa_hongo": detalle_lote.etapa_hongo}
+	else:
+		messages.info(request, "No hay información sobre este lote")
+		context = {"lote":lote}
 	return render(request,"lote/vistaLote.html",context)
+
+def historial_lote(request, id_lote):
+	lote = Lote.objects.get(id = id_lote)
+	detalle_lotes = DetalleLote.objects.filter(lote=lote).order_by('id')
+
+	historial = []
+	for detalle in detalle_lotes:
+		detalle_sensores = detalle.obtener_info_sensores()
+		etapa = detalle.etapa_hongo
+		detalle_sensores['etapa'] = etapa
+		historial.append(detalle_sensores)
+
+	context = {"historial": json.dumps(historial)}
+	return render(request, 'lote/historialDatos.html',context)
+

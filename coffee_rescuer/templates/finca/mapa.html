@@ -98,6 +98,7 @@ function handleClick(e){
     var w = coordenadas[i].w;
     var h = coordenadas[i].h;
     if(posx<=x+w&&posx>=x&&posy<=y+h&&posy>=y){
+      
        var win = window.open("http://127.0.0.1:8000/lote/"+i);
        win.focus();
 

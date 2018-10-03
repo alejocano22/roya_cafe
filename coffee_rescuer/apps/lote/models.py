@@ -99,7 +99,7 @@ def post_save_Lote(sender,instance,**kwargs):
 			fecha,
 			)
 			send_mail(
-			'Notificación automática de CoffeeRescuer',
+			'Notificación automática de Coffee Rescuer',
 			mensaje,
 			'coffeerescuer@gmail.com',
 			[correo],
@@ -107,3 +107,4 @@ def post_save_Lote(sender,instance,**kwargs):
 			)
 		instance.lote.ultimo_estado_hongo = instance.etapa_hongo
 		instance.lote.save()
+
