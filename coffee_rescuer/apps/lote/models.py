@@ -71,7 +71,11 @@ class DetalleLote(models.Model):
 		if self.lote.nombre:
 			return self.lote.nombre + "-"  + self.obtener_fecha()
 		return str(self.lote.id) + "-" + self.obtener_fecha()
-
+#Esto seria cuando logremos integrar el modelo de clasificacion	
+# @receiver(pre_save, sender=DetalleLote)
+# def pre_save_Lote(sender,instance,**kwargs):
+# 	modelo = modelo_diagnostico()
+# 	instance.etapa_hongo = modelo.obtener_promedio_diagnostico(instance.fotos)
 @receiver(post_save,sender=DetalleLote)
 def post_save_Lote(sender,instance,**kwargs):
 	
