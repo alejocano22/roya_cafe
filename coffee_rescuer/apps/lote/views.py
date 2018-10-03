@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from apps.lote.models import Lote, DetalleLote
+from apps.lote.form import HistorialForm
 from django.contrib import messages
 import json
 
@@ -21,6 +22,14 @@ def vista_lote(request,id_lote):
 	return render(request,"lote/vistaLote.html",context)
 
 def historial_lote(request, id_lote):
+	if request.method == "POST":
+		form = HistorialForm(request.POST)
+		if form.is_valid():
+			start = form.cleaned_data['start']
+			print(type(start))
+			end = form.cleaned_data['end']
+	else:
+		form = HistorialForm()
 	lote = Lote.objects.get(id = id_lote)
 	detalle_lotes = DetalleLote.objects.filter(lote=lote).order_by('id')
 
@@ -31,6 +40,6 @@ def historial_lote(request, id_lote):
 		detalle_sensores['etapa'] = etapa
 		historial.append(detalle_sensores)
 
-	context = {"historial": json.dumps(historial)}
+	context = {"lote":lote, "historial": historial,"form":form}
 	return render(request, 'lote/historialDatos.html',context)
 

@@ -1,5 +1,40 @@
 {% extends "base/base.html" %}
 {% block content %}
+	<br>
+	<br>
+	<br>
 
-
+	<form method="post">{% csrf_token %}
+		{{form.as_p}}
+		<button type="submit" class="btn btn-primary" value="submit">Filtrar</button>
+	</form>
+	<br>
+	<br>
+	<br>
+	<table class="table table-bordered" style="width:100%">
+	<thead>
+		<tr>
+			<th>Fecha</th>
+			<th>Etapa</th>
+			<th>Temperatura ambiente</th>
+			<th>Humedad ambiente</th>
+			<th>Temperatura suelo</th>
+			<th>Humedad suelo</th>
+			<th>Ph</th>
+			<th>Iluminación</th>
+		</tr>
+	</thead>
+ 	{% for detalle in historial %}
+	 	<tr>
+	 		<td>{{detalle.timestamp}}</td>
+	 		<td>{{detalle.etapa}}</td>
+	 		<td>{{detalle.env_temperature}}</td>
+	 		<td>{{detalle.env_humidity}}%</td>
+	 		<td>{{detalle.sail_temperature}}</td>
+	 		<td>{{detalle.sail_moisture}}%</td>
+	 		<td>{{detalle.ph}}</td>
+	 		<td>{{detalle.iluminance}}%</td>
+	 	</tr>
+ 	{% endfor %}
+</table>
 {% endblock content %}
