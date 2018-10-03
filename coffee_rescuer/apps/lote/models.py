@@ -30,10 +30,10 @@ class Lote(models.Model):
 
 			fecha_actual = detalle_lote.obtener_fecha_formato_python()
 			fecha_actual = fecha_actual.date()
-			print(type(fecha_actual),"soy fecha actual")
 			if fecha_actual >= start and fecha_actual <= end:
 				detalle_sensores = detalle_lote.obtener_info_sensores()
 				etapa = detalle_lote.etapa_hongo
+				detalle_sensores['timestamp']=detalle_lote.obtener_fecha_formato_python()
 				detalle_sensores['etapa'] = etapa
 				registros.append(detalle_sensores)
 

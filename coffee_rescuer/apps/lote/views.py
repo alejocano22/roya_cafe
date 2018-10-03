@@ -30,10 +30,12 @@ def historial_lote(request, id_lote):
 		if form.is_valid():
 			start = form.cleaned_data['start']
 			end = form.cleaned_data['end']
-			print(type(start))
-			historial = lote.obtener_detalle_rango(start, end)
-			context = {"lote":lote, "historial": historial,"form":form}
-			return render(request, 'lote/historialDatos.html',context)
+			if start > end:
+				messages.info(request, "La fecha inicial debe ser menor o igual a la fecha final")
+			else:
+				historial = lote.obtener_detalle_rango(start, end)
+				context = {"lote":lote, "historial": historial,"form":form}
+				return render(request, 'lote/historialDatos.html',context)
 
 	else:
 		form = HistorialForm()
@@ -43,6 +45,7 @@ def historial_lote(request, id_lote):
 	for detalle in detalle_lotes:
 		detalle_sensores = detalle.obtener_info_sensores()
 		etapa = detalle.etapa_hongo
+		detalle_sensores['timestamp'] = detalle.obtener_fecha_formato_python()
 		detalle_sensores['etapa'] = etapa
 		historial.append(detalle_sensores)
 

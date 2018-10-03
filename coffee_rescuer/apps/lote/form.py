@@ -1,8 +1,9 @@
 from django import forms
 from django.forms.widgets import DateInput
-
+from datetime import date
 class HistorialForm(forms.Form):
-		start =  forms.DateField(widget=DateInput(attrs={'type': 'date'}),label="Fecha inicial")
-		end =forms.DateField(widget=DateInput(attrs={'type': 'date'}), label="Fecha Final")
+		fecha_hoy = date.today()
+		start =  forms.DateField(widget=DateInput(attrs={'class':'form-control','type': 'date','max':str(fecha_hoy),'min':'2017-01-01'}),label="Fecha Inicial")
+		end =forms.DateField(widget=DateInput(attrs={'class':'form-control','type': 'date','max':str(fecha_hoy),'min':'2017-01-01'}), label="Fecha Final")
 		
 	

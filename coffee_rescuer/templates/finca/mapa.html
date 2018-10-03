@@ -12,9 +12,10 @@
 
 <hr>
 <h1 id="Map">Mapa</h1>
-
-<canvas id="myCanvas" style="border:1px solid #d3d3d3;">
-Your browser does not support the HTML5 canvas tag.</canvas>
+<div align="center">
+    <canvas id="myCanvas" style="border:1px solid #d3d3d3;">
+    Your browser does not support the HTML5 canvas tag.</canvas>
+</div>
 
 <a href="#openModal">Lanzar el modal</a>
 
@@ -38,7 +39,7 @@ var lotes = JSON.parse(jsonContextoLotes);
 
 var c = document.getElementById("myCanvas");
 var ctx = c.getContext("2d");
-c.width = window.innerWidth;
+c.width = window.innerWidth-30;
 c.height = 500;
 var colores = ["#009AFC", "#15A630","#FFE328","#F15B00","#D60000"];
 

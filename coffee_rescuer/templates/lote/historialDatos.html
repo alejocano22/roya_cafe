@@ -3,14 +3,28 @@
 	<br>
 	<br>
 	<br>
-
+	{% if messages %}
+		{% for message in messages %}
+		   <script>
+		   		 window.alert("La fecha final no puede ser menor a la fecha inicial");
+		   </script>
+		{% endfor %}
+	{% endif %}
+	{% if lote.nombre %}
+		<h1>Historial de datos del lote: {{lote.nombre}}</h1>
+	{% else %}
+		<h1>Historial de datos de: Lote{{lote.id}}</h1>
+	{% endif %}
+	<hr>
+	<br>
 	<form method="post">{% csrf_token %}
 		{{form.as_p}}
-		<button type="submit" class="btn btn-primary" value="submit">Filtrar</button>
+		<button type="submit" class="btn btn-primary" value="submit">Filtrar por fecha</button>
 	</form>
 	<br>
 	<br>
 	<br>
+	<div class="table-responsive">
 	<table class="table table-bordered" style="width:100%">
 	<thead>
 		<tr>
@@ -37,4 +51,5 @@
 	 	</tr>
  	{% endfor %}
 </table>
+</div>
 {% endblock content %}
