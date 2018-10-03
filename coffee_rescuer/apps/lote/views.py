@@ -26,7 +26,7 @@ def historial_lote(request, id_lote):
 		form = HistorialForm(request.POST)
 		if form.is_valid():
 			start = form.cleaned_data['start']
-			print(type(start))
+			print(start)
 			end = form.cleaned_data['end']
 	else:
 		form = HistorialForm()

@@ -1,8 +1,8 @@
 from django import forms
-from django.forms.widgets import SelectDateWidget
-import datetime
+from django.forms.widgets import DateInput
+
 class HistorialForm(forms.Form):
-		start =  forms.DateField(widget=SelectDateWidget(empty_label=("Choose Year", "Choose Month", "Choose Day"),),)
-		end = forms.DateField(widget=SelectDateWidget(empty_label=("Choose Year", "Choose Month", "Choose Day"),),)
+		start =  forms.DateField(widget=DateInput(attrs={'type': 'date'}),label="Fecha inicial")
+		end =forms.DateField(widget=DateInput(attrs={'type': 'date'}), label="Fecha Final")
 		
 	
