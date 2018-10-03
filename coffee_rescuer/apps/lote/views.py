@@ -22,18 +22,24 @@ def vista_lote(request,id_lote):
 	return render(request,"lote/vistaLote.html",context)
 
 def historial_lote(request, id_lote):
+	historial = []
+
+	lote = Lote.objects.get(id = id_lote)
 	if request.method == "POST":
 		form = HistorialForm(request.POST)
 		if form.is_valid():
 			start = form.cleaned_data['start']
-			print(start)
 			end = form.cleaned_data['end']
+			print(type(start))
+			historial = lote.obtener_detalle_rango(start, end)
+			context = {"lote":lote, "historial": historial,"form":form}
+			return render(request, 'lote/historialDatos.html',context)
+
 	else:
 		form = HistorialForm()
-	lote = Lote.objects.get(id = id_lote)
+	
 	detalle_lotes = DetalleLote.objects.filter(lote=lote).order_by('id')
 
-	historial = []
 	for detalle in detalle_lotes:
 		detalle_sensores = detalle.obtener_info_sensores()
 		etapa = detalle.etapa_hongo
@@ -42,4 +48,3 @@ def historial_lote(request, id_lote):
 
 	context = {"lote":lote, "historial": historial,"form":form}
 	return render(request, 'lote/historialDatos.html',context)
-

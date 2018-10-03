@@ -7,6 +7,7 @@ import json
 import os
 from coffee_rescuer.settings import BASE_DIR
 from datetime import datetime
+from datetime import date
 # Create your models here.
 ETAPA_ROYA =  (
 		(0,"Etapa 0"),
@@ -21,6 +22,23 @@ class Lote(models.Model):
 	finca = models.ForeignKey(Finca,on_delete=models.CASCADE)
 	nombre = models.CharField(max_length=50,null=True,blank=True)
 	ultimo_estado_hongo = models.PositiveIntegerField(default=0,choices=ETAPA_ROYA)
+
+	def obtener_detalle_rango(self, start, end):
+		detalle_lotes = DetalleLote.objects.filter(lote=self.id).order_by('id')
+		registros = []
+		for detalle_lote in detalle_lotes:
+
+			fecha_actual = detalle_lote.obtener_fecha_formato_python()
+			fecha_actual = fecha_actual.date()
+			print(type(fecha_actual),"soy fecha actual")
+			if fecha_actual >= start and fecha_actual <= end:
+				detalle_sensores = detalle_lote.obtener_info_sensores()
+				etapa = detalle_lote.etapa_hongo
+				detalle_sensores['etapa'] = etapa
+				registros.append(detalle_sensores)
+
+		return registros
+
 
 	def obtener_detalle_lote_actual(self):
 		detalle_lotes = DetalleLote.objects.filter(lote=self.id).order_by('id')
