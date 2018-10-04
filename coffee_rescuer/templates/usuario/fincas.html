@@ -1,0 +1,27 @@
+{% extends "base/base.html" %}
+{% block content %}
+{% if fincas %}
+	{% for finca in fincas  %}
+	<div class="row">
+		<div class="col-6">
+			{% if finca.nombre %}
+			<h1>Finca: {{finca.nombre}}</h1>
+			{% else%}
+			<h1>Finca con id: {{finca.id}}</h1>
+			{% endif %}
+		</div>
+		<a href="{% url 'finca:mapa' finca.id %}" class="btn btn-success">Obtener más información</a>
+	</div>
+	{% endfor %}
+{% else %}
+<div class="container">
+	<div class="row">
+		<div class="col-12">
+			<p class="display-3">El usuario no tiene fincas asignadas</p>
+		</div>
+	</div>
+</div>
+
+{% endif %}
+
+{% endblock content %}

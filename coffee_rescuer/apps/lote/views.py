@@ -1,18 +1,20 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from apps.lote.models import Lote, DetalleLote
 from apps.lote.form import HistorialForm
 from django.contrib import messages
-import json
+from django.contrib.auth.decorators import login_required
 
 #import os
 # Create your views here.
-
-
-
+@login_required
 def vista_lote(request,id_lote):
-	lote = Lote.objects.get(id = id_lote)
+	try:
+		lote = Lote.objects.get(id = id_lote)
+	except Exception:
+		return redirect('index')
+	if request.user.id != lote.finca.usuario.id:
+		return redirect('index')
 	detalle_lote = lote.obtener_detalle_lote_actual()
-
 	if detalle_lote:
 		info_sensores = detalle_lote.obtener_info_sensores()
 		context = {"info_sensores":info_sensores, "lote":lote, "etapa_hongo": detalle_lote.etapa_hongo}
@@ -21,10 +23,16 @@ def vista_lote(request,id_lote):
 		context = {"lote":lote}
 	return render(request,"lote/vistaLote.html",context)
 
+@login_required
 def historial_lote(request, id_lote):
-	historial = []
+	try:
+		lote = Lote.objects.get(id = id_lote)
+	except Exception:
+		return redirect('index')
+	if request.user.id != lote.finca.usuario.id:
+		return redirect('index')
 
-	lote = Lote.objects.get(id = id_lote)
+	historial = []
 	if request.method == "POST":
 		form = HistorialForm(request.POST)
 		if form.is_valid():
@@ -41,7 +49,6 @@ def historial_lote(request, id_lote):
 		form = HistorialForm()
 	
 	detalle_lotes = DetalleLote.objects.filter(lote=lote).order_by('id')
-
 	for detalle in detalle_lotes:
 		detalle_sensores = detalle.obtener_info_sensores()
 		etapa = detalle.etapa_hongo

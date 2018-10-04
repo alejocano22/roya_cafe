@@ -1,19 +1,26 @@
 
-from django.shortcuts import render
+from django.shortcuts import render,redirect
+
 from apps.finca.models import Finca
 from apps.lote.models import Lote
 import json
 from django.core import serializers
+from django.contrib.auth.decorators import login_required
 #import os
 # Create your views here.
 
 
-
+@login_required
 def mapa_view(request,id_finca):
-	finca = Finca.objects.get(id = id_finca)
+	try:
+		finca = Finca.objects.get(id = id_finca)
+	except Exception:
+		return redirect('index')	
+	if request.user.id != finca.usuario.id:
+		return redirect('index')	
+
 	lotes = Lote.objects.filter(finca = id_finca)
 	coordenadas = finca.obtener_coordenadas(str(id_finca))
-	print(type(coordenadas))
 	etapas = {}
 	for lote in lotes:
 		detalle_lote_actual = lote.obtener_detalle_lote_actual()

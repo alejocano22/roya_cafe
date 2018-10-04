@@ -1,5 +1,4 @@
-from django.contrib import admin
-from django.urls import path,include
+from django.urls import path
 from apps.finca.views import mapa_view
 
 app_name = "finca"

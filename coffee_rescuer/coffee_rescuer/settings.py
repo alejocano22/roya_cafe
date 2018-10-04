@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
-
+from django.urls import reverse_lazy
+from django.shortcuts import redirect
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -25,7 +26,7 @@ SECRET_KEY = 'zzi=ka3!)p7h&&xx(@rj#&zrew1h+kh=f&=5k3#(j-)x*5so_e'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['10.161.39.219']
+ALLOWED_HOSTS = ['10.161.39.219','127.0.0.1']
 
 
 # Application definition
@@ -129,3 +130,6 @@ EMAIL_PORT = 25
 EMAIL_HOST_USER  = 'coffeerescuer@gmail.com'
 EMAIL_HOST_PASSWORD = 'cafe1235'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+LOGIN_REDIRECT_URL = reverse_lazy('usuario:fincas_listar')
+LOGOUT_URL = reverse_lazy('login')
