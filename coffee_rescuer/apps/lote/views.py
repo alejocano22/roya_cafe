@@ -3,7 +3,7 @@ from apps.lote.models import Lote, DetalleLote
 from apps.lote.form import HistorialForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-
+import json
 #import os
 # Create your views here.
 @login_required

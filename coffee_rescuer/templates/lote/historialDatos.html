@@ -52,4 +52,73 @@
  	{% endfor %}
 </table>
 </div>
+<html>
+   <head>
+      <title>Google Charts Tutorial</title>
+      <script type = "text/javascript" src = "https://www.gstatic.com/charts/loader.js"></script>
+      <script type = "text/javascript">
+         google.charts.load('current', {packages: ['corechart','line']});  
+      </script>
+   </head>
+   
+   <body>
+      <div id = "container" style = "width: 550px; height: 400px; margin: 0 auto">
+      </div>
+      <script language = "JavaScript">
+         function drawChart() {
+            // Define the chart to be drawn.
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Día');
+            data.addColumn('number', 'Temperatura');
+          	data.addColumn('number','Humedad');
+          	data.addColumn('number','Etapa roya');
+	
+            data.addRows(6);
+            data.setCell(0, 0, '20/08/2018 13:16');
+            data.setCell(0, 1, 25);
+            data.setCell(0, 2, 22);
+            data.setCell(0, 3, 1);
+            data.setCell(1, 0, '21/08/2018 13:16');
+            data.setCell(1, 1, 20);
+            data.setCell(1, 2, 22);
+            data.setCell(1, 3, 2);
+            data.setCell(2, 0, '22/08/2018 13:16');
+            data.setCell(2, 1, 23);
+            data.setCell(2, 2, 24);
+            data.setCell(2, 3, 3);
+            data.setCell(3, 0, '23/08/2018 13:16');
+            data.setCell(3, 1, 24);
+            data.setCell(3, 2, 26);
+            data.setCell(3, 3, 4);
+            data.setCell(4, 0, '24/08/2018 13:16');
+            data.setCell(4, 1, 25);
+            data.setCell(4, 2, 22);
+            data.setCell(4, 3, 4);
+            data.setCell(5, 0, '25/08/2018 13:16');
+            data.setCell(5, 1, 20);
+            data.setCell(5, 2, 22);
+            data.setCell(5, 3, 4);
+    
+            
+            // Set chart options
+            var options = {'title' : 'Gráfico de datos',
+               hAxis: {
+                  title: 'Fecha de Toma'
+               },
+               vAxis: {
+                  title: 'Datos Generales'
+               },   
+               'width':1000,
+               'height':400,
+               curveType: 'function'
+            };
+
+            // Instantiate and draw the chart.
+            var chart = new google.visualization.LineChart(document.getElementById('container'));
+            chart.draw(data, options);
+         }
+         google.charts.setOnLoadCallback(drawChart);
+      </script>
+   </body>
+</html>
 {% endblock content %}
