@@ -4,16 +4,16 @@
   <link rel="stylesheet" href="{%static 'css/modalStyle.css'%}">
 {% endblock extrastatic %}
 {% block content %}
-<canvas id="circle" width="100" height="120"></canvas>
-<SPAN style="position: absolute; top: 80 px; left 100 px;">
+<canvas id="circle_finca" width="100" height="120"></canvas>
+<SPAN style="position: absolute; top: 80 px; left 100 px; font-size: xx-large;">
     <br>
-    <FONT SIZE=10 ><b>{{finca.nombre}}</b></FONT>
+    <b>{{finca.nombre}}</b>
 </SPAN>
 
 <hr>
 <h1 id="Map">Mapa</h1>
 <div align="center">
-    <canvas id="myCanvas" style="border:1px solid #d3d3d3;">
+    <canvas id="canva_mapa" style="border:1px solid #d3d3d3;">
     Your browser does not support the HTML5 canvas tag.</canvas>
 </div>
 
@@ -25,87 +25,12 @@
         <iframe src="http:/10.161.39.219:8000/lote/4/" frameborder="0"></iframe>
     </div>
 </div>
-
-
 <script>
-var jsonContextoCoordenadas = "{{coordenadas}}".replace(/(&quot\;)/g,"\"");
-var coordenadas = JSON.parse(jsonContextoCoordenadas);  
-
-var jsonContextoEtapas = "{{etapas}}".replace(/(&quot\;)/g,"\"");     
-var etapas = JSON.parse(jsonContextoEtapas);
-
-var jsonContextoLotes = "{{lotes}}".replace(/(&quot\;)/g,"\"");     
-var lotes = JSON.parse(jsonContextoLotes);
-
-var c = document.getElementById("myCanvas");
-var ctx = c.getContext("2d");
-c.width = window.innerWidth-30;
-c.height = 500;
-var colores = ["#009AFC", "#15A630","#FFE328","#F15B00","#D60000"];
-
-for(var i =0; i < Object.keys(coordenadas).length; i++){
-    var pk = lotes[i]["pk"]
-    ctx.fillStyle = colores[etapas[pk]];
-    ctx.rect(coordenadas[pk].x, coordenadas[pk].y, coordenadas[pk].w, coordenadas[pk].h);
-    ctx.rect(coordenadas[pk].x+1, coordenadas[pk].y+1, coordenadas[pk].w-1, coordenadas[pk].h-1);
-    ctx.fillStyle = colores[etapas[i]];
-    ctx.font = "20px Arial";
-    if(lotes[i]["fields"]["nombre"] != null){
-        ctx.fillText(lotes[i]["fields"]["nombre"],coordenadas[pk].x,coordenadas[pk].y - 10);
-    } else{
-       ctx.fillText(pk,coordenadas[i].x,coordenadas[i].y - 10);
-   }
-   ctx.fillRect(coordenadas[pk].x, coordenadas[pk].y, coordenadas[pk].w, coordenadas[pk].h);
-   ctx.stroke();
-}
-
-var pro = "{{promedio_estado_lotes}}"
-var canvas = document.getElementById('circle');
-    var ctx = canvas.getContext('2d'); 
-    var X = canvas.width / 2;
-    var Y = canvas.height / 2;
-    var R = 45;
-ctx.beginPath();
-ctx.arc(X, Y+6, R, 0, 2 * Math.PI, false);
- ctx.fillStyle = colores[parseInt(pro)];
- ctx.fill();
-ctx.lineWidth = 3;
-ctx.strokeStyle = '#000000';
-ctx.stroke();
-
-var posx;
-var posy;
-c.addEventListener("click",handleClick);
-
-function getMousePos(c,evt){
-   var rect = c.getBoundingClientRect();
-   return {
-      x: evt.clientX,
-      y: evt.clientY
-  }
-}
-
-function handleClick(e){
-
-   var pos = getMousePos(c,e);
-   var canva = c.getBoundingClientRect();
-   posx = pos.x - canva.left;
-   posy = pos.y - canva.top;
-
-   for (var i in coordenadas){
-    var x = coordenadas[i].x;
-    var y = coordenadas[i].y;
-    var w = coordenadas[i].w;
-    var h = coordenadas[i].h;
-    if(posx<=x+w&&posx>=x&&posy<=y+h&&posy>=y){
-      
-       var win = window.open("http://127.0.0.1:8000/lote/"+i);
-       win.focus();
-
-   }
-
-}
-}
-
-</script> 
+    var jsonContextoCoordenadas = "{{coordenadas}}".replace(/(&quot\;)/g,"\"");
+    var jsonContextoEtapas = "{{etapas}}".replace(/(&quot\;)/g,"\"");
+    var jsonContextoLotes = "{{lotes}}".replace(/(&quot\;)/g,"\"");
+    var prom = "{{promedio_estado_lotes}}"
+</script>
+<script src="{%static 'js/canvas.js'%}"></script>
+<script src="{%static 'js/mapa.js'%}"></script>
 {% endblock content %}

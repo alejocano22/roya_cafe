@@ -6,12 +6,17 @@ from apps.lote.models import Lote
 import json
 from django.core import serializers
 from django.contrib.auth.decorators import login_required
-#import os
+
 # Create your views here.
 
 
 @login_required
 def mapa_view(request,id_finca):
+	"""
+	Este método permite mostrar la información de la página que contiene el mapa de la finca
+	@param request: La petición al servidor
+	@param id_finca:  El id de la finca de la que se mostrará el mapa
+	"""
 	try:
 		finca = Finca.objects.get(id = id_finca)
 	except Exception:
