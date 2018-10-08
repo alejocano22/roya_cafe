@@ -7,7 +7,8 @@ import json
 import os
 from coffee_rescuer.settings import BASE_DIR
 from datetime import datetime
-from datetime import date
+import pytz
+import tzlocal
 # Create your models here.
 ETAPA_ROYA =  (
 		(0,"Etapa 0"),
@@ -29,12 +30,15 @@ class Lote(models.Model):
 		for detalle_lote in detalle_lotes:
 
 			fecha_actual = detalle_lote.obtener_fecha_formato_python()
-			fecha_actual = fecha_actual.date()
 			if fecha_actual >= start and fecha_actual <= end:
 				detalle_sensores = detalle_lote.obtener_info_sensores()
 				etapa = detalle_lote.etapa_hongo
-				detalle_sensores['timestamp']=detalle_lote.obtener_fecha_formato_python()
 				detalle_sensores['etapa'] = etapa
+				
+				detalle_sensores['timestamp']=detalle_lote.obtener_fecha_formato_python()
+				local_timezone = tzlocal.get_localzone()
+				detalle_sensores['time'] = detalle_sensores['timestamp'].astimezone(local_timezone)
+				detalle_sensores['time'] = detalle_sensores['time'].replace(tzinfo = None)
 				registros.append(detalle_sensores)
 
 		return registros
@@ -70,7 +74,7 @@ class DetalleLote(models.Model):
 		hour = int(fecha[8:10])
 		minute = int(fecha[10:12])
 		second = int(fecha[12:14])
-		fecha_formato_python = datetime(year,month,day,hour,minute,second)
+		fecha_formato_python = datetime(year,month,day,hour,minute,second,tzinfo=pytz.utc)
 		return fecha_formato_python
 	#Formato ddMMyyhhmmss
 	def obtener_fecha(self):
