@@ -1,4 +1,5 @@
 {% extends "base/base.html" %}
+{% load json_filters %}
 {% block content %}
 	<br>
 	<br>
@@ -39,10 +40,11 @@
 			<th>Iluminación</th>
 		</tr>
 	</thead>
+
  	{% for detalle in historial %}
-	 	<tr>
-         <td>{{detalle.time }}</td>
-	 		<td>{{detalle.timestamp }} UTC</td>
+ 	 	<tr>
+         <td>{{detalle.time}} </td>
+	 		<td>{{detalle.timestamp}} UTC</td>
 	 		<td>{{detalle.etapa}}</td>
 	 		<td>{{detalle.env_temperature}}</td>
 	 		<td>{{detalle.env_humidity}}%</td>
@@ -66,10 +68,15 @@
    <body>
       <div id = "container" style = "width: 550px; height: 400px; margin: 0 auto">
       </div>
+
       <script language = "JavaScript">
       
          function drawChart() {
             // Define the chart to be drawn.
+
+            var historial = "{{historial |jsonify }}".replace(/(&quot\;)/g,"\"");
+            historial = JSON.parse(historial)
+            alert(historial[0]["time"].toString())
             var data = new google.visualization.DataTable();
             data.addColumn('string', 'Día');
             data.addColumn('number', 'Temperatura');
@@ -122,6 +129,7 @@
          }
          google.charts.setOnLoadCallback(drawChart);
       </script>
+  
    </body>
 </html>
 {% endblock content %}

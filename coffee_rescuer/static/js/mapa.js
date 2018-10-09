@@ -13,7 +13,7 @@ class Informacion{
 
 function pintarMapa() {
     for (var i = 0; i < Object.keys(informacion.coordenadas).length; i++) {
-        var pk = informacion.lotes[i]["pk"]
+        var pk = informacion.lotes[i]["pk"];
         canva_mapa.ctx.fillStyle = canva_mapa.colores[informacion.etapas[pk]];
         canva_mapa.ctx.rect(informacion.coordenadas[pk].x, informacion.coordenadas[pk].y, informacion.coordenadas[pk].w, informacion.coordenadas[pk].h);
         canva_mapa.ctx.rect(informacion.coordenadas[pk].x + 1, informacion.coordenadas[pk].y + 1, informacion.coordenadas[pk].w - 1, informacion.coordenadas[pk].h - 1);
@@ -22,7 +22,7 @@ function pintarMapa() {
         if (informacion.lotes[i]["fields"]["nombre"] != null) {
             canva_mapa.ctx.fillText(informacion.lotes[i]["fields"]["nombre"], informacion.coordenadas[pk].x, informacion.coordenadas[pk].y - 10);
         } else {
-            canva_mapa.ctx.fillText(pk, informacion.coordenadas[i].x, informacion.coordenadas[i].y - 10);
+            canva_mapa.ctx.fillText(pk, informacion.coordenadas[pk].x, informacion.coordenadas[pk].y - 10);
         }
         canva_mapa.ctx.fillRect(informacion.coordenadas[pk].x, informacion.coordenadas[pk].y, informacion.coordenadas[pk].w, informacion.coordenadas[pk].h);
         canva_mapa.ctx.stroke();

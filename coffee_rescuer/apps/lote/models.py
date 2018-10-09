@@ -46,6 +46,9 @@ class Lote(models.Model):
                 local_timezone = tzlocal.get_localzone()
                 detalle_sensores['time'] = detalle_sensores['timestamp'].astimezone(local_timezone)
                 detalle_sensores['time'] = detalle_sensores['time'].replace(tzinfo=None)
+
+                detalle_sensores['timestamp'] = detalle_sensores['timestamp'].strftime("%d de %B de %Y a las %H:%M:%S")
+                detalle_sensores['time'] = detalle_sensores['time'].strftime("%d de %B de %Y  a las %H:%M:%S")
                 registros.append(detalle_sensores)
 
         return registros

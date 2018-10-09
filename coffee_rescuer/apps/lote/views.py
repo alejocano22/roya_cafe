@@ -6,8 +6,8 @@ from django.contrib.auth.decorators import login_required
 from datetime import datetime
 import tzlocal
 import pytz
-
-
+import locale
+import json
 # Create your views here.
 @login_required
 def vista_lote(request, id_lote):
@@ -47,6 +47,7 @@ def historial_lote(request, id_lote):
         return redirect('index')
 
     historial = []
+    locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
     if request.method == "POST":
         form = HistorialForm(request.POST)
         if form.is_valid():
@@ -76,7 +77,7 @@ def historial_lote(request, id_lote):
             else:
                 historial = lote.obtener_detalle_rango(start_formato_python.astimezone(pytz.utc),
                                                        end_formato_python.astimezone(pytz.utc))
-                context = {"lote": lote, "historial": historial, "form": form}
+                context = {"lote": lote, "historial": json.dumps(historial), "form": form}
                 return render(request, 'lote/historialDatos.html', context)
 
     else:
@@ -92,7 +93,8 @@ def historial_lote(request, id_lote):
 
         detalle_sensores['time'] = detalle_sensores['timestamp'].replace(tzinfo=pytz.utc).astimezone(local_timezone)
         detalle_sensores['time'] = detalle_sensores['time'].replace(tzinfo=None)
-
+        detalle_sensores['timestamp'] = detalle_sensores['timestamp'].strftime("%d de %B de %Y a las %H:%M:%S")
+        detalle_sensores['time'] = detalle_sensores['time'].strftime("%d de %B de %Y  a las %H:%M:%S")
         detalle_sensores['etapa'] = etapa
         historial.append(detalle_sensores)
 
