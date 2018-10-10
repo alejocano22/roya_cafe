@@ -25,11 +25,12 @@
         <iframe src="http:/10.161.39.219:8000/lote/4/" frameborder="0"></iframe>
     </div>
 </div>
+    <h1>{{ lotes}}</h1>
 <script>
     var jsonContextoCoordenadas = "{{coordenadas}}".replace(/(&quot\;)/g,"\"");
     var jsonContextoEtapas = "{{etapas}}".replace(/(&quot\;)/g,"\"");
     var jsonContextoLotes = "{{lotes}}".replace(/(&quot\;)/g,"\"");
-    var prom = "{{promedio_estado_lotes}}";
+    var prom = "{{finca.promedio_estado_lotes}}";
 </script>
 <script src="{%static 'js/canvas.js'%}"></script>
 <script src="{%static 'js/mapa.js'%}"></script>

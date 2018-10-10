@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from apps.finca.models import Finca
 from django.contrib.auth.decorators import login_required
-
+from django.core import serializers
 
 # Create your views here.
 @login_required

@@ -1,0 +1,732 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="adac70b6-2231-4cf3-b459-f74ec55c6499" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/coffee_rescuer/static/js/fincas.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/apps/finca/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/apps/finca/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/apps/finca/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/apps/finca/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/apps/finca/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/apps/finca/apps.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/apps/finca/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/apps/finca/migrations/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/apps/finca/migrations/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/apps/finca/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/apps/finca/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/apps/finca/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/apps/finca/tests.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/apps/finca/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/apps/finca/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/apps/leer.txt" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/apps/leer.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/apps/lote/form.py" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/apps/lote/form.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/apps/lote/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/apps/lote/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/apps/lote/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/apps/lote/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/apps/lote/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/apps/lote/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/apps/lote/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/apps/usuario/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/apps/usuario/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/apps/usuario/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/apps/usuario/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/apps/usuario/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/apps/usuario/apps.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/apps/usuario/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/apps/usuario/migrations/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/apps/usuario/migrations/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/apps/usuario/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/apps/usuario/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/apps/usuario/templatetags/json_filters.py" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/apps/usuario/templatetags/json_filters.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/apps/usuario/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/apps/usuario/tests.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/apps/usuario/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/apps/usuario/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/apps/usuario/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/apps/usuario/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/coffee_rescuer/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/coffee_rescuer/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/coffee_rescuer/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/coffee_rescuer/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/coffee_rescuer/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/coffee_rescuer/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/coffee_rescuer/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/coffee_rescuer/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/coffee_rescuer/wsgi.py" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/coffee_rescuer/wsgi.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/data/pop.txt" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/data/pop.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/data/rodolfo1/finca_1/27072018133635/lot_1/lot_1 - copia.json" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/data/rodolfo1/finca_1/27072018133635/lot_1/lot_1 - copia.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/data/rodolfo1/finca_1/27072018133635/lot_1/lot_1.json" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/data/rodolfo1/finca_1/27072018133635/lot_1/lot_1.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/data/rodolfo1/finca_1/27082018133635/lot_1/lot_1.json" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/data/rodolfo1/finca_1/27082018133635/lot_1/lot_1.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/data/rodolfo1/finca_1/coordenadas/coordenadas.json" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/data/rodolfo1/finca_1/coordenadas/coordenadas.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/data/usuario2/finca_2/27072018133635/lot_1/lot_1 - copia.json" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/data/usuario2/finca_2/27072018133635/lot_1/lot_1 - copia.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/data/usuario2/finca_2/27072018133635/lot_1/lot_1.json" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/data/usuario2/finca_2/27072018133635/lot_1/lot_1.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/data/usuario2/finca_2/27082018133635/lot_1/lot_1.json" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/data/usuario2/finca_2/27082018133635/lot_1/lot_1.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/data/usuario2/finca_2/27092018133635/lot_1/lot_1.json" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/data/usuario2/finca_2/27092018133635/lot_1/lot_1.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/data/usuario2/finca_2/2710201833635/lot_1/lot_1.json" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/data/usuario2/finca_2/2710201833635/lot_1/lot_1.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/data/usuario2/finca_2/coordenadas/coordenadas.json" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/data/usuario2/finca_2/coordenadas/coordenadas.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/manage.py" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/manage.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/static/css/bootstrap.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/static/css/bootstrap.min.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/static/js/bootstrap.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/static/js/bootstrap.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/static/js/canvas.js" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/static/js/canvas.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/static/js/mapa.js" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/static/js/mapa.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/static/js/vistalote.js" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/static/js/vistalote.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/templates/base/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/templates/base/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/templates/finca/mapa.html" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/templates/finca/mapa.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/templates/informacion/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/templates/informacion/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/templates/lote/vistaLote.html" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/templates/lote/vistaLote.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/templates/usuario/fincas.html" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/templates/usuario/fincas.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffee_rescuer/templates/usuario/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/coffee_rescuer/templates/usuario/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requeriments_env.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requeriments_env.txt" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/roya_cafe$views.coverage" NAME="views Coverage Results" MODIFIED="1538973535404" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/coffee_rescuer/apps/finca" />
+    <SUITE FILE_PATH="coverage/roya_cafe$manage.coverage" NAME="manage Coverage Results" MODIFIED="1539009887566" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/coffee_rescuer" />
+    <SUITE FILE_PATH="coverage/roya_cafe$apps.coverage" NAME="apps Coverage Results" MODIFIED="1538973531394" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/coffee_rescuer/apps/finca" />
+    <SUITE FILE_PATH="coverage/roya_cafe$models.coverage" NAME="models Coverage Results" MODIFIED="1539009445265" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/coffee_rescuer/apps/finca" />
+  </component>
+  <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
+    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
+  </component>
+  <component name="FUSProjectUsageTrigger">
+    <session id="-733878249">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="8" />
+          <entry key="project.open.time.10" value="2" />
+          <entry key="project.open.time.11" value="1" />
+          <entry key="project.open.time.12" value="2" />
+          <entry key="project.open.time.25" value="2" />
+          <entry key="project.open.time.3" value="1" />
+          <entry key="project.open.time.33" value="1" />
+          <entry key="project.opened" value="9" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="html" value="19" />
+          <entry key="js" value="15" />
+          <entry key="py" value="80" />
+          <entry key="txt" value="2" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="HTML" value="19" />
+          <entry key="JavaScript" value="15" />
+          <entry key="PLAIN_TEXT" value="2" />
+          <entry key="Python" value="80" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="dummy" value="12" />
+          <entry key="html" value="543" />
+          <entry key="js" value="1183" />
+          <entry key="py" value="3612" />
+          <entry key="py@roya_cafe" value="514" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="CommandLine" value="211" />
+          <entry key="HTML" value="543" />
+          <entry key="JavaScript" value="1183" />
+          <entry key="PLAIN_TEXT" value="315" />
+          <entry key="Python" value="3612" />
+        </counts>
+      </usages-collector>
+    </session>
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="roya_cafe" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/coffee_rescuer/apps/lote/views.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-667">
+              <caret line="49" lean-forward="true" selection-start-line="49" selection-end-line="49" />
+              <folding>
+                <element signature="e#0#45#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../entornos/env_coffee/Lib/site-packages/django/core/handlers/exception.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="92">
+              <caret line="33" selection-start-line="33" selection-end-line="33" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../entornos/env_coffee/Lib/site-packages/django/core/handlers/base.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="92">
+              <caret line="125" selection-start-line="125" selection-end-line="125" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../entornos/env_coffee/Lib/site-packages/django/contrib/auth/decorators.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="92">
+              <caret line="20" selection-start-line="20" selection-end-line="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>informacion.colores</find>
+      <find>AUTH_USER_MODEL</find>
+    </findStrings>
+    <replaceStrings>
+      <replace />
+      <replace>canva_mapa.colores</replace>
+      <replace>canva_finca.colores</replace>
+    </replaceStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/coffee_rescuer/static/js/VistaLote.js" />
+        <option value="$PROJECT_DIR$/coffee_rescuer/static/js/canvas.js" />
+        <option value="$PROJECT_DIR$/coffee_rescuer/static/js/vistalote.js" />
+        <option value="$PROJECT_DIR$/coffee_rescuer/apps/lote/form.py" />
+        <option value="$PROJECT_DIR$/coffee_rescuer/coffee_rescuer/views.py" />
+        <option value="$PROJECT_DIR$/coffee_rescuer/templates/usuario/login.html" />
+        <option value="$PROJECT_DIR$/coffee_rescuer/coffee_rescuer/forms.py" />
+        <option value="$PROJECT_DIR$/coffee_rescuer/apps/usuario/forms.py" />
+        <option value="$PROJECT_DIR$/coffee_rescuer/apps/usuario/admin.py" />
+        <option value="$PROJECT_DIR$/coffee_rescuer/coffee_rescuer/settings.py" />
+        <option value="$PROJECT_DIR$/coffee_rescuer/apps/usuario/models.py" />
+        <option value="$PROJECT_DIR$/coffee_rescuer/apps/lote/models.py" />
+        <option value="$PROJECT_DIR$/coffee_rescuer/apps/finca/models.py" />
+        <option value="$PROJECT_DIR$/coffee_rescuer/apps/usuario/views.py" />
+        <option value="$PROJECT_DIR$/coffee_rescuer/apps/finca/views.py" />
+        <option value="$PROJECT_DIR$/coffee_rescuer/apps/usuario/templatetags/json_filters.py" />
+        <option value="$PROJECT_DIR$/coffee_rescuer/templates/usuario/fincas.html" />
+        <option value="$PROJECT_DIR$/coffee_rescuer/templates/lote/vistaLote.html" />
+        <option value="$PROJECT_DIR$/coffee_rescuer/templates/finca/mapa.html" />
+        <option value="$PROJECT_DIR$/coffee_rescuer/static/js/fincas.js" />
+        <option value="$PROJECT_DIR$/coffee_rescuer/static/js/mapa.js" />
+        <option value="$PROJECT_DIR$/coffee_rescuer/apps/lote/views.py" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="19" />
+    <option name="y" value="39" />
+    <option name="width" value="730" />
+    <option name="height" value="735" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State />
+          <State>
+            <id>Spelling</id>
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>SpellCheckingInspection</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="roya_cafe" type="b2602c69:ProjectViewProjectNode" />
+              <item name="roya_cafe" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="roya_cafe" type="b2602c69:ProjectViewProjectNode" />
+              <item name="roya_cafe" type="462c0819:PsiDirectoryNode" />
+              <item name="coffee_rescuer" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="roya_cafe" type="b2602c69:ProjectViewProjectNode" />
+              <item name="roya_cafe" type="462c0819:PsiDirectoryNode" />
+              <item name="coffee_rescuer" type="462c0819:PsiDirectoryNode" />
+              <item name="apps" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="roya_cafe" type="b2602c69:ProjectViewProjectNode" />
+              <item name="roya_cafe" type="462c0819:PsiDirectoryNode" />
+              <item name="coffee_rescuer" type="462c0819:PsiDirectoryNode" />
+              <item name="apps" type="462c0819:PsiDirectoryNode" />
+              <item name="finca" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="roya_cafe" type="b2602c69:ProjectViewProjectNode" />
+              <item name="roya_cafe" type="462c0819:PsiDirectoryNode" />
+              <item name="coffee_rescuer" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="roya_cafe" type="b2602c69:ProjectViewProjectNode" />
+              <item name="roya_cafe" type="462c0819:PsiDirectoryNode" />
+              <item name="coffee_rescuer" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="roya_cafe" type="b2602c69:ProjectViewProjectNode" />
+              <item name="roya_cafe" type="462c0819:PsiDirectoryNode" />
+              <item name="coffee_rescuer" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$USER_HOME$/PycharmProjects/conmutacion_xbee" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="preferences.editor" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\user\Documents\pythonProjects\roya_cafe\coffee_rescuer\apps\usuario" />
+      <recent name="C:\Users\user\Documents\pythonProjects\roya_cafe\coffee_rescuer\static\js" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="manage" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="roya_cafe" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/coffee_rescuer" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/coffee_rescuer/manage.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="Python.DjangoServer" factoryName="Django server">
+      <module name="roya_cafe" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\user\Documents\pythonProjects\entornos\env_coffee\Scripts\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/coffee_rescuer" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="launchJavascriptDebuger" value="false" />
+      <option name="port" value="8000" />
+      <option name="host" value="" />
+      <option name="additionalOptions" value="" />
+      <option name="browserUrl" value="http://127.0.0.1:8000/" />
+      <option name="runTestServer" value="false" />
+      <option name="runNoReload" value="false" />
+      <option name="useCustomRunCommand" value="false" />
+      <option name="customRunCommand" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.manage" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" BundledDictionaries="0" Folders="1" Folder0="C:\Users\user\Documents\pythonProjects" CustomDictionaries="1" CustomDictionary0="C:\Users\user\Documents\pythonProjects\spanish.dic" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="project-level" UseSingleDictionary="true" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="adac70b6-2231-4cf3-b459-f74ec55c6499" name="Default Changelist" comment="" />
+      <created>1538967306279</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1538967306279</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <layout>
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.82495666" visible="true" weight="0.22390318" />
+      <window_info id="Structure" order="1" sideWeight="0.17504333" side_tool="true" weight="0.28895614" />
+      <window_info id="Favorites" order="2" sideWeight="0.5008183" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3289689" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.63175124" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.3289689" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.3289689" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.2700491" />
+      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Python Console" order="10" weight="0.3295082" />
+      <window_info anchor="bottom" id="Docker" order="11" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Database Changes" order="12" show_stripe_button="false" />
+      <window_info active="true" anchor="bottom" id="manage.py@roya_cafe" order="13" weight="0.4762684" />
+      <window_info anchor="bottom" id="Inspection Results" order="14" weight="0.3289689" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Database" order="3" />
+      <window_info anchor="right" id="SciView" order="4" />
+    </layout>
+    <layout-to-restore>
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.82495666" visible="true" weight="0.25189108" />
+      <window_info id="Structure" order="1" sideWeight="0.17504333" side_tool="true" weight="0.28895614" />
+      <window_info id="Favorites" order="2" sideWeight="0.5008183" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3289689" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.63175124" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.3289689" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.3289689" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.36557376" />
+      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Python Console" order="10" weight="0.3295082" />
+      <window_info anchor="bottom" id="Docker" order="11" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Database Changes" order="12" show_stripe_button="false" />
+      <window_info anchor="bottom" id="manage.py@roya_cafe" order="13" weight="0.05400982" />
+      <window_info anchor="bottom" id="Inspection Results" order="14" weight="0.3289689" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Database" order="3" />
+      <window_info anchor="right" id="SciView" order="4" />
+    </layout-to-restore>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/coffee_rescuer/apps/usuario/views.py</url>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/coffee_rescuer/templates/informacion/index.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/requeriments_env.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee_rescuer/data/pop.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee_rescuer/templates/base/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="7" lean-forward="true" selection-start-line="1" selection-start-column="7" selection-end-line="1" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee_rescuer/static/js/canvas.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="45" selection-start-line="3" selection-start-column="45" selection-end-line="3" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee_rescuer/static/js/vistalote.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee_rescuer/apps/lote/admin.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee_rescuer/apps/lote/apps.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="9" selection-start-line="3" selection-start-column="9" selection-end-line="3" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee_rescuer/apps/lote/form.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="32" lean-forward="true" selection-start-line="18" selection-start-column="32" selection-end-line="18" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee_rescuer/apps/finca/apps.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee_rescuer/coffee_rescuer/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="43" selection-start-line="6" selection-start-column="43" selection-end-line="6" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee_rescuer/manage.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="12" column="31" lean-forward="true" selection-start-line="12" selection-start-column="31" selection-end-line="12" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee_rescuer/templates/usuario/login.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="663">
+          <caret line="39" selection-start-line="39" selection-end-line="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../entornos/env_coffee/Lib/site-packages/django/contrib/auth/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="124">
+          <caret line="169" selection-start-line="169" selection-end-line="169" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../entornos/env_coffee/Lib/site-packages/django/forms/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1474">
+          <caret line="265" selection-start-line="265" selection-end-line="265" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee_rescuer/apps/usuario/forms.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee_rescuer/apps/usuario/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="9" column="30" selection-start-line="9" selection-start-column="30" selection-end-line="9" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee_rescuer/apps/lote/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="376">
+          <caret line="194" column="12" selection-start-line="194" selection-start-column="12" selection-end-line="194" selection-end-column="12" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee_rescuer/apps/finca/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-239">
+          <caret line="1" column="43" selection-start-line="1" selection-start-column="43" selection-end-line="1" selection-end-column="43" />
+          <folding>
+            <marker date="1539205854377" expanded="true" signature="867:1172" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee_rescuer/apps/usuario/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" column="32" selection-start-line="15" selection-start-column="32" selection-end-line="15" selection-end-column="32" />
+          <folding>
+            <element signature="e#0#45#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee_rescuer/apps/usuario/admin.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="25" selection-start-column="25" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee_rescuer/apps/usuario/templatetags/json_filters.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
+          <folding>
+            <element signature="e#0#45#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee_rescuer/templates/usuario/fincas.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="25" column="17" selection-start-line="25" selection-start-column="17" selection-end-line="25" selection-end-column="17" />
+          <folding>
+            <element signature="n#style#0;n#SPAN#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee_rescuer/apps/usuario/apps.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee_rescuer/coffee_rescuer/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="237">
+          <caret line="127" column="17" lean-forward="true" selection-start-line="127" selection-start-column="17" selection-end-line="127" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee_rescuer/templates/lote/historialDatos.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="8" selection-start-line="4" selection-start-column="8" selection-end-line="4" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee_rescuer/templates/finca/mapa.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="305">
+          <caret line="27" column="11" lean-forward="true" selection-start-line="27" selection-start-column="11" selection-end-line="27" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee_rescuer/templates/lote/vistaLote.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee_rescuer/apps/finca/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="473">
+          <caret line="35" selection-start-line="35" selection-end-line="35" />
+          <folding>
+            <element signature="e#0#45#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee_rescuer/static/js/mapa.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="56">
+          <caret line="34" column="14" selection-start-line="34" selection-start-column="14" selection-end-line="34" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee_rescuer/static/js/fincas.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="14" selection-start-line="3" selection-start-column="14" selection-end-line="3" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../entornos/env_coffee/Lib/site-packages/django/core/handlers/exception.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="92">
+          <caret line="33" selection-start-line="33" selection-end-line="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../entornos/env_coffee/Lib/site-packages/django/core/handlers/base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="92">
+          <caret line="125" selection-start-line="125" selection-end-line="125" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../entornos/env_coffee/Lib/site-packages/django/contrib/auth/decorators.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="92">
+          <caret line="20" selection-start-line="20" selection-end-line="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee_rescuer/apps/lote/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-667">
+          <caret line="49" lean-forward="true" selection-start-line="49" selection-end-line="49" />
+          <folding>
+            <element signature="e#0#45#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ScopeChooserConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>

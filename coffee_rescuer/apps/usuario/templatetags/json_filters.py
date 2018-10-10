@@ -10,4 +10,10 @@ def jsonify(object):
         return serialize('json', object)
     return json.dumps(object)
 
+
+def info_finca(object):
+    return serialize('json', object,fields=["id", "nombre","promedio_estado_lotes"])
+
+
 register.filter('jsonify', jsonify)
+register.filter('info_finca', info_finca)

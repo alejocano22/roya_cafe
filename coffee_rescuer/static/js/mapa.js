@@ -32,7 +32,7 @@ function pintarMapa() {
 function pintarCanvaFinca() {
     var X = canva_finca.c.width / 2;
     var Y = canva_finca.c.height / 2;
-    var R = 45;
+    var R = 40;
     canva_finca.ctx.beginPath();
     canva_finca.ctx.arc(X, Y+6, R, 0, 2 * Math.PI, false);
     canva_finca.ctx.fillStyle = canva_finca.colores[parseInt(prom)];
@@ -84,7 +84,7 @@ var posx;
 var posy;
 canva_mapa.c.addEventListener("click",handleClick);
 
-let canva_finca = new Canvas('circle_finca');
-pintarCanvaFinca()
 
+let canva_finca = new Canvas('circle_finca');
+pintarCanvaFinca();
 

@@ -9,6 +9,8 @@ import pytz
 import locale
 import json
 # Create your views here.
+
+
 @login_required
 def vista_lote(request, id_lote):
     """
@@ -47,7 +49,7 @@ def historial_lote(request, id_lote):
         return redirect('index')
 
     historial = []
-    locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
+    locale.setlocale(locale.LC_TIME, 'es-CO')
     if request.method == "POST":
         form = HistorialForm(request.POST)
         if form.is_valid():

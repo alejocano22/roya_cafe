@@ -170,3 +170,29 @@ def post_save_lote(sender, instance, **kwargs):
             )
         instance.lote.ultimo_estado_hongo = instance.etapa_hongo
         instance.lote.save()
+
+
+@receiver(post_save, sender=Lote)
+def post_save_lote(sender, instance, **kwargs):
+    """
+    Este método se encargará de modificar el promedio del estado de los lotes de una finca.
+
+    Este método se ejecuta cuando se agrega o hay un cambio de un lote y su objetivo es modificar el el promedio del
+    estado del hongo de la roya en los lotes de una finca.
+    @param sender: Este parámetro especifica cuál modelo es el responsable porque se ejecute este método, en este caso
+    Lote
+    @param instance: El lote que se ha agregado o cambiado en la base de datos
+    """
+    lotes = Lote.objects.filter(finca=instance.finca)
+
+    promedio_estado_lotes = 0
+    for lote in lotes:
+        detalle_lote_actual = lote.obtener_detalle_lote_actual()
+        if detalle_lote_actual:
+            promedio_estado_lotes += detalle_lote_actual.etapa_hongo
+        else:
+            promedio_estado_lotes += lote.ultimo_estado_hongo
+
+    promedio_estado_lotes = int(promedio_estado_lotes / len(lotes))
+    instance.finca.promedio_estado_lotes = promedio_estado_lotes
+    instance.finca.save()

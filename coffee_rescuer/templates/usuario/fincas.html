@@ -1,27 +1,48 @@
 {% extends "base/base.html" %}
+{%load staticfiles%}
+{% load json_filters %}
 {% block content %}
-{% if fincas %}
-	{% for finca in fincas  %}
-	<div class="row">
-		<div class="col-6">
-			{% if finca.nombre %}
-			<h1>Finca: {{finca.nombre}}</h1>
-			{% else%}
-			<h1>Finca con id: {{finca.id}}</h1>
-			{% endif %}
-		</div>
-		<a href="{% url 'finca:mapa' finca.id %}" class="btn btn-success">Obtener más información</a>
-	</div>
-	{% endfor %}
-{% else %}
-<div class="container">
-	<div class="row">
-		<div class="col-12">
-			<p class="display-3">El usuario no tiene fincas asignadas</p>
-		</div>
-	</div>
-</div>
+    {% if fincas %}
+        {% for finca in fincas  %}
+            <div class="row">
+              <div class="col-1">
+             <canvas id="circle_finca_{{finca.id}}" width="100" height="120"></canvas>
+            </div>
+                <div class="col-6">
+                <SPAN style="position: absolute; top: 80 px; left 100 px; font-size: xx-large;">
+                    <br>
+                    {% if finca.nombre %}
+                        <b>Finca: {{finca.nombre}}</b>
+                    {% else%}
+                        <b>Finca con id: {{finca.id}}</b>
+                    {% endif %}
 
-{% endif %}
+                </SPAN>
+                </div>
+
+             <div class="col-2">
+                 <br>
+                 <br>
+
+                <a href="{% url 'finca:mapa' finca.id %}" class="btn btn-success">Obtener más información</a>
+             </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <p class="display-3">El usuario no tiene fincas asignadas</p>
+                </div>
+            </div>
+        </div>
+
+    {% endif %}
+<script>
+    var jsonContextoFincas = "{{fincas | info_finca}}".replace(/(&quot\;)/g,"\"");
+</script>
+<script src="{%static 'js/canvas.js'%}"></script>
+<script src="{%static 'js/fincas.js'%}"></script>
 
 {% endblock content %}
+
