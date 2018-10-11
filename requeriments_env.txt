@@ -1,5 +1,8 @@
 absl-py==0.5.0
+amqp==2.3.2
 astor==0.7.1
+billiard==3.5.0.4
+celery==4.2.1
 dataclasses==0.6
 Django==2.1.1
 djongo==1.2.30
@@ -9,6 +12,7 @@ h5py==2.8.0
 Keras==2.2.2
 Keras-Applications==1.0.4
 Keras-Preprocessing==1.0.2
+kombu==4.2.1
 Markdown==3.0.1
 numpy==1.15.2
 Pillow==5.2.0
@@ -16,6 +20,7 @@ protobuf==3.6.1
 pymongo==3.7.1
 pytz==2018.5
 PyYAML==3.13
+redis==2.10.6
 scipy==1.1.0
 six==1.11.0
 sqlparse==0.2.4
@@ -24,4 +29,5 @@ tensorflow==1.11.0
 termcolor==1.1.0
 tqdm==4.26.0
 tzlocal==1.5.1
+vine==1.1.4
 Werkzeug==0.14.1

@@ -2,14 +2,15 @@ from django.db import models
 from apps.finca.models import Finca
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.core.mail import send_mail
+from apps.lote.tasks import enviar_mail
 import json
 import os
 from coffee_rescuer.settings import BASE_DIR
 from datetime import datetime
 import pytz
 import tzlocal
-
+import sys
+import locale
 # Create your models here.
 ETAPA_ROYA = (
     (0, "Etapa 0"),
@@ -126,7 +127,7 @@ class DetalleLote(models.Model):
 # 	instance.etapa_hongo = modelo.obtener_promedio_diagnostico(instance.fotos)
 
 @receiver(post_save, sender=DetalleLote)
-def post_save_lote(sender, instance, **kwargs):
+def post_save_detalle_lote(sender, instance, **kwargs):
     """
     Este método se encargará de enviar una notificación de correo al usuario.
 
@@ -151,23 +152,27 @@ def post_save_lote(sender, instance, **kwargs):
         usuario = instance.lote.finca.usuario
         correo = usuario.email
         nombre_finca = instance.lote.finca.nombre
-
+        if not nombre_finca:
+            nombre_finca = "con id: " + str(instance.lote.finca.id)
         if correo:
-            mensaje = '{}{}{}{}{}{}'.format(
+            asunto ='Notificación automática de Coffee Rescuer'
+             #es_ES.UTF-8 linux
+             #es-CO windows
+            plataforma = sys.platform
+            if plataforma != 'win32':
+                locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
+            else:
+                locale.setlocale(locale.LC_TIME, 'es-CO')
+            mensaje = '{}{}{}{}{}{}{}'.format(
                 'Usuario ',
                 usuario,
                 '\nLe informamos que el estado de desarrollo del hongo de la roya en uno de sus lotes de la finca ',
                 nombre_finca,
                 ' ha cambiado. Le recomendamos revisar la plataforma\n',
-                fecha,
+                fecha.strftime("%d de %B de %Y a las %H:%M:%S"),
+                " formato UTC"
             )
-            send_mail(
-                'Notificación automática de Coffee Rescuer',
-                mensaje,
-                'coffeerescuer@gmail.com',
-                [correo],
-                fail_silently=False,
-            )
+            enviar_mail.delay(asunto,mensaje,correo)
         instance.lote.ultimo_estado_hongo = instance.etapa_hongo
         instance.lote.save()
 

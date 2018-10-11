@@ -8,6 +8,7 @@ import tzlocal
 import pytz
 import locale
 import json
+import sys
 # Create your views here.
 
 
@@ -49,7 +50,13 @@ def historial_lote(request, id_lote):
         return redirect('index')
 
     historial = []
-    locale.setlocale(locale.LC_TIME, 'es-CO')
+    #es_ES.UTF-8 linux
+    #es-CO windows
+    plataforma = sys.platform
+    if plataforma != 'win32':
+        locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
+    else:
+        locale.setlocale(locale.LC_TIME, 'es-CO')
     if request.method == "POST":
         form = HistorialForm(request.POST)
         if form.is_valid():
@@ -79,7 +86,7 @@ def historial_lote(request, id_lote):
             else:
                 historial = lote.obtener_detalle_rango(start_formato_python.astimezone(pytz.utc),
                                                        end_formato_python.astimezone(pytz.utc))
-                context = {"lote": lote, "historial": json.dumps(historial), "form": form}
+                context = {"lote": lote, "historial": historial, "form": form}
                 return render(request, 'lote/historialDatos.html', context)
 
     else:

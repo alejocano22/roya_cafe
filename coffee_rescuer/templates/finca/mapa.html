@@ -7,7 +7,12 @@
 <canvas id="circle_finca" width="100" height="120"></canvas>
 <SPAN style="position: absolute; top: 80 px; left 100 px; font-size: xx-large;">
     <br>
-    <b>{{finca.nombre}}</b>
+    {% if finca.nombre %}
+     <b>{{finca.nombre}}</b>     
+    {% else %}
+     <b>Finca con id: {{finca.id}}</b>
+    {% endif %}
+   
 </SPAN>
 
 <hr>
@@ -25,7 +30,7 @@
         <iframe src="http:/10.161.39.219:8000/lote/4/" frameborder="0"></iframe>
     </div>
 </div>
-    <h1>{{ lotes}}</h1>
+   
 <script>
     var jsonContextoCoordenadas = "{{coordenadas}}".replace(/(&quot\;)/g,"\"");
     var jsonContextoEtapas = "{{etapas}}".replace(/(&quot\;)/g,"\"");
