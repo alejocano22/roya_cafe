@@ -149,6 +149,7 @@ def post_save_detalle_lote(sender, instance, **kwargs):
             break
 
     if es_detalle_actual and instance.etapa_hongo >= 2 and instance.lote.ultimo_estado_hongo != instance.etapa_hongo:
+
         usuario = instance.lote.finca.usuario
         correo = usuario.email
         nombre_finca = instance.lote.finca.nombre
@@ -172,6 +173,7 @@ def post_save_detalle_lote(sender, instance, **kwargs):
                 fecha.strftime("%d de %B de %Y a las %H:%M:%S"),
                 " formato UTC"
             )
+
             enviar_mail.delay(asunto,mensaje,correo)
         instance.lote.ultimo_estado_hongo = instance.etapa_hongo
         instance.lote.save()

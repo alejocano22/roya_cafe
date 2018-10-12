@@ -1,8 +1,9 @@
 #celery_example/tasks.py
 from coffee_rescuer.celery import app
 from django.core.mail import send_mail
-from celery.schedules import crontab 
+from celery.schedules import crontab
 
+@app.task
 def enviar_mail(asunto, contenido, destinatario):
     send_mail(asunto, contenido, 'coffeerescuer@gmail.com', [destinatario], fail_silently=False)
 
@@ -15,7 +16,7 @@ def actualizar_detalles_lote():
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     # Calls actualizar_detalles_lote('hello') every 10 seconds.
-    sender.add_periodic_task(10.0, actualizar_detalles_lote.s(), name='add every 10')
+    sender.add_periodic_task(60.0, actualizar_detalles_lote.s(), name='add every 10')
 
     # Executes every day at 1 a.m.
     sender.add_periodic_task(

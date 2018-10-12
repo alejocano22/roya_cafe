@@ -6,7 +6,10 @@ celery==4.2.1
 dataclasses==0.6
 Django==2.1.1
 djongo==1.2.30
+dnspython==1.15.0
+eventlet==0.24.1
 gast==0.2.0
+greenlet==0.4.15
 grpcio==1.15.0
 h5py==2.8.0
 Keras==2.2.2
@@ -14,6 +17,7 @@ Keras-Applications==1.0.4
 Keras-Preprocessing==1.0.2
 kombu==4.2.1
 Markdown==3.0.1
+monotonic==1.5
 numpy==1.15.2
 Pillow==5.2.0
 protobuf==3.6.1
