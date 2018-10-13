@@ -76,7 +76,7 @@
 
             var historial = "{{historial |jsonify }}".replace(/(&quot\;)/g,"\"");
             historial = JSON.parse(historial)
-            alert(historial[0]["time"].toString())
+            //(historial[0]["time"].toString())
             var data = new google.visualization.DataTable();
             data.addColumn('string', 'Día');
             data.addColumn('number', 'Temperatura');

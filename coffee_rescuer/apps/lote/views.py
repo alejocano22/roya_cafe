@@ -59,6 +59,7 @@ def historial_lote(request, id_lote):
         locale.setlocale(locale.LC_TIME, 'es-CO')
     if request.method == "POST":
         form = HistorialForm(request.POST)
+        locale.setlocale(locale.LC_TIME, '')
         if form.is_valid():
             start_date = form.cleaned_data['start_date']
             start_time = form.cleaned_data['start_time']
