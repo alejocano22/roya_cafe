@@ -1,10 +1,10 @@
 {
-	"timestamp": "27102018133635",
+	"timestamp": "10072018133635",
 	"env_temperature"  : "18.0",
-	"sail_temperature" :  "15.0",
+	"sail_temperature" : "15.0",
 	"sail_moisture" : "11.5",
 	"env_humidity" : "13.9",
 	"ph" : "8",
-	"lot_number" : "2",
+	"lot_number" : "1",
 	"iluminance" : "65.2"
 }

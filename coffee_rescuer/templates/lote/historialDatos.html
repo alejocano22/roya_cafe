@@ -47,11 +47,11 @@
 	 		<td>{{detalle.timestamp}} UTC</td>
 	 		<td>{{detalle.etapa}}</td>
 	 		<td>{{detalle.env_temperature}}</td>
-	 		<td>{{detalle.env_humidity}}%</td>
+	 		<td>{{detalle.env_humidity}}</td>
 	 		<td>{{detalle.sail_temperature}}</td>
-	 		<td>{{detalle.sail_moisture}}%</td>
+	 		<td>{{detalle.sail_moisture}}</td>
 	 		<td>{{detalle.ph}}</td>
-	 		<td>{{detalle.iluminance}}%</td>
+	 		<td>{{detalle.iluminance}}</td>
 	 	</tr>
  	{% endfor %}
 </table>
@@ -120,7 +120,7 @@
   	<script>
 
         var wb = XLSX.utils.table_to_book(document.getElementById('mytable'), {sheet:"Sheet JS"});
-        var wbout = XLSX.write(wb, {bookType:'xlsx', bookSST:true, type: 'binary'});
+        var wbout = XLSX.write(wb, {bookType:'csv', bookSST:true, type: 'binary'});
         function s2ab(s) {
                         var buf = new ArrayBuffer(s.length);
                         var view = new Uint8Array(buf);
@@ -128,7 +128,7 @@
                         return buf;
         }
         $("#button-a").click(function(){
-        saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), 'test.xlsx');
+        saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), 'HistorialDatos.csv');
         });
 </script>
    </body>
