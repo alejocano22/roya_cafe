@@ -26,6 +26,23 @@ class Lote(models.Model):
     nombre = models.CharField(max_length=50, null=True, blank=True)
     ultimo_estado_hongo = models.PositiveIntegerField(default=0, choices=ETAPA_ROYA)
 
+    def obtener_detalle_desde(self,start):
+        """
+        Permite obtener todos los detalles de un lote desde una fecha especifica
+        :param start: Fecha inicial del rango en datetime
+        :return: Retorna una lista con diccionarios que contienen información de cada detalle de lote
+        """
+        detalle_lotes = DetalleLote.objects.filter(lote=self.id).order_by('id')
+        registros = []
+        for detalle_lote in detalle_lotes:
+            fecha_actual = detalle_lote.obtener_fecha_formato_python()
+            fecha_actual = fecha_actual.replace(tzinfo=None)
+            if start <= fecha_actual:
+                detalle_sensores = detalle_lote.obtener_info_sensores()
+                detalle_sensores['timestamp'] = detalle_lote.obtener_fecha()
+                registros.append(detalle_sensores)
+        return registros
+
     def obtener_detalle_rango(self, start, end):
         """
         Permite obtener todos los detalles de un lote entre dos fechas especificas.
@@ -105,10 +122,15 @@ class DetalleLote(models.Model):
         """
         archivo = open(self.info_sensores)
         contenido_archivo = archivo.read()
+        archivo.close()
         datos_json = json.loads(contenido_archivo)
         return datos_json['timestamp']
 
     def obtener_info_sensores(self):
+        """
+        Obtiene un diccionario con la información de los sensores del detalle de lote
+        :return: Un diccionario que se obtiene luego de parsear el archivo que contiene la información de los sensores
+        """
         archivo = open(self.info_sensores)
         contenido_archivo = archivo.read()
         datos_json = json.loads(contenido_archivo)
@@ -203,3 +225,4 @@ def post_save_lote(sender, instance, **kwargs):
     promedio_estado_lotes = int(promedio_estado_lotes / len(lotes))
     instance.finca.promedio_estado_lotes = promedio_estado_lotes
     instance.finca.save()
+
