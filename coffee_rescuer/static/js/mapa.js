@@ -12,19 +12,22 @@ class Informacion{
 
 
 function pintarMapa() {
+    var img = document.getElementById("scream");
+    canva_mapa.ctx.drawImage(img, 0, 0,1000,500);
     for (var i = 0; i < Object.keys(informacion.coordenadas).length; i++) {
         var pk = informacion.lotes[i]["pk"];
         canva_mapa.ctx.fillStyle = canva_mapa.colores[informacion.etapas[pk]];
+        canva_mapa.ctx.fillRect(informacion.coordenadas[pk].x, informacion.coordenadas[pk].y, informacion.coordenadas[pk].w, informacion.coordenadas[pk].h);
+        canva_mapa.ctx.fillStyle = "#000000";
         canva_mapa.ctx.rect(informacion.coordenadas[pk].x, informacion.coordenadas[pk].y, informacion.coordenadas[pk].w, informacion.coordenadas[pk].h);
         canva_mapa.ctx.rect(informacion.coordenadas[pk].x + 1, informacion.coordenadas[pk].y + 1, informacion.coordenadas[pk].w - 1, informacion.coordenadas[pk].h - 1);
-        canva_mapa.ctx.fillStyle = canva_mapa.colores[informacion.etapas[i]];
         canva_mapa.ctx.font = "20px Arial";
         if (informacion.lotes[i]["fields"]["nombre"] != null) {
-            canva_mapa.ctx.fillText(informacion.lotes[i]["fields"]["nombre"], informacion.coordenadas[pk].x, informacion.coordenadas[pk].y - 10);
+            canva_mapa.ctx.fillText(informacion.lotes[i]["fields"]["nombre"], informacion.coordenadas[pk].x + 10, informacion.coordenadas[pk].y +50);
         } else {
-            canva_mapa.ctx.fillText(pk, informacion.coordenadas[pk].x, informacion.coordenadas[pk].y - 10);
+            canva_mapa.ctx.fillText(pk, informacion.coordenadas[pk].x +10, informacion.coordenadas[pk].y + 50);
         }
-        canva_mapa.ctx.fillRect(informacion.coordenadas[pk].x, informacion.coordenadas[pk].y, informacion.coordenadas[pk].w, informacion.coordenadas[pk].h);
+
         canva_mapa.ctx.stroke();
     }
 }
@@ -74,7 +77,7 @@ function handleClick(e){
 }
 
 let canva_mapa = new Canvas("canva_mapa");
-canva_mapa.c.width = window.innerWidth-30;
+canva_mapa.c.width = 1000;
 canva_mapa.c.height = 500;
 
 let informacion =  new Informacion(jsonContextoCoordenadas,jsonContextoEtapas,jsonContextoLotes);

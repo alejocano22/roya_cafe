@@ -14,15 +14,18 @@
     {% endif %}
    
 </SPAN>
-
+<img hidden id="scream" width="1000" height="500" src="https://static.iris.net.co/semana/upload/images/2017/10/30/545525_1.jpg" alt="The Scream">
 <hr>
 <h1 id="Map">Mapa</h1>
+    <br>
 <div align="center">
-    <canvas id="canva_mapa" style="border:1px solid #7B7B7B;">
+    <canvas id="canva_mapa" style="border:1px solid #7B7B7B; background="" >
     Your browser does not support the HTML5 canvas tag.</canvas>
 </div>
+<!-- <a href="#openModal">Lanzar el modal</a> -->
 
-<a href="#openModal">Lanzar el modal</a>
+
+
 
 <div id="openModal" class="modalDialog">
     <div>
@@ -30,7 +33,7 @@
         <iframe src="http:/10.161.39.219:8000/lote/4/" frameborder="0"></iframe>
     </div>
 </div>
-   
+
 <script>
     var jsonContextoCoordenadas = "{{coordenadas}}".replace(/(&quot\;)/g,"\"");
     var jsonContextoEtapas = "{{etapas}}".replace(/(&quot\;)/g,"\"");
