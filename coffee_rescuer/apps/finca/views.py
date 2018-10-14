@@ -6,8 +6,8 @@ from apps.finca.models import obtener_coordenadas
 import json
 from django.core import serializers
 from django.contrib.auth.decorators import login_required
-
-
+from apps.finca.form import EditorForm
+from apps.lote.models import Coordenada
 # Create your views here.
 
 
@@ -42,6 +42,20 @@ def mapa_view(request, id_finca):
                }
     return render(request, "finca/mapa.html", context)
 
+
 def editor_view(request,id_finca):
-    context = {"finca": id_finca}
+
+    if request.method == "POST":
+        form = EditorForm(request.POST)
+        form.is_valid()
+        jdata = form.cleaned_data['jsonfield']
+        json_data = str(jdata )
+        json_data = json.loads(json_data)
+        for coordenada in json_data["datos"]:
+            id_lote = int(coordenada["id"])
+            lote = Lote.objects.get(id=id_lote)
+            Coordenada.objects.create(lote=lote, x=coordenada["x"], y=coordenada["y"], width=coordenada["w"],height=coordenada["h"])
+
+    form = EditorForm()
+    context = {"finca": id_finca,"form":form}
     return render(request, "finca/editorMapa.html", context)

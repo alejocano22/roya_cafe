@@ -3,7 +3,10 @@
     <img src="https://preview.ibb.co/duMHYe/Imagen1.png"  height="100" width="100">
 		<h1>Editor de Mapas</h1>
 		<div>
-			<button onclick="myFunction()">Exportar</button>
+        <form method="post" >{% csrf_token %}
+            {{form.as_p}}
+		<button type="submit" class="btn btn-primary"  onclick="myFunction()">Exportar </button>
+	    </form>
 		</div>
 		<br><br><br>
 		<tr></tr>
@@ -61,7 +64,7 @@
 		  dataY[cont] = coordY[0];
 		  dataW[cont] = coordX[1]-coordX[0];
 		  dataH[cont] = coordY[1]-coordY[0];
-		  names[cont]= prompt("Por favor ingresa el nombre del lote", "");
+		  names[cont]= prompt("Por favor ingresa el id del lote" , "");
 		  cont++;
 		  i=0;
 		  }
@@ -73,16 +76,17 @@
 				};
 			for (var i = 0; i < dataX.length; i++) {
 
-				var key = names[i];
-			    list.datos.push({[key]:{
-			    "x": dataX[i],
-			    "y": dataY[i],
-			    "w": dataW[i],
-			    "h":dataH[i]}
-			  	});
-			};
+                var key = names[i];
+                list.datos.push({
+                    "x": dataX[i],
+                    "y": dataY[i],
+                    "w": dataW[i],
+                    "h": dataH[i],
+                    "id": key
+                });
+            }
 			var json = JSON.stringify(list); // aqui tienes la lista de objetos en Json
-            alert(json);
+            document.getElementById('infoNuevoMapa').value = json.toString();
         }
 		</script>
 {% endblock content %}
