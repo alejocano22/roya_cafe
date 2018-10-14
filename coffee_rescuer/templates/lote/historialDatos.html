@@ -26,7 +26,7 @@
 	<br>
 	<br>
 	<div class="table-responsive">
-	<table class="table table-bordered" style="width:100%">
+	<table class="table table-bordered" style="width:100%" id="mytable">
 	<thead>
 		<tr>
          <th>Fecha</th>
@@ -47,11 +47,11 @@
 	 		<td>{{detalle.timestamp}} UTC</td>
 	 		<td>{{detalle.etapa}}</td>
 	 		<td>{{detalle.env_temperature}}</td>
-	 		<td>{{detalle.env_humidity}}%</td>
+	 		<td>{{detalle.env_humidity}}</td>
 	 		<td>{{detalle.sail_temperature}}</td>
-	 		<td>{{detalle.sail_moisture}}%</td>
+	 		<td>{{detalle.sail_moisture}}</td>
 	 		<td>{{detalle.ph}}</td>
-	 		<td>{{detalle.iluminance}}%</td>
+	 		<td>{{detalle.iluminance}}</td>
 	 	</tr>
  	{% endfor %}
 </table>
@@ -61,11 +61,16 @@
       <title>Google Charts Tutorial</title>
       <script type = "text/javascript" src = "https://www.gstatic.com/charts/loader.js"></script>
       <script type = "text/javascript">
-         google.charts.load('current', {packages: ['corechart','line']});  
+         google.charts.load('current', {packages: ['corechart','line']});
+
       </script>
+	   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script lang="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.10.3/xlsx.full.min.js"></script>
+<script lang="javascript" src="https://fastcdn.org/FileSaver.js/1.1.20151003/FileSaver.min.js"></script>
    </head>
    
    <body>
+      <button id="button-a">Create Excel</button>
       <div id = "container" style = "width: 550px; height: 400px; margin: 0 auto">
       </div>
 
@@ -112,7 +117,20 @@
          }
          google.charts.setOnLoadCallback(drawChart);
       </script>
-  
+  	<script>
+
+        var wb = XLSX.utils.table_to_book(document.getElementById('mytable'), {sheet:"Sheet JS"});
+        var wbout = XLSX.write(wb, {bookType:'csv', bookSST:true, type: 'binary'});
+        function s2ab(s) {
+                        var buf = new ArrayBuffer(s.length);
+                        var view = new Uint8Array(buf);
+                        for (var i=0; i<s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
+                        return buf;
+        }
+        $("#button-a").click(function(){
+        saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), 'HistorialDatos.csv');
+        });
+</script>
    </body>
 </html>
 {% endblock content %}
