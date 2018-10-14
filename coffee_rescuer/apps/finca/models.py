@@ -1,8 +1,9 @@
+from django.core import serializers
 from django.db import models
 from django.contrib.auth.models import User
 from coffee_rescuer.settings import BASE_DIR
+from django.apps import apps
 import os
-import json
 
 
 # Create your models here.
@@ -26,17 +27,24 @@ class Finca(models.Model):
                                                recursive=True, allow_files=True, unique=True)
     promedio_estado_lotes = models.PositiveIntegerField(default=0, choices=ETAPA_ROYA)
 
-    def obtener_coordenadas(self, id_lote):
-        """
-        Este método permite obtener las coordenadas de uno de los lotes de la finca para pintarlo en el mapa.
-        @param id_lote: El numero de identificación del lote
-        @return: Un diccionario con las coordenadas (x,y) del lote y su tamano, width y height (w,h)
-        """
-        archivo = open(self.archivo_coordenadas)
-        contenido_archivo = archivo.read()
-        datos_json = json.loads(contenido_archivo)
-        print(type(datos_json))
-        return datos_json[id_lote]
 
+def obtener_coordenadas(id_finca):
+    Lote = apps.get_model('lote', 'Lote')
+    Coordenada = apps.get_model('lote', 'Coordenada')
+    """
+    Este método permite obtener las coordenadas de los lotes de una finca para pintarlos en el mapa.
+    @param id_finca: El numero de identificación de la finca
+    @return: Un diccionario con las coordenadas (x,y) de los lotes y su tamano, width y height (w,h)
+    """
+    lotes = Lote.objects.filter(finca=id_finca)
+    coordenadas = {}
+    for lote in lotes:
+        try:
+            coordenada = Coordenada.objects.get(lote=lote)
+            coordenada = {"x": coordenada.x,"y": coordenada.y, "w": coordenada.width, "h": coordenada.height}
+            coordenadas[lote.id] = coordenada
+        except Exception as e:
+            print(e,"nalga")
 
+    return coordenadas
 
