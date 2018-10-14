@@ -6,9 +6,8 @@ from django.contrib.auth.models import User
 from coffee_rescuer.settings import BASE_DIR
 import os
 import json
+from coffee_rescuer.celery import app
 
-
-# Create your models here.
 
 class PerfilUsuario(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -18,7 +17,7 @@ class PerfilUsuario(models.Model):
     def __str__(self):
         return self.usuario.username
 
-
+@app.task
 def actualizar_info_usuario(username):
     """
     Este método permite actualizar los datos que pertenecen a un usuario
