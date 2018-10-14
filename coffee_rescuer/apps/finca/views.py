@@ -41,3 +41,7 @@ def mapa_view(request, id_finca):
                "coordenadas": json.dumps(coordenadas)
                }
     return render(request, "finca/mapa.html", context)
+
+def editor_view(request,id_finca):
+    context = {"finca": id_finca}
+    return render(request, "finca/editorMapa.html", context)

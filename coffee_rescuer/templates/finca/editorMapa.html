@@ -1,0 +1,88 @@
+{% extends "base/base.html" %}
+{% block content %}
+    <img src="https://preview.ibb.co/duMHYe/Imagen1.png"  height="100" width="100">
+		<h1>Editor de Mapas</h1>
+		<div>
+			<button onclick="myFunction()">Exportar</button>
+		</div>
+		<br><br><br>
+		<tr></tr>
+		<div>
+			<canvas id="canvas" width="1000" height="500" style="border:1px solid #7B7B7B;"/>
+		</div>
+
+
+		<script>
+		function rgbToHex(rgb) {
+		  var hex = Number(rgb).toString(16);
+		  if (hex.length < 2) {
+		       hex = "0" + hex;
+		  }
+		  return hex;
+		}
+
+		const canvas = document.getElementById('canvas');
+		const ctx = canvas.getContext('2d');
+		var i = 0;
+		var coordX = new Array(2);
+		var coordY = new Array(2);
+		var dataX = new Array();
+		var dataY = new Array();
+		var dataW = new Array();
+		var dataH = new Array();
+		var names = new Array();
+		var cont = 0;
+		canvas.addEventListener('click', (e) => {
+
+		  const mousePos = {
+		    x: e.clientX - canvas.offsetLeft,
+		    y: e.clientY - canvas.offsetTop
+		  };
+
+		if(i<2){
+		  	coordX[i]=mousePos.x;
+		  	coordY[i]=mousePos.y;
+		  }
+		  		i++;
+
+		  if(i==2){
+
+		  var r = Math.floor((Math.random() * 255) + 1);
+		  var g = Math.floor((Math.random() * 255) + 1);
+		  var b = Math.floor((Math.random() * 255) + 1);
+		  var r = rgbToHex(r);
+		  var g = rgbToHex(g);
+		  var b = rgbToHex(b);
+		  ctx.beginPath();
+		  ctx.fillStyle = "#"+r+g+b;
+		  ctx.fillRect(coordX[0],coordY[0],coordX[1]-coordX[0],coordY[1]-coordY[0]);
+		  ctx.fill();
+		  dataX[cont] = coordX[0];
+		  dataY[cont] = coordY[0];
+		  dataW[cont] = coordX[1]-coordX[0];
+		  dataH[cont] = coordY[1]-coordY[0];
+		  names[cont]= prompt("Por favor ingresa el nombre del lote", "");
+		  cont++;
+		  i=0;
+		  }
+		 });
+
+		function myFunction(){
+			var list = {
+				"datos":[]
+				};
+			for (var i = 0; i < dataX.length; i++) {
+
+				var key = names[i];
+			    list.datos.push({[key]:{
+			    "x": dataX[i],
+			    "y": dataY[i],
+			    "w": dataW[i],
+			    "h":dataH[i]}
+			  	});
+			};
+			var json = JSON.stringify(list); // aqui tienes la lista de objetos en Json
+            alert(json);
+        }
+		</script>
+{% endblock content %}
