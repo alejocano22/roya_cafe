@@ -12,7 +12,7 @@ def fincas_listar(request):
     """
     if request.user.is_staff:
         return redirect('admin:index')
-    actualizar_info_usuario(request.user.username)
+    actualizar_info_usuario.delay(request.user.username)
     fincas = Finca.objects.filter(usuario=request.user.id)
     contexto = {"fincas": fincas}
     return render(request, "usuario/fincas.html", contexto)
