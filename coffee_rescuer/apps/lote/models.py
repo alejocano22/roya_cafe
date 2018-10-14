@@ -45,6 +45,12 @@ class Lote(models.Model):
         @param end: Fecha final del rango en datetime
         @return: Retorna una lista con diccionarios que contienen información de cada detalle de lote
         """
+        plataforma = sys.platform
+        if plataforma != 'win32':
+            locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
+        else:
+            locale.setlocale(locale.LC_TIME, 'es-CO')
+
         detalle_lotes = DetalleLote.objects.filter(lote=self.id).order_by('id')
         registros = []
         for detalle_lote in detalle_lotes:
@@ -64,6 +70,7 @@ class Lote(models.Model):
                 detalle_sensores['time'] = detalle_sensores['time'].strftime("%d de %B de %Y  a las %H:%M:%S")
                 registros.append(detalle_sensores)
 
+        locale.setlocale(locale.LC_TIME, '')
         return registros
 
     def obtener_detalle_lote_actual(self):
