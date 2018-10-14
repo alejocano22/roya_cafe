@@ -56,7 +56,7 @@ def registrar_detalle_lote(fecha_inicial_busqueda, datos_json, path_info_sensore
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     # Calls actualizar_detalles_lote('hello') every 10 seconds.
-    sender.add_periodic_task(10.0, actualizar_detalles_lote.s(), name='add every 10')
+   # sender.add_periodic_task(10.0, actualizar_detalles_lote.s(), name='add every 10')
 
     # Executes every day at 1 a.m.
     sender.add_periodic_task(

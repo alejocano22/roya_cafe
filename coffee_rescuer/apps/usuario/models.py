@@ -22,7 +22,7 @@ class PerfilUsuario(models.Model):
 def actualizar_info_usuario(username):
     """
     Este método permite actualizar los datos que pertenecen a un usuario
-    :param username: El id del usuario al que se le actualizaran los datos
+    :param username: El username del usuario al que se le actualizaran los datos
     """
     for (path, ficheros, archivos) in os.walk(os.path.join(BASE_DIR, "data", username)):
         fecha_inicial_analisis = datetime.today() - timedelta(days=365)
