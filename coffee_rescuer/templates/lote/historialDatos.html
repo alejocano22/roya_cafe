@@ -70,13 +70,55 @@
    </head>
    
    <body>
-      <button id="button-a">Create Excel</button>
-      <div id = "container" style = "width: 550px; height: 400px; margin: 0 auto">
+      <button class="boton_2" id="button-a">Create Excel</button>
+	   <button class="boton_1" id="button-b">Mostrar gráficas</button>
+	  <button class="boton_1" id="button-c">Mostrar Etapa</button>
+	  <button class="boton_1" id="button-d">Mostrar Temperatura</button>
+	  <button class="boton_1" id="button-e">Mostrar Humedad</button>
+	  <button class="boton_1" id="button-f">Mostrar PH</button>
+	  <button class="boton_1" id="button-g">Mostrar Luminosidad</button>
+      <div id = "container1" style = "width: 1100px; height: 400px; margin: 0 auto">
       </div>
 
+<style type="text/css">
+  .boton_1 {
+	  border: none;
+background: #088A08;
+color: #f2f2f2;
+padding: 10px;
+font-size: 18px;
+border-radius: 5px;
+position: relative;
+box-sizing: border-box;
+transition: all 500ms ease;
+  }
+
+  .boton_2 {
+	  border: none;
+
+background: #f2f2f2;
+color: #088A08;
+padding: 10px;
+font-size: 18px;
+border-radius: 5px;
+position: relative;
+box-sizing: border-box;
+transition: all 500ms ease;
+  }
+
+    button:hover {
+background: rgba(0,0,0,0);
+color: #088A08;
+box-shadow: inset 0 0 0 3px #088A08;
+  }
+</style>
+
+
+
+
       <script language = "JavaScript">
-      
-         function drawChart() {
+var boton = document.getElementById("button-b");
+         boton.onclick = function drawChart() {
             // Define the chart to be drawn.
 
             var historial = "{{historial |jsonify }}".replace(/(&quot\;)/g,"\"");
@@ -87,6 +129,8 @@
             data.addColumn('string', 'Día');
             data.addColumn('number', 'Temperatura');
           	data.addColumn('number','Humedad');
+          	data.addColumn('number','Ph');
+          	data.addColumn('number','iluminance');
           	data.addColumn('number','Etapa roya');
 
 
@@ -95,7 +139,9 @@
             data.setCell(i, 0, historial[i]["time"].toString());
             data.setCell(i, 1, historial[i]["env_temperature"].toString());
             data.setCell(i, 2, historial[i]["env_humidity"].toString());
-            data.setCell(i, 3, historial[i]["etapa"].toString());
+            data.setCell(i, 3, historial[i]["ph"].toString());
+            data.setCell(i, 4, historial[i]["iluminance"].toString());
+            data.setCell(i, 5, historial[i]["etapa"].toString());
             }
 
             // Set chart options
@@ -105,18 +151,226 @@
                },
                vAxis: {
                   title: 'Datos Generales'
-               },   
+               },
                'width':1000,
                'height':400,
                curveType: 'function'
             };
 
             // Instantiate and draw the chart.
-            var chart = new google.visualization.LineChart(document.getElementById('container'));
+            var chart = new google.visualization.LineChart(document.getElementById('container1'));
             chart.draw(data, options);
          }
          google.charts.setOnLoadCallback(drawChart);
       </script>
+
+	  <script language = "JavaScript">
+var boton = document.getElementById("button-c");
+         boton.onclick =   function drawChart() {
+            // Define the chart to be drawn.
+
+            var historial = "{{historial |jsonify }}".replace(/(&quot\;)/g,"\"");
+            historial = JSON.parse(historial);
+            var date = historial[0]["time"].toString();
+            var n =  Object.keys(historial).length;
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Día');
+          	data.addColumn('number','Etapa roya');
+
+
+            data.addRows(n);
+            for (var i = 0; i<n;i++){
+            data.setCell(i, 0, historial[i]["time"].toString());
+            data.setCell(i, 1, historial[i]["etapa"].toString());
+            }
+
+            // Set chart options
+            var options = {'title' : 'Etapa vs Tiempo',
+               hAxis: {
+                  title: 'Fecha de Toma'
+               },
+               vAxis: {
+                  title: 'Etapa del hongo'
+               },
+               'width':1000,
+               'height':400,
+               curveType: 'function'
+            };
+
+            // Instantiate and draw the chart.
+            var chart = new google.visualization.LineChart(document.getElementById('container1'));
+            chart.draw(data, options);
+         }
+         google.charts.setOnLoadCallback(drawChart);
+      </script>
+
+	  <script language = "JavaScript">
+var boton = document.getElementById("button-d");
+         boton.onclick = function drawChart() {
+            // Define the chart to be drawn.
+
+            var historial = "{{historial |jsonify }}".replace(/(&quot\;)/g,"\"");
+            historial = JSON.parse(historial);
+            var date = historial[0]["time"].toString();
+            var n =  Object.keys(historial).length;
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Día');
+            data.addColumn('number', 'Temperatura');
+
+
+            data.addRows(n);
+            for (var i = 0; i<n;i++){
+            data.setCell(i, 0, historial[i]["time"].toString());
+            data.setCell(i, 1, historial[i]["env_temperature"].toString());
+
+            }
+
+            // Set chart options
+            var options = {'title' : 'Temperatura Vs tiempo',
+               hAxis: {
+                  title: 'Fecha de Toma'
+               },
+               vAxis: {
+                  title: 'Temperatura'
+               },
+               'width':1000,
+               'height':400,
+               curveType: 'function'
+            };
+
+            // Instantiate and draw the chart.
+            var chart = new google.visualization.LineChart(document.getElementById('container1'));
+            chart.draw(data, options);
+         }
+         google.charts.setOnLoadCallback(drawChart);
+      </script>
+	<script language = "JavaScript">
+var boton = document.getElementById("button-e");
+         boton.onclick = function drawChart() {
+            // Define the chart to be drawn.
+
+            var historial = "{{historial |jsonify }}".replace(/(&quot\;)/g,"\"");
+            historial = JSON.parse(historial);
+            var date = historial[0]["time"].toString();
+            var n =  Object.keys(historial).length;
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Día');
+          	data.addColumn('number','Humedad');
+
+
+            data.addRows(n);
+            for (var i = 0; i<n;i++){
+            data.setCell(i, 0, historial[i]["time"].toString());
+            data.setCell(i, 1, historial[i]["env_humidity"].toString());
+
+            }
+
+            // Set chart options
+            var options = {'title' : 'Humedad vs Tiempo',
+               hAxis: {
+                  title: 'Fecha de Toma'
+               },
+               vAxis: {
+                  title: 'Humedad'
+               },
+               'width':1000,
+               'height':400,
+               curveType: 'function'
+            };
+
+            // Instantiate and draw the chart.
+            var chart = new google.visualization.LineChart(document.getElementById('container1'));
+            chart.draw(data, options);
+         }
+         google.charts.setOnLoadCallback(drawChart);
+      </script>
+
+
+	<script language = "JavaScript">
+var boton = document.getElementById("button-f");
+         boton.onclick = function drawChart() {
+            // Define the chart to be drawn.
+
+            var historial = "{{historial |jsonify }}".replace(/(&quot\;)/g,"\"");
+            historial = JSON.parse(historial);
+            var date = historial[0]["time"].toString();
+            var n =  Object.keys(historial).length;
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Día');
+          	data.addColumn('number','ph');
+
+
+            data.addRows(n);
+            for (var i = 0; i<n;i++){
+            data.setCell(i, 0, historial[i]["time"].toString());
+            data.setCell(i, 1, historial[i]["ph"].toString());
+
+            }
+
+            // Set chart options
+            var options = {'title' : 'Ph vs Tiempo',
+               hAxis: {
+                  title: 'Fecha de Toma'
+               },
+               vAxis: {
+                  title: 'Ph'
+               },
+               'width':1000,
+               'height':400,
+               curveType: 'function'
+            };
+
+            // Instantiate and draw the chart.
+            var chart = new google.visualization.LineChart(document.getElementById('container1'));
+            chart.draw(data, options);
+         }
+         google.charts.setOnLoadCallback(drawChart);
+      </script>
+
+
+	  <script language = "JavaScript">
+var boton = document.getElementById("button-g");
+         boton.onclick = function drawChart() {
+            // Define the chart to be drawn.
+
+            var historial = "{{historial |jsonify }}".replace(/(&quot\;)/g,"\"");
+            historial = JSON.parse(historial);
+            var date = historial[0]["time"].toString();
+            var n =  Object.keys(historial).length;
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Día');
+          	data.addColumn('number','iluminance');
+
+
+            data.addRows(n);
+            for (var i = 0; i<n;i++){
+            data.setCell(i, 0, historial[i]["time"].toString());
+            data.setCell(i, 1, historial[i]["iluminance"].toString());
+
+            }
+
+            // Set chart options
+            var options = {'title' : 'Luminosidad vs Tiempo',
+               hAxis: {
+                  title: 'Fecha de Toma'
+               },
+               vAxis: {
+                  title: 'Luminosidad'
+               },
+               'width':1000,
+               'height':400,
+               curveType: 'function'
+            };
+
+            // Instantiate and draw the chart.
+            var chart = new google.visualization.LineChart(document.getElementById('container1'));
+            chart.draw(data, options);
+         }
+         google.charts.setOnLoadCallback(drawChart);
+      </script>
+
+
+
   	<script>
 
         var wb = XLSX.utils.table_to_book(document.getElementById('mytable'), {sheet:"Sheet JS"});
@@ -131,6 +385,14 @@
         saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), 'HistorialDatos.csv');
         });
 </script>
+
+
+   <script>
+
+
+        $("#button-b").click(drawChart());
+</script>
    </body>
 </html>
+
 {% endblock content %}
