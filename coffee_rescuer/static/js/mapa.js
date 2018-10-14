@@ -12,8 +12,6 @@ class Informacion{
 
 
 function pintarMapa() {
-    var img = document.getElementById("scream");
-    canva_mapa.ctx.drawImage(img, 0, 0,1000,500);
     for (var i = 0; i < Object.keys(informacion.coordenadas).length; i++) {
         var pk = informacion.lotes[i]["pk"];
         canva_mapa.ctx.fillStyle = canva_mapa.colores[informacion.etapas[pk]];

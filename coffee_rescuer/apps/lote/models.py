@@ -19,7 +19,7 @@ ETAPA_ROYA = (
     (3, "Etapa 3"),
     (4, "Etapa 4"),
 )
-
+from django.db import models
 
 class Lote(models.Model):
     finca = models.ForeignKey(Finca, on_delete=models.CASCADE)
@@ -90,6 +90,14 @@ class Lote(models.Model):
 
     def __str__(self):
         return self.nombre if self.nombre else str(self.id)
+
+
+class Coordenada(models.Model):
+    lote = models.ForeignKey(Lote, on_delete=models.CASCADE)
+    x = models.PositiveIntegerField()
+    y = models.PositiveIntegerField()
+    width = models.PositiveIntegerField()
+    height = models.PositiveIntegerField()
 
 
 class DetalleLote(models.Model):

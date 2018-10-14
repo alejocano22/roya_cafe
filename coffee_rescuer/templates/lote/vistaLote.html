@@ -4,6 +4,8 @@
 <canvas id="canva_lote" width="150" height="150"></canvas>
 {% if lote.nombre %}
 <h1>{{lote.nombre}}</h1>
+{% else %}
+    <h1>Lote con id: {{ lote.id }}</h1>
 {% endif %}
 
 {% if messages %}

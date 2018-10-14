@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 
 from apps.finca.models import Finca
 from apps.lote.models import Lote
+from apps.finca.models import obtener_coordenadas
 import json
 from django.core import serializers
 from django.contrib.auth.decorators import login_required
@@ -25,7 +26,7 @@ def mapa_view(request, id_finca):
         return redirect('index')
 
     lotes = Lote.objects.filter(finca=id_finca)
-    coordenadas = finca.obtener_coordenadas(str(id_finca))
+    coordenadas = obtener_coordenadas(id_finca)
     etapas = {}
     for lote in lotes:
         detalle_lote_actual = lote.obtener_detalle_lote_actual()
