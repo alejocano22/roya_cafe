@@ -214,7 +214,7 @@ def post_save_lote(sender, instance, **kwargs):
     """
     Este método se encargará de modificar el promedio del estado de los lotes de una finca.
 
-    Este método se ejecuta cuando se agrega o hay un cambio de un lote y su objetivo es modificar el el promedio del
+    Este método se ejecuta cuando se agrega o hay un cambio de un lote y su objetivo es modificar el promedio del
     estado del hongo de la roya en los lotes de una finca.
     @param sender: Este parámetro especifica cuál modelo es el responsable porque se ejecute este método, en este caso
     Lote
