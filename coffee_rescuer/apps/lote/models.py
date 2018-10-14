@@ -11,14 +11,9 @@ import pytz
 import tzlocal
 import sys
 import locale
+from apps.lote.ETAPA_ROYA import ETAPA_ROYA
 # Create your models here.
-ETAPA_ROYA = (
-    (0, "Etapa 0"),
-    (1, "Etapa 1"),
-    (2, "Etapa 2"),
-    (3, "Etapa 3"),
-    (4, "Etapa 4"),
-)
+
 from django.db import models
 
 class Lote(models.Model):

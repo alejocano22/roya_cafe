@@ -17,7 +17,7 @@ class PerfilUsuario(models.Model):
     def __str__(self):
         return self.usuario.username
 
-@app.task
+#@app.task Descomentar, si se esta corriendo celery
 def actualizar_info_usuario(username):
     """
     Este método permite actualizar los datos que pertenecen a un usuario
