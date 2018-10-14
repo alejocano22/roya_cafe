@@ -79,6 +79,10 @@
       </div>
 	  <div id = "container4" style = "width: 550px; height: 400px; margin: 0 auto">
       </div>
+	   <div id = "container5" style = "width: 550px; height: 400px; margin: 0 auto">
+      </div>
+	   <div id = "container6" style = "width: 550px; height: 400px; margin: 0 auto">
+      </div>
 
 
       <script language = "JavaScript">
@@ -245,6 +249,92 @@
          }
          google.charts.setOnLoadCallback(drawChart);
       </script>
+
+
+	<script language = "JavaScript">
+
+         function drawChart() {
+            // Define the chart to be drawn.
+
+            var historial = "{{historial |jsonify }}".replace(/(&quot\;)/g,"\"");
+            historial = JSON.parse(historial);
+            var date = historial[0]["time"].toString();
+            var n =  Object.keys(historial).length;
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Día');
+          	data.addColumn('number','Ph');
+
+
+            data.addRows(n);
+            for (var i = 0; i<n;i++){
+            data.setCell(i, 0, historial[i]["time"].toString());
+            data.setCell(i, 1, historial[i]["ph"].toString());
+
+            }
+
+            // Set chart options
+            var options = {'title' : 'Ph vs Tiempo',
+               hAxis: {
+                  title: 'Fecha de Toma'
+               },
+               vAxis: {
+                  title: 'Ph'
+               },
+               'width':1000,
+               'height':400,
+               curveType: 'function'
+            };
+
+            // Instantiate and draw the chart.
+            var chart = new google.visualization.LineChart(document.getElementById('container5'));
+            chart.draw(data, options);
+         }
+         google.charts.setOnLoadCallback(drawChart);
+      </script>
+
+
+	  <script language = "JavaScript">
+
+         function drawChart() {
+            // Define the chart to be drawn.
+
+            var historial = "{{historial |jsonify }}".replace(/(&quot\;)/g,"\"");
+            historial = JSON.parse(historial);
+            var date = historial[0]["time"].toString();
+            var n =  Object.keys(historial).length;
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Día');
+          	data.addColumn('number','iluminance');
+
+
+            data.addRows(n);
+            for (var i = 0; i<n;i++){
+            data.setCell(i, 0, historial[i]["time"].toString());
+            data.setCell(i, 1, historial[i]["iluminance"].toString());
+
+            }
+
+            // Set chart options
+            var options = {'title' : 'Iluminance vs Tiempo',
+               hAxis: {
+                  title: 'Fecha de Toma'
+               },
+               vAxis: {
+                  title: 'Luminosidad'
+               },
+               'width':1000,
+               'height':400,
+               curveType: 'function'
+            };
+
+            // Instantiate and draw the chart.
+            var chart = new google.visualization.LineChart(document.getElementById('container5'));
+            chart.draw(data, options);
+         }
+         google.charts.setOnLoadCallback(drawChart);
+      </script>
+
+
 
   	<script>
 
