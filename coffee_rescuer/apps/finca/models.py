@@ -4,17 +4,9 @@ from django.contrib.auth.models import User
 from coffee_rescuer.settings import BASE_DIR
 from django.apps import apps
 import os
-
+from apps.lote.ETAPA_ROYA import ETAPA_ROYA
 
 # Create your models here.
-ETAPA_ROYA = (
-    (0, "Etapa 0"),
-    (1, "Etapa 1"),
-    (2, "Etapa 2"),
-    (3, "Etapa 3"),
-    (4, "Etapa 4"),
-)
-
 
 class Finca(models.Model):
 
