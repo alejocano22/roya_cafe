@@ -33,19 +33,19 @@
 <!-- <a href="#openModal">Lanzar el modal</a> -->
 
 
-<div id="openModal" class="modalDialog">
-    <div>
-        <a href="#close" title="Close" class="close">X</a>
-        <iframe src="http:/10.161.39.219:8000/lote/4/" frameborder="0"></iframe>
-    </div>
-</div>
+<!--<div id="openModal" class="modalDialog">-->
+    <!--<div>-->
+        <!--<a href="#close" title="Close" class="close">X</a>-->
+        <!--<iframe src="http:/10.161.39.219:8000/lote/4/" frameborder="0"></iframe>-->
+    <!--</div>-->
+<!--</div>-->
 
 <script>
     var jsonContextoCoordenadas = "{{coordenadas}}".replace(/(&quot\;)/g,"\"");
     var jsonContextoEtapas = "{{etapas}}".replace(/(&quot\;)/g,"\"");
     var jsonContextoLotes = "{{lotes}}".replace(/(&quot\;)/g,"\"");
     var prom = "{{finca.promedio_estado_lotes}}";
-
-<script src="{%static 'js/canvas.js'%}">
-<script src="{%static 'js/mapa.js'%}">
+</script>
+<script src="{%static 'js/canvas.js'%}"></script>
+<script src="{%static 'js/mapa.js'%}"></script>
 {% endblock content %}

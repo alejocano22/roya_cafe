@@ -1,6 +1,5 @@
-from django.db import models
 from apps.finca.models import Finca
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save,pre_save
 from django.dispatch import receiver
 from apps.lote.tasks import enviar_mail
 import json
@@ -12,16 +11,15 @@ import tzlocal
 import sys
 import locale
 from apps.lote.ETAPA_ROYA import ETAPA_ROYA
-# Create your models here.
-
 from django.db import models
+from modelo_de_clasificacion.modelo_keras import ModeloDiagnostico
 
 class Lote(models.Model):
     finca = models.ForeignKey(Finca, on_delete=models.CASCADE)
     nombre = models.CharField(max_length=50, null=True, blank=True)
     ultimo_estado_hongo = models.PositiveIntegerField(default=0, choices=ETAPA_ROYA)
 
-    def obtener_detalle_desde(self,start):
+    def obtener_detalle_desde(self, start):
         """
         Permite obtener todos los detalles de un lote desde una fecha especifica
         :param start: Fecha inicial del rango en datetime
@@ -152,11 +150,14 @@ class DetalleLote(models.Model):
         return str(self.lote.id) + "-" + self.obtener_fecha()
 
 
-# Esto seria cuando logremos integrar el modelo de clasificación
+
 # @receiver(pre_save, sender=DetalleLote)
-# def pre_save_Lote(sender,instance,**kwargs):
-# 	modelo = modelo_diagnostico()
-# 	instance.etapa_hongo = modelo.obtener_promedio_diagnostico(instance.fotos)
+# def pre_save_Lote(sender, instance, **kwargs):
+#     modelo = ModeloDiagnostico()
+#     try:
+#         instance.etapa_hongo = modelo.obtener_promedio_diagnostico(instance.fotos)
+#     except Exception as e:
+#         print(e)
 
 @receiver(post_save, sender=DetalleLote)
 def post_save_detalle_lote(sender, instance, **kwargs):
@@ -188,9 +189,9 @@ def post_save_detalle_lote(sender, instance, **kwargs):
         if not nombre_finca:
             nombre_finca = "con id: " + str(instance.lote.finca.id)
         if correo:
-            asunto ='Notificación automática de Coffee Rescuer'
-             #es_ES.UTF-8 linux
-             #es-CO windows
+            asunto = 'Notificación automática de Coffee Rescuer'
+            # es_ES.UTF-8 linux
+            # es-CO windows
             plataforma = sys.platform
             if plataforma != 'win32':
                 locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
@@ -206,7 +207,7 @@ def post_save_detalle_lote(sender, instance, **kwargs):
                 " formato UTC"
             )
 
-            enviar_mail.delay(asunto,mensaje,correo)
+            enviar_mail.delay(asunto, mensaje, correo)
         instance.lote.ultimo_estado_hongo = instance.etapa_hongo
         instance.lote.save()
 
@@ -235,4 +236,3 @@ def post_save_lote(sender, instance, **kwargs):
     promedio_estado_lotes = int(promedio_estado_lotes / len(lotes))
     instance.finca.promedio_estado_lotes = promedio_estado_lotes
     instance.finca.save()
-
