@@ -40,9 +40,9 @@
     {% endif %}
 <script>
     var jsonContextoFincas = "{{fincas | info_finca}}".replace(/(&quot\;)/g,"\"");
-</script>
-<script src="{%static 'js/canvas.js'%}"></script>
-<script src="{%static 'js/fincas.js'%}"></script>
+
+<script src="{%static 'js/canvas.js'%}">
+<script src="{%static 'js/fincas.js'%}">
 
 {% endblock content %}
 
