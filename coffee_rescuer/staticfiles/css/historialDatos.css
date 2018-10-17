@@ -1,0 +1,31 @@
+.boton_1 {
+    border: none;
+    background: #088A08;
+    color: #f2f2f2;
+    padding: 10px;
+    font-size: 18px;
+    border-radius: 5px;
+    position: relative;
+    box-sizing: border-box;
+    transition: all 500ms ease;
+}
+
+.boton_2 {
+    border: none;
+
+    background: #f2f2f2;
+    color: #088A08;
+    padding: 10px;
+    font-size: 18px;
+    border-radius: 5px;
+    position: relative;
+    box-sizing: border-box;
+    transition: all 500ms ease;
+}
+
+button:hover {
+    background: rgba(0,0,0,0);
+    color: #088A08;
+    box-shadow: inset 0 0 0 3px #088A08;
+}
+
