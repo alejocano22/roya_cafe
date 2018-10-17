@@ -51,6 +51,7 @@ tensorboard==1.11.0
 tensorflow==1.11.0
 termcolor==1.1.0
 terminado==0.8.1
+django-heroku==0.3.1
 testpath==0.3.1
 tf==1.0.0
 tornado==5.1.1

@@ -12,7 +12,7 @@ import sys
 import locale
 from apps.lote.ETAPA_ROYA import ETAPA_ROYA
 from django.db import models
-from modelo_de_clasificacion.modelo_keras import ModeloDiagnostico
+#from modelo_de_clasificacion.modelo_keras import ModeloDiagnostico
 
 class Lote(models.Model):
     finca = models.ForeignKey(Finca, on_delete=models.CASCADE)

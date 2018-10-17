@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import django_heroku
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -26,7 +27,7 @@ SECRET_KEY = 'zzi=ka3!)p7h&&xx(@rj#&zrew1h+kh=f&=5k3#(j-)x*5so_e'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['10.161.39.219','127.0.0.1']
+ALLOWED_HOSTS = ['10.161.39.219','127.0.0.1','10.161.33.151']
 
 
 # Application definition
@@ -131,3 +132,4 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 LOGIN_REDIRECT_URL = reverse_lazy('usuario:fincas_listar')
 LOGOUT_URL = reverse_lazy('login')
+django_heroku.settings(locals())
