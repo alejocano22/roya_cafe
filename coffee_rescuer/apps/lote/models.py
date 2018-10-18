@@ -12,7 +12,7 @@ import sys
 import locale
 from apps.lote.ETAPA_ROYA import ETAPA_ROYA
 from django.db import models
-#from modelo_de_clasificacion.modelo_keras import ModeloDiagnostico
+
 
 class Lote(models.Model):
     finca = models.ForeignKey(Finca, on_delete=models.CASCADE)
@@ -32,13 +32,16 @@ class Lote(models.Model):
             fecha_actual = fecha_actual.replace(tzinfo=None)
             if start <= fecha_actual:
                 detalle_sensores = detalle_lote.obtener_info_sensores()
-                detalle_sensores['timestamp'] = detalle_lote.obtener_fecha()
                 registros.append(detalle_sensores)
         return registros
 
     def obtener_detalle_rango(self, start, end):
         """
         Permite obtener todos los detalles de un lote entre dos fechas especificas.
+        Es importante entender que agrega a la informacion de cada detalle de lote dos fechas, el timestamp que es la
+        fecha en UTC y en la fecha que se calcule del lugar donde accede el usuario. Además la fecha se formatea usando
+        el siguiente formato: "%d de %B de %Y a las %H:%M:%S" usando los estándares de strftime.
+        También le agrega la etapa del hongo a cada una. Toda esta informacion se utiliza en la vista.
         @param start: Fecha inicial del rango en datetime
         @param end: Fecha final del rango en datetime
         @return: Retorna una lista con diccionarios que contienen información de cada detalle de lote
@@ -150,7 +153,7 @@ class DetalleLote(models.Model):
         return str(self.lote.id) + "-" + self.obtener_fecha()
 
 
-
+# Esto es el método que se debe descomentar para cuando se tenga el modelo listo con ese método implementado.
 # @receiver(pre_save, sender=DetalleLote)
 # def pre_save_Lote(sender, instance, **kwargs):
 #     modelo = ModeloDiagnostico()
@@ -162,12 +165,13 @@ class DetalleLote(models.Model):
 @receiver(post_save, sender=DetalleLote)
 def post_save_detalle_lote(sender, instance, **kwargs):
     """
-    Este método se encargará de enviar una notificación de correo al usuario.
+    Este método se encargará de enviar un correo al usuario y actualizar la última etapa del hongo en la info del lote.
 
-    Este método se ejecuta cuando se agrega o hay un cambio de un detalle de lote y su objetivo es enviar un correo
+    Este método se ejecuta cuando se agrega o hay un cambio de un detalle de un lote y su objetivo es enviar un correo
     al usuario cuando este detalle es el más actual de todos, su etapa es mayor o igual a dos, cuando la etapa del
     hongo ha cambiado respecto a la última registrada en el lote y, finalmente, sólo si el usuario tiene registrado
     un correo.
+    También, si un detalle es el más actual de todos se modifica el ultimo_estado_hongo en la informacion del lote
     @param sender: Este parámetro especifica cuál modelo es el responsable porque se ejecute este método, en este caso
     DetalleLote
     @param instance: El detalle de lote que se ha agregado o cambiado en la base de datos
@@ -181,14 +185,15 @@ def post_save_detalle_lote(sender, instance, **kwargs):
             es_detalle_actual = False
             break
 
-    if es_detalle_actual and instance.etapa_hongo >= 2 and instance.lote.ultimo_estado_hongo != instance.etapa_hongo:
-
+    if es_detalle_actual and instance.lote.ultimo_estado_hongo != instance.etapa_hongo:
+        instance.lote.ultimo_estado_hongo = instance.etapa_hongo
+        instance.lote.save()
         usuario = instance.lote.finca.usuario
         correo = usuario.email
         nombre_finca = instance.lote.finca.nombre
-        if not nombre_finca:
-            nombre_finca = "con id: " + str(instance.lote.finca.id)
-        if correo:
+        if correo and instance.etapa_hongo >= ETAPA_ROYA[2][0]: #Se debe enviar el correo solo en etapa 2 o mayor
+            if not nombre_finca:
+                nombre_finca = "con id: " + str(instance.lote.finca.id)
             asunto = 'Notificación automática de Coffee Rescuer'
             # es_ES.UTF-8 linux
             # es-CO windows
@@ -208,8 +213,8 @@ def post_save_detalle_lote(sender, instance, **kwargs):
             )
 
             enviar_mail.delay(asunto, mensaje, correo)
-        instance.lote.ultimo_estado_hongo = instance.etapa_hongo
-        instance.lote.save()
+
+
 
 
 @receiver(post_save, sender=Lote)
