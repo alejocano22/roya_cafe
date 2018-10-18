@@ -15,8 +15,6 @@ class Finca(models.Model):
 
     nombre = models.CharField(null=True, blank=True, max_length=50)
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
-    archivo_coordenadas = models.FilePathField(path=os.path.join(BASE_DIR, 'data'), match='coordenadas.json',
-                                               recursive=True, allow_files=True, unique=True)
     promedio_estado_lotes = models.PositiveIntegerField(default=0, choices=ETAPA_ROYA)
 
 

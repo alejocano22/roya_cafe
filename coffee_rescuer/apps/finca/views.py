@@ -54,8 +54,9 @@ def editor_view(request,id_finca):
         for coordenada in json_data["datos"]:
             id_lote = int(coordenada["id"])
             lote = Lote.objects.get(id=id_lote)
+            Coordenada.objects.filter(lote=id_lote).delete()
             Coordenada.objects.create(lote=lote, x=coordenada["x"], y=coordenada["y"], width=coordenada["w"],height=coordenada["h"])
-
+        return redirect("finca:mapa", id_finca)
     form = EditorForm()
     context = {"finca": id_finca,"form":form}
     return render(request, "finca/editorMapa.html", context)
