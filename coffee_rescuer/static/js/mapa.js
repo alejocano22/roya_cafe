@@ -66,7 +66,7 @@ function handleClick(e){
         var h = informacion.coordenadas[i].h;
         if(posx<=x+w&&posx>=x&&posy<=y+h&&posy>=y){
 
-            var win = window.open("http://127.0.0.1:8000/lote/"+i);
+            var win = window.open("http://sinroya.dis.eafit.edu.co/lote/"+i);
             win.focus();
 
         }

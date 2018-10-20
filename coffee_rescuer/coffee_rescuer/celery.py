@@ -10,7 +10,7 @@ app = Celery('proj') #Nota 1
 app.config_from_object('django.conf:settings', namespace='CELERY') #Nota 2
 app.autodiscover_tasks() #Nota 3
 app.conf.update(
-    BROKER_URL = 'redis://localhost:6379/0'
+    BROKER_URL = 'redis://192.168.10.115:3600/0'
 )
 
 
