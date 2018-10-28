@@ -2,6 +2,7 @@ absl-py==0.5.0
 amqp==2.3.2
 appnope==0.1.0
 astor==0.7.1
+Babel==2.6.0
 backcall==0.1.0
 billiard==3.5.0.4
 bleach==2.1.4

@@ -6,19 +6,16 @@ from django.contrib.auth.decorators import login_required
 from datetime import datetime
 import tzlocal
 import pytz
-import locale
 import json
-from babel.dates import format_datetime
+
+from apps.lote.formato_fecha import dar_formato_fecha
 # Create your views here.
 def organizar_historial(elemento):
     fecha_comparacion = elemento["timestamp"]
     elemento['timestamp'] = dar_formato_fecha(elemento['timestamp'])
     elemento['time'] = dar_formato_fecha(elemento['time'])
     return fecha_comparacion
-
-def dar_formato_fecha(fecha):
-    return format_datetime(fecha,format="dd 'de' MMMM 'de' yyyy 'a las' HH:mm:ss",locale='es')
-    
+   
 @login_required
 def vista_lote(request, id_lote):
     """

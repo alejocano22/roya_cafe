@@ -122,9 +122,10 @@ USE_L10N = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR,'static'),)  
 
-EMAIL_USE_TLS = True
+EMAIL_USE_SSL = True
+
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 25
+EMAIL_PORT = 465
 EMAIL_HOST_USER  = 'coffeerescuer@gmail.com'
 EMAIL_HOST_PASSWORD = 'cafe1235'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

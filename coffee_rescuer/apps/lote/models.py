@@ -9,6 +9,7 @@ from datetime import datetime
 import pytz
 import tzlocal
 from apps.lote.ETAPA_ROYA import ETAPA_ROYA
+from apps.lote.formato_fecha import dar_formato_fecha
 from django.db import models
 
 
@@ -185,16 +186,13 @@ def post_save_detalle_lote(sender, instance, **kwargs):
             if not nombre_finca:
                 nombre_finca = "con id: " + str(instance.lote.finca.id)
             asunto = 'Notificación automática de Coffee Rescuer'
-            # es_ES.UTF-8 linux
-            # es-CO windows
-            plataforma = sys.platform
             mensaje = '{}{}{}{}{}{}{}'.format(
                 'Usuario ',
                 usuario,
                 '\nLe informamos que el estado de desarrollo del hongo de la roya en uno de sus lotes de la finca ',
                 nombre_finca,
                 ' ha cambiado. Le recomendamos revisar la plataforma\n',
-                fecha.strftime("%d de %B de %Y a las %H:%M:%S"),
+                dar_formato_fecha(fecha),
                 " formato UTC"
             )
 
