@@ -15,7 +15,9 @@ def enviar_mail(asunto, contenido, destinatario):
     :param contenido: El mensaje del correo
     :param destinatario: La dirección del correo a dónde se enviará el mensaje.
     """
+    print("dizque enviado")
     send_mail(asunto, contenido, 'coffeerescuer@gmail.com', [destinatario], fail_silently=False)
+    print("dizque enviado")
 
 
 @app.task

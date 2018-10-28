@@ -8,8 +8,6 @@ from coffee_rescuer.settings import BASE_DIR
 from datetime import datetime
 import pytz
 import tzlocal
-import sys
-import locale
 from apps.lote.ETAPA_ROYA import ETAPA_ROYA
 from django.db import models
 
@@ -40,17 +38,12 @@ class Lote(models.Model):
         Permite obtener todos los detalles de un lote entre dos fechas especificas.
         Es importante entender que agrega a la informacion de cada detalle de lote dos fechas, el timestamp que es la
         fecha en UTC y en la fecha que se calcule del lugar donde accede el usuario. Además la fecha se formatea usando
-        el siguiente formato: "%d de %B de %Y a las %H:%M:%S" usando los estándares de strftime.
+        el siguiente formato: "%d de %B de %Y a las %H:%M:%S" usando los estándares de la libreria babel.
         También le agrega la etapa del hongo a cada una. Toda esta informacion se utiliza en la vista.
         @param start: Fecha inicial del rango en datetime
         @param end: Fecha final del rango en datetime
         @return: Retorna una lista con diccionarios que contienen información de cada detalle de lote
         """
-        plataforma = sys.platform
-        if plataforma != 'win32':
-            locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
-        else:
-            locale.setlocale(locale.LC_TIME, 'es-CO')
 
         detalle_lotes = DetalleLote.objects.filter(lote=self.id).order_by('id')
         registros = []
@@ -67,11 +60,8 @@ class Lote(models.Model):
                 detalle_sensores['time'] = detalle_sensores['timestamp'].astimezone(local_timezone)
                 detalle_sensores['time'] = detalle_sensores['time'].replace(tzinfo=None)
 
-                detalle_sensores['timestamp'] = detalle_sensores['timestamp'].strftime("%d de %B de %Y a las %H:%M:%S")
-                detalle_sensores['time'] = detalle_sensores['time'].strftime("%d de %B de %Y  a las %H:%M:%S")
                 registros.append(detalle_sensores)
 
-        locale.setlocale(locale.LC_TIME, '')
         return registros
 
     def obtener_detalle_lote_actual(self):
@@ -198,10 +188,6 @@ def post_save_detalle_lote(sender, instance, **kwargs):
             # es_ES.UTF-8 linux
             # es-CO windows
             plataforma = sys.platform
-            if plataforma != 'win32':
-                locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
-            else:
-                locale.setlocale(locale.LC_TIME, 'es-CO')
             mensaje = '{}{}{}{}{}{}{}'.format(
                 'Usuario ',
                 usuario,

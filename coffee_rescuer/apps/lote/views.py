@@ -8,10 +8,17 @@ import tzlocal
 import pytz
 import locale
 import json
-import sys
+from babel.dates import format_datetime
 # Create your views here.
+def organizar_historial(elemento):
+    fecha_comparacion = elemento["timestamp"]
+    elemento['timestamp'] = dar_formato_fecha(elemento['timestamp'])
+    elemento['time'] = dar_formato_fecha(elemento['time'])
+    return fecha_comparacion
 
-
+def dar_formato_fecha(fecha):
+    return format_datetime(fecha,format="dd 'de' MMMM 'de' yyyy 'a las' HH:mm:ss",locale='es')
+    
 @login_required
 def vista_lote(request, id_lote):
     """
@@ -50,16 +57,9 @@ def historial_lote(request, id_lote):
         return redirect('index')
 
     historial = []
-    #es_ES.UTF-8 linux
-    #es-CO windows
-    plataforma = sys.platform
-    if plataforma != 'win32':
-        locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
-    else:
-        locale.setlocale(locale.LC_TIME, 'es-CO')
+  
     if request.method == "POST":
         form = HistorialForm(request.POST)
-        locale.setlocale(locale.LC_TIME, '')
         if form.is_valid():
             start_date = form.cleaned_data['start_date']
             start_time = form.cleaned_data['start_time']
@@ -87,12 +87,13 @@ def historial_lote(request, id_lote):
             else:
                 historial = lote.obtener_detalle_rango(start_formato_python.astimezone(pytz.utc),
                                                        end_formato_python.astimezone(pytz.utc))
+                historial.sort(key=organizar_historial)
                 context = {"lote": lote, "historial": historial, "form": form}
                 return render(request, 'lote/historialDatos.html', context)
 
     else:
         form = HistorialForm()
-
+    
     detalle_lotes = DetalleLote.objects.filter(lote=lote).order_by('id')
     for detalle in detalle_lotes:
         detalle_sensores = detalle.obtener_info_sensores()
@@ -103,10 +104,8 @@ def historial_lote(request, id_lote):
 
         detalle_sensores['time'] = detalle_sensores['timestamp'].replace(tzinfo=pytz.utc).astimezone(local_timezone)
         detalle_sensores['time'] = detalle_sensores['time'].replace(tzinfo=None)
-        detalle_sensores['timestamp'] = detalle_sensores['timestamp'].strftime("%d de %B de %Y a las %H:%M:%S")
-        detalle_sensores['time'] = detalle_sensores['time'].strftime("%d de %B de %Y  a las %H:%M:%S")
         detalle_sensores['etapa'] = etapa
         historial.append(detalle_sensores)
-
+    historial.sort(key=organizar_historial)
     context = {"lote": lote, "historial": historial, "form": form}
     return render(request, 'lote/historialDatos.html', context)
