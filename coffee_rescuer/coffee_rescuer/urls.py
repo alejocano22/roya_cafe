@@ -16,15 +16,19 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 from django.contrib.auth.views import LoginView,logout_then_login
-from coffee_rescuer.views import mostrar_index
+from coffee_rescuer.views import mostrar_index,mostrar_nosotros,mostrar_galeria,mostrar_contactanos
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('finca/', include('apps.finca.urls', namespace="finca")),   # path('usuario/', include('apps.usuario.urls', namespace="usuario")),
+    path('finca/', include('apps.finca.urls', namespace="finca")),
     path('lote/', include('apps.lote.urls', namespace="lote")),
     path('usuario/',include('apps.usuario.urls', namespace="usuario")),
     path('accounts/login/',LoginView.as_view(template_name='usuario/login.html'),name="login"),
     path('logout/',logout_then_login,name="logout"),
-    path('', mostrar_index, name="index")
+    path('', mostrar_index, name="index"),
+    path('sobreNosotros/', mostrar_nosotros, name="sobre_nosotros"),
+    path('galeria/', mostrar_galeria, name="galeria"),
+    path('contactanos/', mostrar_contactanos, name="contactanos"),
+
 ]
 
 
