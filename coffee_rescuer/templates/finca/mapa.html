@@ -2,6 +2,7 @@
 {%load staticfiles%}
 {% block extrastatic %}
   <link rel="stylesheet" href="{%static 'css/modalStyle.css'%}">
+    <link rel="stylesheet" href="{%static 'css/canvas.css'%}">
 {% endblock extrastatic %}
 {% block content %}
 <canvas id="circle_finca" width="100" height="120"></canvas>
@@ -17,18 +18,24 @@
 
 <hr>
     <div class="row">
-    <div class="col-1.5">
-<h1 id="Map">Mapa</h1>
+    <div class="col-1.5 pl-4">
+        <h1 id="Map">Mapa</h1>
     </div>
      <div class="col-2 py-2">
 
     <a class="btn btn-success" href="{% url 'finca:editor' finca.id%}">Crear Mapa</a>
      </div>
-        </div>
+    </div>
     <br>
-<div align="center">
-    <canvas id="canva_mapa" style="border:1px solid #7B7B7B;" >
+<div class="container">
+        <div class="row">
+            <div class="col-12" >
+                <div style="">
+                <canvas id="canva_mapa" class="w-100 h-auto" style="position:relative; border:1px solid #7B7B7B;" >
     Your browser does not support the HTML5 canvas tag.</canvas>
+            </div>
+        </div>
+
 </div>
 <!-- <a href="#openModal">Lanzar el modal</a> -->
 

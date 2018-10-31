@@ -26,7 +26,7 @@ SECRET_KEY = 'zzi=ka3!)p7h&&xx(@rj#&zrew1h+kh=f&=5k3#(j-)x*5so_e'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','sinroya.dis.eafit.edu.co','10.161.33.151','192.168.10.115']
+ALLOWED_HOSTS = ['127.0.0.1','sinroya.dis.eafit.edu.co','10.161.33.151','192.168.10.115','192.168.0.3']
 
 # Application definition
 

@@ -1,7 +1,9 @@
 {%load staticfiles%}
 <!doctype html>
 <html lang="es">
-<head>
+
+
+    <head>
 
     <link rel="icon" href="https://preview.ibb.co/duMHYe/Imagen1.png">
   <!-- Required meta tags -->
@@ -14,7 +16,8 @@
   <link rel="stylesheet" href="{%static 'css/bootstrap.min.css'%}">
 
   <title>{% block title %} Coffee Rescuer{% endblock title %} </title>
-  
+  {% block header%}
+  {% endblock %}
 </head>
 
 <body>

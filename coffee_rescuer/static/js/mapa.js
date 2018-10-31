@@ -14,6 +14,7 @@ class Informacion{
 function pintarMapa() {
     for (var i = 0; i < Object.keys(informacion.coordenadas).length; i++) {
         var pk = informacion.lotes[i]["pk"];
+
         canva_mapa.ctx.fillStyle = canva_mapa.colores[informacion.etapas[pk]];
         canva_mapa.ctx.fillRect(informacion.coordenadas[pk].x, informacion.coordenadas[pk].y, informacion.coordenadas[pk].w, informacion.coordenadas[pk].h);
         canva_mapa.ctx.fillStyle = "#000000";
@@ -75,9 +76,10 @@ function handleClick(e){
 }
 
 let canva_mapa = new Canvas("canva_mapa");
-canva_mapa.c.width = 1000;
-canva_mapa.c.height = 500;
-
+ancho = document.getElementById('canva_mapa').offsetWidth;
+alto = document.getElementById('canva_mapa').offsetHeight;
+canva_mapa.c.width = ancho;
+canva_mapa.c.height = alto;
 let informacion =  new Informacion(jsonContextoCoordenadas,jsonContextoEtapas,jsonContextoLotes);
 pintarMapa();
 

@@ -1,8 +1,10 @@
 {% extends "base/base.html" %}
+{%load staticfiles%}
 {% block navbar %}
 {% endblock navbar %}
 
-{% block content %}	
+
+{% block content %}
 
 <form method="post">
 	{% csrf_token %}
