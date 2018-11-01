@@ -2,7 +2,7 @@
 {% load json_filters %}
 {% load staticfiles %}
 {% block extrastatic %}
-    <link rel="stylesheet" href="{%static 'css/historialDatos.css'%}">
+    <link rel="stylesheet" href="{% static 'css/historialDatos.css' %}">
 {% endblock %}
 {% block content %}
     <br>
@@ -16,14 +16,14 @@
         {% endfor %}
     {% endif %}
     {% if lote.nombre %}
-        <h1>Historial de datos del lote: {{lote.nombre}}</h1>
+        <h1>Historial de datos del lote: {{ lote.nombre }}</h1>
     {% else %}
-        <h1>Historial de datos de Lote con id:{{lote.id}}</h1>
+        <h1>Historial de datos de Lote con id:{{ lote.id }}</h1>
     {% endif %}
     <hr>
     <br>
-    <form method="post" >{% csrf_token %}
-        {{form.as_p}}
+    <form method="post">{% csrf_token %}
+        {{ form.as_p }}
         <button type="submit" class="boton_1" value="submit">Filtrar por fecha</button>
     </form>
     <br>
@@ -47,41 +47,55 @@
 
             {% for detalle in historial %}
                 <tr>
-                    <td>{{detalle.time}} </td>
-                    <td>{{detalle.timestamp}} UTC</td>
-                    <td>{{detalle.etapa}}</td>
-                    <td>{{detalle.env_temperature}}</td>
-                    <td>{{detalle.env_humidity}}</td>
-                    <td>{{detalle.soil_temperature}}</td>
-                    <td>{{detalle.soil_moisture}}</td>
-                    <td>{{detalle.ph}}</td>
-                    <td>{{detalle.illuminance}}</td>
+                    <td>{{ detalle.time }} </td>
+                    <td>{{ detalle.timestamp }} UTC</td>
+                    <td>{{ detalle.etapa }}</td>
+                    <td>{{ detalle.env_temperature }}</td>
+                    <td>{{ detalle.env_humidity }}</td>
+                    <td>{{ detalle.soil_temperature }}</td>
+                    <td>{{ detalle.soil_moisture }}</td>
+                    <td>{{ detalle.ph }}</td>
+                    <td>{{ detalle.illuminance }}</td>
                 </tr>
             {% endfor %}
         </table>
     </div>
+    <div class="container">
+        <div class="row">
+            <br>
 
-    <button class="boton_2 " id="button-a">Exportar a Excel</button>
-    <button class="boton_1" id="button-b">Mostrar gráficas</button>
-    <button class="boton_1" id="button-c">Mostrar Etapa</button>
-    <button class="boton_1" id="button-d">Mostrar Temperatura</button>
-    <button class="boton_1" id="button-e">Mostrar Humedad</button>
-    <button class="boton_1" id="button-f">Mostrar PH</button>
-    <button class="boton_1" id="button-g">Mostrar Luminosidad</button>
-    <div id = "container1" style = "width: 1100px; height: 400px; margin: 0 auto">
+            <button class="nav-link boton_1 mr-1" id="button-a">Exportar a Excel</button>
+            <button class="nav-link boton_2 mr-1" id="button-b">General</button>
+            <button class="nav-link boton_2 mr-1" id="button-c">Etapa</button>
+            <button class="nav-link boton_2 mr-1" id="button-d">Temperatura</button>
+            <button class="nav-link boton_2 mr-1" id="button-e">Humedad</button>
+            <button class="nav-link boton_2 mr-1" id="button-f">PH</button>
+            <button class="nav-link boton_2 mr-1" id="button-g">Luminosidad</button>
+
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div id="container1" class="w-100" style="min-height: 400px"></div>
+            </div>
+        </div>
     </div>
 
-    <script type = "text/javascript" src = "https://www.gstatic.com/charts/loader.js"></script>
+</div>
+    </div>
+    <script src='https://www.google.com/jsapi'></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script lang="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.10.3/xlsx.full.min.js"></script>
     <script lang="javascript" src="https://fastcdn.org/FileSaver.js/1.1.20151003/FileSaver.min.js"></script>
 
-    <script language = "JavaScript">
-     google.charts.load('current', {packages: ['corechart','line']});
-     var historial = "{{historial |jsonify }}".replace(/(&quot\;)/g,"\"");
-     historial = JSON.parse(historial);
+    <script language="JavaScript">
+        var historial = "{{historial |jsonify }}".replace(/(&quot\;)/g, "\"");
+        historial = JSON.parse(historial);
     </script>
     <script src="{% static 'js/chart.js' %}"></script>
     <script src="{% static 'js/historialDatos.js' %}"></script>
     <script src="{% static 'js/exportarHistorial.js' %}"></script>
+
 {% endblock content %}
+

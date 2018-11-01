@@ -1,8 +1,9 @@
 date = historial[0]["time"].toString();
 n =  Object.keys(historial).length;
-
-let chartGeneral = new Chart("Datos Generales","button-b","Gráfico de datos")
-chartGeneral.boton.onclick = function drawChart() {
+google.charts.load('current', {packages: ['corechart', 'line']});
+var funcionActual;
+let chartGeneral = new Chart("Datos Generales","button-b","Gráfico de datos");
+function drawChartGeneral() {
     var data = new google.visualization.DataTable();
 
     data.addColumn('string', 'Día');
@@ -23,9 +24,13 @@ chartGeneral.boton.onclick = function drawChart() {
     }
     var chart = new google.visualization.LineChart(document.getElementById('container1'));
     chart.draw(data, chartGeneral.options);
+    funcionActual = drawChartGeneral;
 }
+google.charts.setOnLoadCallback(drawChartGeneral);
+chartGeneral.boton.onclick = drawChartGeneral;
+
 let chartEtapa = new Chart("Etapa del hongo","button-c","Etapa vs Tiempo")
-chartEtapa.boton.onclick = function drawChart() {
+function drawChartEtapa() {
     var data = new google.visualization.DataTable();
 
     data.addColumn('string', 'Día');
@@ -38,10 +43,13 @@ chartEtapa.boton.onclick = function drawChart() {
     }
     var chart = new google.visualization.LineChart(document.getElementById('container1'));
     chart.draw(data, chartEtapa.options);
+    funcionActual = drawChartEtapa;
 }
+chartEtapa.boton.onclick = drawChartEtapa;
+
 
 let chartTemperatura= new Chart("Temperatura","button-d","Temperatura Vs tiempo")
-chartTemperatura.boton.onclick = function drawChart() {
+function drawChartTemperatura() {
     var data = new google.visualization.DataTable();
 
     data.addColumn('string', 'Día');
@@ -54,10 +62,13 @@ chartTemperatura.boton.onclick = function drawChart() {
     }
     var chart = new google.visualization.LineChart(document.getElementById('container1'));
     chart.draw(data, chartTemperatura.options);
+    funcionActual = drawChartTemperatura;
 }
+chartTemperatura.boton.onclick = drawChartTemperatura;
+
 
 let chartHumedad= new Chart("Humedad","button-e","Humedad vs Tiempo")
-chartHumedad.boton.onclick = function drawChart() {
+function drawChartHumedad() {
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Día');
     data.addColumn('number','Humedad');
@@ -70,10 +81,13 @@ chartHumedad.boton.onclick = function drawChart() {
     // Instantiate and draw the chart.
     var chart = new google.visualization.LineChart(document.getElementById('container1'));
     chart.draw(data, chartHumedad.options);
+    funcionActual = drawChartHumedad;
 }
+chartHumedad.boton.onclick = drawChartHumedad;
+
 
 let chartPh= new Chart("Ph","button-f","Ph vs Tiempo")
-chartPh.boton.onclick = function drawChart() {
+function drawChartPh() {
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Día');
     data.addColumn('number','ph');
@@ -86,10 +100,13 @@ chartPh.boton.onclick = function drawChart() {
 
     var chart = new google.visualization.LineChart(document.getElementById('container1'));
     chart.draw(data, chartPh.options);
+    funcionActual = drawChartPh;
 }
+chartPh.boton.onclick = drawChartPh;
+
 
 let chartLuminosidad= new Chart("Luminosidad","button-g","Luminosidad vs Tiempo")
-chartLuminosidad.boton.onclick = function drawChart() {
+function drawChartLuminosidad() {
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Día');
     data.addColumn('number','iluminance');
@@ -102,5 +119,11 @@ chartLuminosidad.boton.onclick = function drawChart() {
 
     var chart = new google.visualization.LineChart(document.getElementById('container1'));
     chart.draw(data, chartLuminosidad.options);
+    funcionActual = drawChartLuminosidad;
 }
+chartLuminosidad.boton.onclick = drawChartLuminosidad;
 
+
+$(window).resize(function(){
+  funcionActual();
+});

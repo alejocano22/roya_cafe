@@ -12,26 +12,39 @@ class Informacion{
 
 
 function pintarMapa() {
+
     for (var i = 0; i < Object.keys(informacion.coordenadas).length; i++) {
         var pk = informacion.lotes[i]["pk"];
+        var x = informacion.coordenadas[pk].x;
+        var w = informacion.coordenadas[pk].w;
+        var y = informacion.coordenadas[pk].y;
+        var h = informacion.coordenadas[pk].h;
+
 
         canva_mapa.ctx.fillStyle = canva_mapa.colores[informacion.etapas[pk]];
-        canva_mapa.ctx.fillRect(informacion.coordenadas[pk].x, informacion.coordenadas[pk].y, informacion.coordenadas[pk].w, informacion.coordenadas[pk].h);
+        canva_mapa.ctx.fillRect(x, y, w, h);
+         //Para hacerle un borde
         canva_mapa.ctx.fillStyle = "#000000";
-        canva_mapa.ctx.rect(informacion.coordenadas[pk].x, informacion.coordenadas[pk].y, informacion.coordenadas[pk].w, informacion.coordenadas[pk].h);
-        canva_mapa.ctx.rect(informacion.coordenadas[pk].x + 1, informacion.coordenadas[pk].y + 1, informacion.coordenadas[pk].w - 1, informacion.coordenadas[pk].h - 1);
-        canva_mapa.ctx.font = "20px Arial";
-        if (informacion.lotes[i]["fields"]["nombre"] != null) {
-            canva_mapa.ctx.fillText(informacion.lotes[i]["fields"]["nombre"], informacion.coordenadas[pk].x + 10, informacion.coordenadas[pk].y +50);
-        } else {
-            canva_mapa.ctx.fillText(pk, informacion.coordenadas[pk].x +10, informacion.coordenadas[pk].y + 50);
-        }
+        canva_mapa.ctx.rect( x,y, w, h);
 
-        canva_mapa.ctx.stroke();
+        canva_mapa.ctx.rect((x + 1),
+                            (y + 1),
+                            (w - 1),
+                            (h - 1));
+
+        canva_mapa.ctx.font = "20px Arial";
+
+        if (informacion.lotes[i]["fields"]["nombre"] != null) {
+            canva_mapa.ctx.fillText(informacion.lotes[i]["fields"]["nombre"], x + w/4 , y + 5 +h/2);
+        } else {
+            canva_mapa.ctx.fillText(pk, x + w/4 ,y + 5 + h/2    );
+            canva_mapa.ctx.stroke();
+        }
     }
 }
 
 function pintarCanvaFinca() {
+
     var X = canva_finca.c.width / 2;
     var Y = canva_finca.c.height / 2;
     var R = 40;
@@ -65,7 +78,7 @@ function handleClick(e){
         var y = informacion.coordenadas[i].y;
         var w = informacion.coordenadas[i].w;
         var h = informacion.coordenadas[i].h;
-        if(posx<=x+w&&posx>=x&&posy<=y+h&&posy>=y){
+        if(posx <= x+w && posx >= x && posy <= y+h && posy >=y){
 
             var win = window.open("http://sinroya.dis.eafit.edu.co/lote/"+i);
             win.focus();
@@ -76,10 +89,10 @@ function handleClick(e){
 }
 
 let canva_mapa = new Canvas("canva_mapa");
-ancho = document.getElementById('canva_mapa').offsetWidth;
-alto = document.getElementById('canva_mapa').offsetHeight;
-canva_mapa.c.width = ancho;
-canva_mapa.c.height = alto;
+ancho_actual = document.getElementById('canva_mapa').offsetWidth;
+alto_actual = document.getElementById('canva_mapa').offsetHeight;
+canva_mapa.c.width = 1000;
+canva_mapa.c.height = 500;
 let informacion =  new Informacion(jsonContextoCoordenadas,jsonContextoEtapas,jsonContextoLotes);
 pintarMapa();
 

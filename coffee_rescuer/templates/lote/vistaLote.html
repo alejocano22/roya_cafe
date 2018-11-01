@@ -1,31 +1,36 @@
 {% extends "base/base.html" %}
-{%load staticfiles%}a
+{% load staticfiles %}a
 {% block content %}
-<canvas id="canva_lote" width="150" height="150"></canvas>
-{% if lote.nombre %}
-<h1>{{lote.nombre}}</h1>
-{% else %}
-    <h1>Lote con id: {{ lote.id }}</h1>
-{% endif %}
 
-{% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <h4{% if message.tags %} class="{{ message.tags }}"{% endif %}>
-{{ message }} </h4>
-    {% endfor %}
-</ul>
-{% else %}
+    <div class="row">
+        <div class="col-2 mb-1">
+            <canvas id="canva_lote" width="100" height="120"></canvas>
+        </div>
+    </div>
+    {% if lote.nombre %}
+        <h1>Lote: {{ lote.nombre }}</h1>
+    {% else %}
+        <h1>Lote con id: {{ lote.id }}</h1>
+    {% endif %}
 
-<h1>Nivel de desarollo de la roya: {{etapa_hongo}}</h1>
-<h1>Temperatura: {{info_sensores.env_temperature}}</h1>
-<h1>Humedad: {{info_sensores.env_humidity}}</h1>
-<h1>Ph: {{info_sensores.ph}}</h1>
-<a href="historial_lote" class="btn btn-primary">Ver historial</a>
-{% endif %}
-<script> var etapa = '{{etapa_hongo}}';</script>
-<script src="{%static 'js/canvas.js'%}"></script>
-<script src="{%static 'js/vistalote.js' %}"></script>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <h4{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                    {{ message }} </h4>
+            {% endfor %}
+        </ul>
+    {% else %}
+
+        <h1>Nivel de desarollo de la roya: {{ etapa_hongo }}</h1>
+        <h1>Temperatura: {{ info_sensores.env_temperature }}</h1>
+        <h1>Humedad: {{ info_sensores.env_humidity }}</h1>
+        <h1>Ph: {{ info_sensores.ph }}</h1>
+        <a href="historial_lote" class="btn btn-primary">Ver historial</a>
+    {% endif %}
+    <script> var etapa = '{{etapa_hongo}}';</script>
+    <script src="{% static 'js/canvas.js' %}"></script>
+    <script src="{% static 'js/vistalote.js' %}"></script>
 {% endblock content %}
 
 
