@@ -19,7 +19,7 @@ function drawChartGeneral() {
         data.setCell(i, 1, historial[i]["env_temperature"].toString());
         data.setCell(i, 2, historial[i]["env_humidity"].toString());
         data.setCell(i, 3, historial[i]["ph"].toString());
-        data.setCell(i, 4, historial[i]["iluminance"].toString());
+        data.setCell(i, 4, historial[i]["illuminance"].toString());
         data.setCell(i, 5, historial[i]["etapa"].toString());
     }
     var chart = new google.visualization.LineChart(document.getElementById('container1'));
@@ -109,12 +109,12 @@ let chartLuminosidad= new Chart("Luminosidad","button-g","Luminosidad vs Tiempo"
 function drawChartLuminosidad() {
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Día');
-    data.addColumn('number','iluminance');
+    data.addColumn('number','illuminance');
 
     data.addRows(n);
     for (var i = 0; i<n;i++){
         data.setCell(i, 0, historial[i]["time"].toString());
-        data.setCell(i, 1, historial[i]["iluminance"].toString());
+        data.setCell(i, 1, historial[i]["illuminance"].toString());
     }
 
     var chart = new google.visualization.LineChart(document.getElementById('container1'));
