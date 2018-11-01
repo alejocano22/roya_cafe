@@ -17,13 +17,13 @@ class PerfilUsuario(models.Model):
     def __str__(self):
         return self.usuario.username
 
-#@app.task Descomentar, si se esta corriendo celery
+#@app.task descomentar si se va a usar celery, tambien descomentar en usuario views
 def actualizar_info_usuario(username):
     """
     Este método permite actualizar los datos que pertenecen a un usuario
     :param username: El username del usuario al que se le actualizaran los datos
     """
-    for (path, ficheros, archivos) in os.walk(os.path.join(BASE_DIR, "data", username)):
+    for (path, ficheros, archivos) in os.walk(os.path.join(BASE_DIR, "data-example", username)):
         fecha_inicial_analisis = datetime.today() - timedelta(days=365)
 
         if os.path.basename(path).startswith("finca"):
@@ -44,7 +44,6 @@ def actualizar_info_usuario(username):
                         contenido_archivo = archivo.read()
                         archivo.close()
                         datos_json = json.loads(contenido_archivo)
-
                         tasks.registrar_detalle_lote(fecha_inicial_busqueda=fecha_inicial_analisis,
                                                            datos_json=datos_json,
                                                            path_info_sensores=os.path.join(os.path.dirname(path_archivo),

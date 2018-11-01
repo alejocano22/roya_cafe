@@ -1,5 +1,5 @@
 from apps.finca.models import Finca
-from django.db.models.signals import post_save,pre_save
+from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from apps.lote.tasks import enviar_mail
 import json
@@ -16,7 +16,7 @@ from django.db import models
 class Lote(models.Model):
     finca = models.ForeignKey(Finca, on_delete=models.CASCADE)
     nombre = models.CharField(max_length=50, null=True, blank=True)
-    ultimo_estado_hongo = models.PositiveIntegerField(default=0, choices=ETAPA_ROYA)
+    ultimo_estado_hongo = models.PositiveIntegerField(default=0, choices=ETAPA_ROYA) #El estado del último detalle_lote
 
     def obtener_detalle_desde(self, start):
         """
@@ -39,7 +39,7 @@ class Lote(models.Model):
         Permite obtener todos los detalles de un lote entre dos fechas especificas.
         Es importante entender que agrega a la informacion de cada detalle de lote dos fechas, el timestamp que es la
         fecha en UTC y en la fecha que se calcule del lugar donde accede el usuario. Además la fecha se formatea usando
-        el siguiente formato: "%d de %B de %Y a las %H:%M:%S" usando los estándares de la libreria babel.
+        el siguiente formato: "dd 'de' MMMM 'de' yyyy 'a las' HH:mm:ss" usando los estándares de la libreria babel.
         También le agrega la etapa del hongo a cada una. Toda esta informacion se utiliza en la vista.
         @param start: Fecha inicial del rango en datetime
         @param end: Fecha final del rango en datetime
@@ -98,7 +98,7 @@ class DetalleLote(models.Model):
     etapa_hongo = models.PositiveIntegerField(default=0, choices=ETAPA_ROYA)
     lote = models.ForeignKey(Lote, on_delete=models.CASCADE)
     info_sensores = models.FilePathField(path=os.path.join(BASE_DIR, ''), match='.*.json$', recursive=True,
-                                         allow_files=True, unique=True)#poner data
+                                         allow_files=True, unique=True)  # poner data
     fotos = models.FilePathField(path=os.path.join(BASE_DIR, ''), match='lot.*', recursive=True, allow_folders=True,
                                  allow_files=False, unique=True)
 
@@ -177,12 +177,14 @@ def post_save_detalle_lote(sender, instance, **kwargs):
             break
 
     if es_detalle_actual and instance.lote.ultimo_estado_hongo != instance.etapa_hongo:
-        instance.lote.ultimo_estado_hongo = instance.etapa_hongo
+
+        instance.lote.ultimo_estado_hongo = instance.etapa_hongo  # Actualización último_estado_hongo del lote
+
         instance.lote.save()
         usuario = instance.lote.finca.usuario
         correo = usuario.email
         nombre_finca = instance.lote.finca.nombre
-        if correo and instance.etapa_hongo >= ETAPA_ROYA[2][0]: #Se debe enviar el correo solo en etapa 2 o mayor
+        if correo and instance.etapa_hongo >= ETAPA_ROYA[2][0]:  # Se debe enviar el correo solo en etapa 2 o mayor
             if not nombre_finca:
                 nombre_finca = "con id: " + str(instance.lote.finca.id)
             asunto = 'Notificación automática de Coffee Rescuer'
@@ -197,8 +199,6 @@ def post_save_detalle_lote(sender, instance, **kwargs):
             )
 
             enviar_mail.delay(asunto, mensaje, correo)
-
-
 
 
 @receiver(post_save, sender=Lote)
