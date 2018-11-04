@@ -124,7 +124,8 @@ def _hacer_diagnostico(imgs_path):
             results = sess.run(y, feed_dict={x1: imagenes_procesadas})
             return np.argmax(results, axis=1)
     except Exception as e :
-        raise Exception("Ha ocurrido un error, es posible que no haya fotos en este directorio: ", imgs_path)
+        raise Exception("Ha ocurrido un error, tal vez no esta el archivo.pb o es posible que no haya fotos en este "
+                        "directorio: ", imgs_path)
 
 @app.task
 def obtener_promedio_diagnostico(imgs_path):
