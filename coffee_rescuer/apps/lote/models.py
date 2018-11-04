@@ -11,7 +11,7 @@ import tzlocal
 from apps.lote.ETAPA_ROYA import ETAPA_ROYA
 from apps.lote.formato_fecha import dar_formato_fecha
 from django.db import models
-
+from modelo_de_clasificacion.modelo_keras import ModeloDiagnostico
 
 class Lote(models.Model):
     finca = models.ForeignKey(Finca, on_delete=models.CASCADE)
@@ -102,6 +102,7 @@ class DetalleLote(models.Model):
     fotos = models.FilePathField(path=os.path.join(BASE_DIR, ''), match='lot.*', recursive=True, allow_folders=True,
                                  allow_files=False, unique=True)
 
+
     def obtener_fecha_formato_python(self):
         """
         Este método obtiene la fecha del detalle de un lote que esta en utc y lo transforma a un objeto tipo datetime con tzinfo utc.
@@ -145,13 +146,14 @@ class DetalleLote(models.Model):
 
 
 # Esto es el método que se debe descomentar para cuando se tenga el modelo listo con ese método implementado.
-# @receiver(pre_save, sender=DetalleLote)
-# def pre_save_Lote(sender, instance, **kwargs):
-#     modelo = ModeloDiagnostico()
-#     try:
-#         instance.etapa_hongo = modelo.obtener_promedio_diagnostico(instance.fotos)
-#     except Exception as e:
-#         print(e)
+@receiver(pre_save, sender=DetalleLote)
+def pre_save_Lote(sender, instance, **kwargs):
+    modelo = ModeloDiagnostico()
+    try:
+        instance.etapa_hongo = modelo.obtener_promedio_diagnostico(imgs_path=instance.fotos)
+        print("holi")
+    except Exception as e:
+        print(e)
 
 @receiver(post_save, sender=DetalleLote)
 def post_save_detalle_lote(sender, instance, **kwargs):
