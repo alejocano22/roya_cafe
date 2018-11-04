@@ -129,5 +129,7 @@ EMAIL_HOST_USER  = 'coffeerescuer@gmail.com'
 EMAIL_HOST_PASSWORD = 'cafe1235'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
+
 LOGIN_REDIRECT_URL = reverse_lazy('usuario:fincas_listar')
 LOGOUT_URL = reverse_lazy('login')
+CELERY_RESULT_BACKEND = "redis"

@@ -5,18 +5,22 @@ from apps.lote.tasks import enviar_mail
 import json
 import os
 from coffee_rescuer.settings import BASE_DIR
+from coffee_rescuer.celery import app
 from datetime import datetime
 import pytz
 import tzlocal
 from apps.lote.ETAPA_ROYA import ETAPA_ROYA
 from apps.lote.formato_fecha import dar_formato_fecha
 from django.db import models
+from modelo_de_clasificacion.modelo_keras import obtener_promedio_diagnostico
+from celery.result import AsyncResult
 
 
 class Lote(models.Model):
     finca = models.ForeignKey(Finca, on_delete=models.CASCADE)
     nombre = models.CharField(max_length=50, null=True, blank=True)
-    ultimo_estado_hongo = models.PositiveIntegerField(default=0, choices=ETAPA_ROYA) #El estado del último detalle_lote
+    ultimo_estado_hongo = models.PositiveIntegerField(default=0,
+                                                      choices=ETAPA_ROYA)  # El estado del último detalle_lote
 
     def obtener_detalle_desde(self, start):
         """
@@ -95,6 +99,11 @@ class Coordenada(models.Model):
 
 
 class DetalleLote(models.Model):
+    """
+    Debido a que un mismo lote puede tener distintas fotos, informacion de sensores, y etapas del hongo en el tiempo
+    el objetivo de esta clase es contener toda esta informacion de un mismo lote en cierta fecha definida en el
+    timestamp de info_sensores
+    """
     etapa_hongo = models.PositiveIntegerField(default=0, choices=ETAPA_ROYA)
     lote = models.ForeignKey(Lote, on_delete=models.CASCADE)
     info_sensores = models.FilePathField(path=os.path.join(BASE_DIR, ''), match='.*.json$', recursive=True,
@@ -144,29 +153,68 @@ class DetalleLote(models.Model):
         return str(self.lote.id) + "-" + self.obtener_fecha()
 
 
-# Esto es el método que se debe descomentar para cuando se tenga el modelo listo con ese método implementado.
-# @receiver(pre_save, sender=DetalleLote)
-# def pre_save_Lote(sender, instance, **kwargs):
-#     modelo = ModeloDiagnostico()
-#     try:
-#         instance.etapa_hongo = modelo.obtener_promedio_diagnostico(instance.fotos)
-#     except Exception as e:
-#         print(e)
+@app.task
+def actualizar_etapa_detalle_lote(id_detalle_lote):
+    """
+    Se encarga de usar el modelo de diagnostico para actualizar la etapa del hongo de la roya de un detalle_lote.
+    Si el ultimo_estado_hongo de un lote es distinto a la etapa diagnosticada aqui se actualizará y
+    tambien se enviará un correo si la etapa diagnosticada aqui es mayor a 2 o mayor y el usuario tiene correo
+    :param id_detalle_lote: detalle_lote a actualizar
+    """
+    try:
+        detalle_lote = DetalleLote.objects.get(id=id_detalle_lote)
+        result_task = obtener_promedio_diagnostico.delay(imgs_path=detalle_lote.fotos)
+        etapa_hongo = int(result_task.get(disable_sync_subtasks=False))
+        DetalleLote.objects.filter(id=id_detalle_lote).update(etapa_hongo=etapa_hongo)
+
+        usuario = detalle_lote.lote.finca.usuario
+        correo = usuario.email
+        nombre_finca = detalle_lote.lote.finca.nombre
+
+        if detalle_lote.lote.ultimo_estado_hongo != etapa_hongo:
+            detalle_lote.lote.ultimo_estado_hongo = etapa_hongo  # Actualización último_estado_hongo del lote
+            detalle_lote.lote.save()
+            if correo and etapa_hongo >= ETAPA_ROYA[2][0]:  # Se debe enviar el correo solo en etapa 2 o mayor
+                if not nombre_finca:
+                    nombre_finca = "con id: " + str(detalle_lote.lote.finca.id)
+                asunto = 'Notificación automática de Coffee Rescuer'
+                fecha = detalle_lote.obtener_fecha_formato_python()
+                mensaje = __construir_mensaje(nombre_finca, usuario, fecha)
+                enviar_mail.delay(asunto, mensaje, correo)
+    except Exception as e:
+        print("Ha ocurrido un error:", e)
+
+
+def __construir_mensaje(finca, usuario, fecha):
+    """
+    Se encarga de construir el mensaje de notificacion para un usuario
+    :param finca: La finca que requiere la atencion del usuario
+    :param usuario: El username del usuario
+    :param fecha: La fecha en la que se tomaron los datos
+    :return: un string con el mensaje construido
+    """
+    mensaje = '{}{}{}{}{}{}{}'.format(
+        'Usuario ',
+        usuario,
+        '\nLe informamos que el estado de desarrollo del hongo de la roya en uno de sus lotes de la finca ',
+        finca,
+        ' ha cambiado. Le recomendamos revisar la plataforma\n',
+        dar_formato_fecha(fecha),
+        " formato UTC"
+    )
+    return mensaje
+
 
 @receiver(post_save, sender=DetalleLote)
 def post_save_detalle_lote(sender, instance, **kwargs):
     """
-    Este método se encargará de enviar un correo al usuario y actualizar la última etapa del hongo en la info del lote.
-
-    Este método se ejecuta cuando se agrega o hay un cambio de un detalle de un lote y su objetivo es enviar un correo
-    al usuario cuando este detalle es el más actual de todos, su etapa es mayor o igual a dos, cuando la etapa del
-    hongo ha cambiado respecto a la última registrada en el lote y, finalmente, sólo si el usuario tiene registrado
-    un correo.
-    También, si un detalle es el más actual de todos se modifica el ultimo_estado_hongo en la informacion del lote
+    Se ejecuta cuando se agrega o hay un cambio de un detalle de un lote y su objetivo es actualizar su etapa del hongo
+    Sólo actualiza la etapa del hongo si este detalle es el último de todos.
     @param sender: Este parámetro especifica cuál modelo es el responsable porque se ejecute este método, en este caso
     DetalleLote
     @param instance: El detalle de lote que se ha agregado o cambiado en la base de datos
     """
+
     fecha = instance.obtener_fecha_formato_python()
     detalle_lotes = DetalleLote.objects.filter(lote=instance.lote).order_by('id')
     es_detalle_actual = True
@@ -176,29 +224,8 @@ def post_save_detalle_lote(sender, instance, **kwargs):
             es_detalle_actual = False
             break
 
-    if es_detalle_actual and instance.lote.ultimo_estado_hongo != instance.etapa_hongo:
-
-        instance.lote.ultimo_estado_hongo = instance.etapa_hongo  # Actualización último_estado_hongo del lote
-
-        instance.lote.save()
-        usuario = instance.lote.finca.usuario
-        correo = usuario.email
-        nombre_finca = instance.lote.finca.nombre
-        if correo and instance.etapa_hongo >= ETAPA_ROYA[2][0]:  # Se debe enviar el correo solo en etapa 2 o mayor
-            if not nombre_finca:
-                nombre_finca = "con id: " + str(instance.lote.finca.id)
-            asunto = 'Notificación automática de Coffee Rescuer'
-            mensaje = '{}{}{}{}{}{}{}'.format(
-                'Usuario ',
-                usuario,
-                '\nLe informamos que el estado de desarrollo del hongo de la roya en uno de sus lotes de la finca ',
-                nombre_finca,
-                ' ha cambiado. Le recomendamos revisar la plataforma\n',
-                dar_formato_fecha(fecha),
-                " formato UTC"
-            )
-
-            enviar_mail.delay(asunto, mensaje, correo)
+    if es_detalle_actual:
+        actualizar_etapa_detalle_lote.delay(instance.id)
 
 
 @receiver(post_save, sender=Lote)

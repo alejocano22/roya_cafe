@@ -1,0 +1,1 @@
+Directorio por defecto para guardar el modelo de keras en .h5
