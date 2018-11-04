@@ -5,18 +5,22 @@ from apps.lote.tasks import enviar_mail
 import json
 import os
 from coffee_rescuer.settings import BASE_DIR
+from coffee_rescuer.celery import app
 from datetime import datetime
 import pytz
 import tzlocal
 from apps.lote.ETAPA_ROYA import ETAPA_ROYA
 from apps.lote.formato_fecha import dar_formato_fecha
 from django.db import models
-from modelo_de_clasificacion.modelo_keras import ModeloDiagnostico
+from modelo_de_clasificacion.modelo_keras import obtener_promedio_diagnostico
+from celery.result import AsyncResult
+
 
 class Lote(models.Model):
     finca = models.ForeignKey(Finca, on_delete=models.CASCADE)
     nombre = models.CharField(max_length=50, null=True, blank=True)
-    ultimo_estado_hongo = models.PositiveIntegerField(default=0, choices=ETAPA_ROYA) #El estado del último detalle_lote
+    ultimo_estado_hongo = models.PositiveIntegerField(default=0,
+                                                      choices=ETAPA_ROYA)  # El estado del último detalle_lote
 
     def obtener_detalle_desde(self, start):
         """
@@ -95,13 +99,17 @@ class Coordenada(models.Model):
 
 
 class DetalleLote(models.Model):
+    """
+    Debido a que un mismo lote puede tener distintas fotos, informacion de sensores, y etapas del hongo en el tiempo
+    el objetivo de esta clase es contener toda esta informacion de un mismo lote en cierta fecha definida en el
+    timestamp de info_sensores
+    """
     etapa_hongo = models.PositiveIntegerField(default=0, choices=ETAPA_ROYA)
     lote = models.ForeignKey(Lote, on_delete=models.CASCADE)
     info_sensores = models.FilePathField(path=os.path.join(BASE_DIR, ''), match='.*.json$', recursive=True,
                                          allow_files=True, unique=True)  # poner data
     fotos = models.FilePathField(path=os.path.join(BASE_DIR, ''), match='lot.*', recursive=True, allow_folders=True,
                                  allow_files=False, unique=True)
-
 
     def obtener_fecha_formato_python(self):
         """
@@ -144,27 +152,34 @@ class DetalleLote(models.Model):
             return self.lote.nombre + "-" + self.obtener_fecha()
         return str(self.lote.id) + "-" + self.obtener_fecha()
 
-
-# Esto es el método que se debe descomentar para cuando se tenga el modelo listo con ese método implementado.
-@receiver(pre_save, sender=DetalleLote)
-def pre_save_Lote(sender, instance, **kwargs):
-    modelo = ModeloDiagnostico()
+@app.task
+def actualizar_etapa_detalle_lote(id_detalle_lote):
+    """
+    Se encarga de usar el modelo de diagnostico para actualizar la etapa del hongo de la roya de un detalle_lote.
+    :param id_detalle_lote: detalle_lote a actualizar
+    """
     try:
-        instance.etapa_hongo = modelo.obtener_promedio_diagnostico(imgs_path=instance.fotos)
-        print("holi")
+        detalle_lote = DetalleLote.objects.get(id=id_detalle_lote)
+        result_task = obtener_promedio_diagnostico.delay(imgs_path=detalle_lote.fotos)
+        etapa_hongo = int(result_task.get(disable_sync_subtasks=False))
+        DetalleLote.objects.filter(id=id_detalle_lote).update(etapa_hongo=etapa_hongo)
+
     except Exception as e:
-        print(e)
+        print("Ha ocurrido un error:", e)
+
 
 @receiver(post_save, sender=DetalleLote)
 def post_save_detalle_lote(sender, instance, **kwargs):
     """
-    Este método se encargará de enviar un correo al usuario y actualizar la última etapa del hongo en la info del lote.
+    Envia un correo al usuario, actualiza la última etapa del hongo del lote y llama a actualizar_etapa_detalle_lote .
 
     Este método se ejecuta cuando se agrega o hay un cambio de un detalle de un lote y su objetivo es enviar un correo
     al usuario cuando este detalle es el más actual de todos, su etapa es mayor o igual a dos, cuando la etapa del
     hongo ha cambiado respecto a la última registrada en el lote y, finalmente, sólo si el usuario tiene registrado
     un correo.
-    También, si un detalle es el más actual de todos se modifica el ultimo_estado_hongo en la informacion del lote
+    También, si un detalle es el más actual de todos se modifica el ultimo_estado_hongo en la informacion del lote.
+    Y finalmente, se llama al metodo actualizar_etapa_detalle_lote que se encarga de usar el modelo de diagnostico
+    para actualizar la etapa del hongo de la roya en ese lote en ese momento (un detalle_lote).
     @param sender: Este parámetro especifica cuál modelo es el responsable porque se ejecute este método, en este caso
     DetalleLote
     @param instance: El detalle de lote que se ha agregado o cambiado en la base de datos
@@ -201,6 +216,7 @@ def post_save_detalle_lote(sender, instance, **kwargs):
             )
 
             enviar_mail.delay(asunto, mensaje, correo)
+    actualizar_etapa_detalle_lote.delay(instance.id)
 
 
 @receiver(post_save, sender=Lote)
