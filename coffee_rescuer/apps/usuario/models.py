@@ -34,6 +34,8 @@ def actualizar_info_usuario(id_usuario):
         for lote in lotes_finca_actual:
             detalle_lote_actual = lote.obtener_detalle_lote_actual()
             fecha_inicial = detalle_lote_actual.obtener_fecha_formato_python()
+            if not fecha_inicial:
+                fecha_inicial = datetime(2016,1,1)
             new_lot_data = db.obtener_lot_data_usuario(id_usuario,fecha_inicial)
             for detalle_lote in new_lot_data:
                 path_fotos = detalle_lote["plant_1"]
