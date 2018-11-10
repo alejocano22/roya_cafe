@@ -39,7 +39,7 @@ def actualizar_info_usuario(id_usuario):
                 path_fotos = detalle_lote["plant_1"]
                 path_fotos = os.path.dirname(path_fotos)
                 path_sensores = os.path.join(path_fotos, os.path.basename(path_fotos) +".json")
-                tasks.registrar_detalle_lote(lote.id,path_sensores git,path_fotos)
+                tasks.registrar_detalle_lote(lote.id,path_sensores,path_fotos)
     db.cerrar_conexion()
 
 
