@@ -28,37 +28,18 @@ def actualizar_detalles_lote():
     for usuario in usuarios:
         actualizar_info_usuario(usuario.username)
 
-@app.task
-def detalle_ya_registrado(fecha_inicial_busqueda,timestamp_detalle_agregar,lote):
-    """
-    Se encarga de verificar si un detalle_lote ya esta registrado o no
-    :param fecha_inicial_busqueda:  La fecha inicial de los detalles de lotes a analizar para evitar analizar
-    toda la base de datos innecesariamente
-    :param timestamp_detalle_agregar: El timestamp del detalle_lote que se quiere verificar
-    :param lote: El lote del detalle_lote que se quiere verificar
-    :return: Verdadero si ya existe en la bd, falso de lo contrario
-    """
-    detalles_lote = lote.obtener_detalle_desde(fecha_inicial_busqueda)
-    for detalle_lote in detalles_lote:
-        if detalle_lote['timestamp'] == timestamp_detalle_agregar:
-            return True
-    return False
 
 @app.task
-def registrar_detalle_lote(fecha_inicial_busqueda, datos_json, path_info_sensores, path_fotos):
+def registrar_detalle_lote(id_lote, path_info_sensores, path_fotos):
     """
-    Este método que se envía a la pila de tareas de celery, busca agregar, si no esta, un nuevo detalle de lote.
-    :param fecha_inicial_busqueda: La fecha inicial de los detalles de lotes a analizar para evitar analizar
-    toda la base de datos innecesariamente
-    :param datos_json: El objeto json con la informacion de los sensores del detalle del lote, se recibe por aquí
-    para evitar procesar el archivo dos veces
+    Este método que se envía a la pila de tareas de celery, busca agregar, un nuevo detalle de lote.
+
+    :param id_lote: El id del lote al que le añadirá un nuevo detalle de lote
     :param path_info_sensores: La dirección del .json con la información de los sensores
     :param path_fotos: La direccion del fichero dónde se localizan las fotos del detalle de lote
     """
-    lote = models.Lote.objects.get(id=int(datos_json["lot_number"]))
-    if not detalle_ya_registrado(fecha_inicial_busqueda, datos_json["timestamp"],lote):
-        lote = models.Lote.objects.get(id=int(datos_json["lot_number"]))
-        models.DetalleLote.objects.create(lote=lote, info_sensores=path_info_sensores,
+    lote = models.Lote.objects.get(id=id_lote)
+    models.DetalleLote.objects.create(lote=lote, info_sensores=path_info_sensores,
                                         fotos=path_fotos)
 
 

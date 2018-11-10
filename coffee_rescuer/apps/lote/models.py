@@ -13,7 +13,7 @@ from apps.lote.ETAPA_ROYA import ETAPA_ROYA
 from apps.lote.formato_fecha import dar_formato_fecha
 from django.db import models
 from modelo_de_clasificacion.modelo_keras import obtener_promedio_diagnostico
-from celery.result import AsyncResult
+
 
 
 class Lote(models.Model):
