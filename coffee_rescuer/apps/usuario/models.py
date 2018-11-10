@@ -4,8 +4,8 @@ from datetime import timedelta
 from django.db import models
 from django.contrib.auth.models import User
 from coffee_rescuer.database_utilitys import Database
-from apps.lote.models import Lote
-from apps.finca.models import Finca
+from apps.lote import models as models_lote
+from apps.finca import models as models_finca
 from coffee_rescuer.settings import BASE_DIR
 import os
 import json
@@ -27,10 +27,10 @@ def actualizar_info_usuario(id_usuario):
     :param id_usuario: El id del usuario al que se le actualizaran los datos
     """
     db = Database()
-    fincas = Finca.objects.filter(usuario=id_usuario)
+    fincas = models_finca.Finca.objects.filter(usuario=id_usuario)
     lotes_usuario = []
     for finca in fincas:
-        lotes_finca_actual = Lote.objects.filter(finca=finca.id)
+        lotes_finca_actual = models_lote.Lote.objects.filter(finca=finca.id)
         for lote in lotes_finca_actual:
             detalle_lote_actual = lote.obtener_detalle_lote_actual()
             fecha_inicial = detalle_lote_actual.obtener_fecha_formato_python()
