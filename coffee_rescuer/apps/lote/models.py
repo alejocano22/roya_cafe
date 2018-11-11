@@ -106,9 +106,9 @@ class DetalleLote(models.Model):
     """
     etapa_hongo = models.PositiveIntegerField(default=0, choices=ETAPA_ROYA)
     lote = models.ForeignKey(Lote, on_delete=models.CASCADE)
-    info_sensores = models.FilePathField(path=os.path.join(BASE_DIR, ''), match='.*.json$', recursive=True,
+    info_sensores = models.FilePathField(path=os.path.join(BASE_DIR, 'data'), match='.*.json$', recursive=True,
                                          allow_files=True, unique=True)  # poner data
-    fotos = models.FilePathField(path=os.path.join(BASE_DIR, ''), match='lot.*', recursive=True, allow_folders=True,
+    fotos = models.FilePathField(path=os.path.join(BASE_DIR, 'data'), match='lot.*', recursive=True, allow_folders=True,
                                  allow_files=False, unique=True)
 
     def obtener_fecha_formato_python(self):

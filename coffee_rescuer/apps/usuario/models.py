@@ -27,21 +27,31 @@ def actualizar_info_usuario(id_usuario):
     :param id_usuario: El id del usuario al que se le actualizaran los datos
     """
     db = Database()
-    fincas = models_finca.Finca.objects.filter(usuario=id_usuario)
+    usuario = User.objects.get(id=id_usuario)
+    fincas = models_finca.Finca.objects.filter(usuario=usuario)
+    print("usuario ",usuario)
+    print("fincas ", fincas)
     lotes_usuario = []
     for finca in fincas:
         lotes_finca_actual = models_lote.Lote.objects.filter(finca=finca.id)
+        
         for lote in lotes_finca_actual:
             detalle_lote_actual = lote.obtener_detalle_lote_actual()
-            fecha_inicial = detalle_lote_actual.obtener_fecha_formato_python()
-            if not fecha_inicial:
+            
+            if not detalle_lote_actual:
                 fecha_inicial = datetime(2016,1,1)
-            new_lot_data = db.obtener_lot_data_usuario(id_usuario,fecha_inicial)
+            else:
+                fecha_inicial = detalle_lote_actual.obtener_fecha_formato_python()
+            print(fecha_inicial)
+            new_lot_data = db.obtener_lot_data_usuario(int(usuario.username),fecha_inicial)
             for detalle_lote in new_lot_data:
-                path_fotos = detalle_lote["plant_1"]
-                path_fotos = os.path.dirname(path_fotos)
-                path_sensores = os.path.join(path_fotos, os.path.basename(path_fotos) +".json")
-                tasks.registrar_detalle_lote(lote.id,path_sensores,path_fotos)
+                try:
+                    path_fotos = detalle_lote["plant_1"]
+                    path_fotos = os.path.dirname(path_fotos)
+                    path_sensores = os.path.join(path_fotos, os.path.basename(path_fotos) +".json")
+                    tasks.registrar_detalle_lote(lote.id,path_sensores,path_fotos)
+                except:
+                    pass
     db.cerrar_conexion()
 
 
