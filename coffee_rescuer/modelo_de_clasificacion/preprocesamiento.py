@@ -33,11 +33,11 @@ class ProcesamientoDatos:
         if imgs_paths:
             imgs_procesadas = self._procesar_imagenes(imgs_paths)
         if espectral_imgs_paths:
-            espectral_imgs_procesadas = self._procesar_imagenes(espectral_imgs_paths,4000,3000)
+            espectral_imgs_procesadas = self._procesar_imagenes(espectral_imgs_paths, 4000, 3000)
 
-        #Aqui se deberia agregar el codigo correspondiente para preprocesar los datos de los sensores
+        # Aquí se deberia agregar el codigo correspondiente para preprocesar los datos de los sensores
 
-        return (datos_sensores,imgs_procesadas,espectral_imgs_procesadas)
+        return datos_sensores, imgs_procesadas, espectral_imgs_procesadas
 
     def _procesar_imagen(self, img_path, alto, ancho):
         """
@@ -63,7 +63,7 @@ class ProcesamientoDatos:
         :param img_paths: Una lista con las direcciones de las imagenes
         :return: Tensores apilados a nivel de filas. Ver np.vstack
         """
-        list_of_tensors = [self._procesar_imagen(img_path,alto,ancho) for img_path in tqdm(img_paths)]
+        list_of_tensors = [self._procesar_imagen(img_path, alto, ancho) for img_path in tqdm(img_paths)]
         return np.vstack(list_of_tensors)
 
     def _retornar_tupla_datos(self, dir_path):

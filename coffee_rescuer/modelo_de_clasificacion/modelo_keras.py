@@ -15,11 +15,11 @@ from tensorflow.python.saved_model import tag_constants
 from tensorflow.python.saved_model.signature_def_utils_impl import predict_signature_def
 
 
-def _construir_modelo(RUTA_MODELO_GUARDADO="modelo_de_clasificacion/modelo_en_h5/modelo_construido.h5", ancho=640,
+def _construir_modelo(ruta_modelo_guardado="modelo_de_clasificacion/modelo_en_h5/modelo_construido.h5", ancho=640,
                       alto=480, batch_size=3):
     """
     Este método se encarga de construir el modelo de machine learning y guardarlo en formato.h5
-    :param RUTA_MODELO_GUARDADO: Es el path completo del archivo que contendrá el modelo de machine learning y se creará
+    :param ruta_modelo_guardado: Es el path completo del archivo que contendrá el modelo de machine learning y se creará
     en este método.
     :param ancho: El ancho de las imágenes que serán pasadas por este modelo.
     :param alto: El alto de la imágenes que serán pasadas por este modelo.
@@ -72,23 +72,22 @@ def _construir_modelo(RUTA_MODELO_GUARDADO="modelo_de_clasificacion/modelo_en_h5
     print(score)
     print("%s: %.2f%%" % (model.metrics_names[1], score[1] * 100))
 
-    model.save(RUTA_MODELO_GUARDADO)  # lo guarda en .h5
+    model.save(ruta_modelo_guardado)  # lo guarda en .h5
     print("Modelo guardado correctamente")
 
 
-
-def _convertir_modelo_pb(RUTA_MODELO_GUARDADO="modelo_de_clasificacion/modelo_en_h5/modelo_construido.h5",
-                         RUTA_MODELO_GUARDADO_PB='modelo_de_clasificacion/modelo_en_pb'):
+def _convertir_modelo_pb(ruta_modelo_guardado="modelo_de_clasificacion/modelo_en_h5/modelo_construido.h5",
+                         ruta_modelo_guardado_pb='modelo_de_clasificacion/modelo_en_pb'):
     """
     Este método se encarga de convertir el modelo de machine learning de formato .h5 a formato.pb
-    :param RUTA_MODELO_GUARDADO:Es el path completo del archivo que contiene el modelo de machine learning.
-    :param RUTA_MODELO_GUARDADO_PB: Es la dirección de la carpeta dónde se guardará el modelo en .pb
+    :param ruta_modelo_guardado:Es el path completo del archivo que contiene el modelo de machine learning.
+    :param ruta_modelo_guardado_pb: Es la dirección de la carpeta dónde se guardará el modelo en .pb
     """
-    model = load_model(RUTA_MODELO_GUARDADO)
-    if exists(RUTA_MODELO_GUARDADO_PB):
-        rmtree(RUTA_MODELO_GUARDADO_PB)
+    model = load_model(ruta_modelo_guardado)
+    if exists(ruta_modelo_guardado_pb):
+        rmtree(ruta_modelo_guardado_pb)
     with K.get_session() as sess:
-        builder = saved_model_builder.SavedModelBuilder(RUTA_MODELO_GUARDADO_PB)
+        builder = saved_model_builder.SavedModelBuilder(ruta_modelo_guardado_pb)
 
         signature = predict_signature_def(inputs={'images': model.input},
                                           outputs={'scores': model.output})
@@ -100,19 +99,20 @@ def _convertir_modelo_pb(RUTA_MODELO_GUARDADO="modelo_de_clasificacion/modelo_en
     print("Modelo convertido correctamente")
 
 
-def hacer_diagnostico(input, RUTA_MODELO_GUARDADO_PB="modelo_de_clasificacion/modelo_en_pb"):
+def hacer_diagnostico(inputs, ruta_modelo_guardado_pb="modelo_de_clasificacion/modelo_en_pb"):
     """
     Se encarga de hacer el diagnostico del hongo de la roya de las imágenes de plantas procesadas que estén en el input
-    :param input: Es una tupla de tres matrices dónde la primera matriz corresponde a los datos de los sensores
+    :param inputs: Es una tupla de tres matrices dónde la primera matriz corresponde a los datos de los sensores
     procesador, el segundo las imágenes de las plantas procesadas, y el tercero las imágenes multiespectrales procedas.
+    :param ruta_modelo_guardado_pb: Es la dirección de la carpeta dónde se guardará el modelo en .pb
     :return: Una el promedio de los diagnósticos que se hicieron a las fotos procesadas que contenía el input
     """
-    imagenes_procesadas = input[1]
+    imagenes_procesadas = inputs[1]
     if imagenes_procesadas is None:
         return 0
     with tf.Session() as sess:
         K.set_session(sess)
-        meta_graph_def = tf.saved_model.loader.load(sess, [tag_constants.SERVING], RUTA_MODELO_GUARDADO_PB)
+        meta_graph_def = tf.saved_model.loader.load(sess, [tag_constants.SERVING], ruta_modelo_guardado_pb)
         signature = meta_graph_def.signature_def
         x1_tensor_name = signature['predict'].inputs['images'].name
         y_tensor_name = signature['predict'].outputs["scores"].name

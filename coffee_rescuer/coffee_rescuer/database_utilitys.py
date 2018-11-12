@@ -10,9 +10,10 @@ class Database:
     def obtener_lot_data_usuario(self, owner_id,lote_id, fecha_inicial):
         """
         Permite obtener los datos de un lote de un usuario de la bd coffee_leaf_rust_diagnosis desde cierta fecha.
-        :param owner_id: La identificacion del usuario en la base de datos coffee_leaf_rust_diagnosis.
-        Es importante resaltar, que esta identificacion en coffee_rescuer_db es el campo
+        :param owner_id: La identificación del usuario en la base de datos coffee_leaf_rust_diagnosis.
+        Es importante resaltar, que esta identificación en coffee_rescuer_db es el campo
         username y se trata como un string.
+        :param lote_id: El id del lote del que se obtendrán datos
         :param fecha_inicial: Fecha inicial en datetime para la obtención de datos.
         :return: una lista con los datos de los lotes de un usuario.
         """

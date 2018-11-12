@@ -195,7 +195,8 @@ def actualizar_etapa_detalle_lote(id_detalle_lote):
 def __construir_mensaje(finca, lote, usuario, fecha):
     """
     Se encarga de construir el mensaje de notificación para un usuario
-    :param finca: La finca que requiere la atencion del usuario
+    :param finca: La finca que requiere la atención del usuario
+    :param lote: El lote que requiere la atención del usuario
     :param usuario: El username del usuario
     :param fecha: La fecha en la que se tomaron los datos
     :return: un string con el mensaje construido
