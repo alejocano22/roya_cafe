@@ -12,7 +12,7 @@ import tzlocal
 from apps.lote.ETAPA_ROYA import ETAPA_ROYA
 from apps.lote.formato_fecha import dar_formato_fecha
 from django.db import models
-from modelo_de_clasificacion.modelo_keras import obtener_promedio_diagnostico
+from coffee_rescuer.views import predict_document
 
 
 
@@ -159,12 +159,16 @@ def actualizar_etapa_detalle_lote(id_detalle_lote):
     """
     Se encarga de usar el modelo de diagnostico para actualizar la etapa del hongo de la roya de un detalle_lote.
     Si el ultimo_estado_hongo de un lote es distinto a la etapa diagnosticada aqui se actualizará y
-    tambien se enviará un correo si la etapa diagnosticada aqui es mayor a 2 o mayor y el usuario tiene correo
+    tambien se enviará un correo si la etapa diagnosticada aqui es igual a 2 o mayor y el usuario tiene correo
     :param id_detalle_lote: detalle_lote a actualizar
     """
     try:
         detalle_lote = DetalleLote.objects.get(id=id_detalle_lote)
-        result_task = obtener_promedio_diagnostico.delay(imgs_path=detalle_lote.fotos)
+        archivo = open(detalle_lote.info_sensores)
+        contenido_archivo = archivo.read()
+        archivo.close()
+        documento = json.loads(contenido_archivo)
+        result_task = predict_document.delay(documento)
         etapa_hongo = int(result_task.get(disable_sync_subtasks=False))
         DetalleLote.objects.filter(id=id_detalle_lote).update(etapa_hongo=etapa_hongo)
 
@@ -188,7 +192,7 @@ def actualizar_etapa_detalle_lote(id_detalle_lote):
 
 def __construir_mensaje(finca, usuario, fecha):
     """
-    Se encarga de construir el mensaje de notificacion para un usuario
+    Se encarga de construir el mensaje de notificación para un usuario
     :param finca: La finca que requiere la atencion del usuario
     :param usuario: El username del usuario
     :param fecha: La fecha en la que se tomaron los datos

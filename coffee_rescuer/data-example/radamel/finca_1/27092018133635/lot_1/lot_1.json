@@ -6,5 +6,7 @@
 	"env_humidity" : "23.9",
 	"ph" : "8",
 	"lot_number" : "2",
-	"illuminance" : "90"
+	"illuminance" : "90",
+	"plant_1" : "data-example/radamel/finca_1/27092018133635/lot_1/cafe_roya.jpg"
+	
 }

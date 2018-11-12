@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 from django.contrib.auth.views import LoginView,logout_then_login
-from coffee_rescuer.views import mostrar_index,mostrar_nosotros,mostrar_galeria,mostrar_contactanos
+from coffee_rescuer.views import mostrar_index,mostrar_nosotros,mostrar_galeria,mostrar_contactanos,predict
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('finca/', include('apps.finca.urls', namespace="finca")),
@@ -28,7 +28,7 @@ urlpatterns = [
     path('sobreNosotros/', mostrar_nosotros, name="sobre_nosotros"),
     path('galeria/', mostrar_galeria, name="galeria"),
     path('contactanos/', mostrar_contactanos, name="contactanos"),
-
+    path('predict/', predict, name="predict")
 ]
 
 
