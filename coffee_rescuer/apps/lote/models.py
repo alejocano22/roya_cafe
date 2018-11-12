@@ -17,7 +17,7 @@ from coffee_rescuer.views import predict_document
 
 
 class Lote(models.Model):
-    id = models.AutoField(primary_key=True)
+    id = models.PositiveIntegerField(primary_key=True)
     finca = models.ForeignKey(Finca, on_delete=models.CASCADE)
     nombre = models.CharField(max_length=50, null=True, blank=True)
     ultimo_estado_hongo = models.PositiveIntegerField(default=0,
