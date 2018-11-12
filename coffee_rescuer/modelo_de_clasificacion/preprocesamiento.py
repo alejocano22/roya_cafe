@@ -24,7 +24,7 @@ class ProcesamientoDatos:
             if key.startswith("plant"):  # Se revisan los paths de las imagenes que empiezan de esta forma
                 imgs_paths.append(documento[key])
             elif key.startswith("re") or key.startswith("rgn"):
-                espectral_imgs_paths.append(espectral_imgs_paths)
+                espectral_imgs_paths.append(documento[key])
             elif not (key.startswith("_id") or key.startswith("timestamp") or key.startswith(
                     "owner_id") or key.startswith("farm_id") or key.startswith("lot_number")):
                 datos_sensores[key] = documento[key]

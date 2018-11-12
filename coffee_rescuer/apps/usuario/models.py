@@ -40,7 +40,7 @@ def actualizar_info_usuario(username):
             else:
                 fecha_inicial = detalle_lote_actual.obtener_fecha_formato_python()
 
-            new_lot_data = db.obtener_lot_data_usuario(username, fecha_inicial)
+            new_lot_data = db.obtener_lot_data_usuario(username,lote.id ,fecha_inicial)
             for detalle_lote in new_lot_data:
                 try: # Debido a que por ahora no todos los detalles tienen los path de las plantas
                     path_fotos = detalle_lote["plant_1"]

@@ -109,7 +109,7 @@ class DetalleLote(models.Model):
     lote = models.ForeignKey(Lote, on_delete=models.CASCADE)
     info_sensores = models.FilePathField(path=os.path.join(BASE_DIR, 'data'), match='.*.json$', recursive=True,
                                          allow_files=True, unique=True)  # poner data
-    fotos = models.FilePathField(path=os.path.join(BASE_DIR, 'data'), match='lot.*', recursive=True, allow_folders=True,
+    fotos = models.FilePathField(path=os.path.join(BASE_DIR, 'data'), match='lot_.*', recursive=True, allow_folders=True,
                                  allow_files=False, unique=True)
 
     def obtener_fecha_formato_python(self):
@@ -175,22 +175,24 @@ def actualizar_etapa_detalle_lote(id_detalle_lote):
         usuario = detalle_lote.lote.finca.usuario
         correo = usuario.email
         nombre_finca = detalle_lote.lote.finca.nombre
-
+        nombre_lote  = detalle_lote.lote.nombre
         if detalle_lote.lote.ultimo_estado_hongo != etapa_hongo:
             detalle_lote.lote.ultimo_estado_hongo = etapa_hongo  # Actualización último_estado_hongo del lote
             detalle_lote.lote.save()
             if correo and etapa_hongo >= ETAPA_ROYA[2][0]:  # Se debe enviar el correo solo en etapa 2 o mayor
                 if not nombre_finca:
                     nombre_finca = "con id: " + str(detalle_lote.lote.finca.id)
+                if not nombre_lote:
+                    nombre_lote = "con id: " + str(detalle_lote.lote.id)
                 asunto = 'Notificación automática de Coffee Rescuer'
                 fecha = detalle_lote.obtener_fecha_formato_python()
-                mensaje = __construir_mensaje(nombre_finca, usuario, fecha)
+                mensaje = __construir_mensaje(nombre_finca, nombre_lote,usuario, fecha)
                 enviar_mail.delay(asunto, mensaje, correo)
     except Exception as e:
         print("Ha ocurrido un error:", e)
 
 
-def __construir_mensaje(finca, usuario, fecha):
+def __construir_mensaje(finca, lote, usuario, fecha):
     """
     Se encarga de construir el mensaje de notificación para un usuario
     :param finca: La finca que requiere la atencion del usuario
@@ -198,10 +200,12 @@ def __construir_mensaje(finca, usuario, fecha):
     :param fecha: La fecha en la que se tomaron los datos
     :return: un string con el mensaje construido
     """
-    mensaje = '{}{}{}{}{}{}{}'.format(
+    mensaje = '{}{}{}{}{}{}{}{}{}'.format(
         'Usuario ',
         usuario,
-        '\nLe informamos que el estado de desarrollo del hongo de la roya en uno de sus lotes de la finca ',
+        '\nLe informamos que el estado de desarrollo del hongo de la roya en el lote ',
+        lote,
+        ' de la finca ',
         finca,
         ' ha cambiado. Le recomendamos revisar la plataforma\n',
         dar_formato_fecha(fecha),
@@ -248,12 +252,9 @@ def post_save_lote(sender, instance, **kwargs):
 
     promedio_estado_lotes = 0
     for lote in lotes:
-        detalle_lote_actual = lote.obtener_detalle_lote_actual()
-        if detalle_lote_actual:
-            promedio_estado_lotes += detalle_lote_actual.etapa_hongo
-        else:
-            promedio_estado_lotes += lote.ultimo_estado_hongo
+        promedio_estado_lotes += lote.ultimo_estado_hongo
 
     promedio_estado_lotes = int(promedio_estado_lotes / len(lotes))
+    
     instance.finca.promedio_estado_lotes = promedio_estado_lotes
     instance.finca.save()

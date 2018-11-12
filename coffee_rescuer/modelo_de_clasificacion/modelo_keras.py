@@ -74,7 +74,7 @@ def _construir_modelo(RUTA_MODELO_GUARDADO="modelo_de_clasificacion/modelo_en_h5
 
     model.save(RUTA_MODELO_GUARDADO)  # lo guarda en .h5
     print("Modelo guardado correctamente")
-    sess.close()
+
 
 
 def _convertir_modelo_pb(RUTA_MODELO_GUARDADO="modelo_de_clasificacion/modelo_en_h5/modelo_construido.h5",

@@ -52,7 +52,6 @@ def predict(request):
          info_request = json.loads(request.body)
          path_timestamp_folder = info_request["data"]
          path_timestamp_folder = path_timestamp_folder[len("coffee_leaf_rust_diagnosis//")-1:]
-
          path_timestamp_folder = join(BASE_DIR, path_timestamp_folder)
          for (path, ficheros, archivos) in walk(path_timestamp_folder):
             for archivo in archivos:
@@ -62,10 +61,9 @@ def predict(request):
                     contenido_archivo = archivo.read()
                     archivo.close()
                     documento =  json.loads(contenido_archivo)
-                    print("Peticion al api funcionando")
                     result_task = predict_document.delay(documento=documento)
                     etapa_hongo = int(result_task.get(disable_sync_subtasks=False))
-                    documento["etapa_hongo_imagenes"] = etapa_hongo
+                    documento["development_stage"] = etapa_hongo
                     result_json[basename(path)] = documento
     return HttpResponse(json.dumps(result_json), content_type='application/json')
 
