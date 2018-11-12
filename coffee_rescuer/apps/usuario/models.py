@@ -3,9 +3,10 @@ from datetime import datetime
 from datetime import timedelta
 from django.db import models
 from django.contrib.auth.models import User
-from coffee_rescuer.settings import BASE_DIR
+from coffee_rescuer.database_utilitys import Database
+from apps.lote import models as models_lote
+from apps.finca import models as models_finca
 import os
-import json
 from coffee_rescuer.celery import app
 
 
@@ -17,36 +18,35 @@ class PerfilUsuario(models.Model):
     def __str__(self):
         return self.usuario.username
 
-#@app.task descomentar si se va a usar celery, tambien descomentar en usuario views
+
+@app.task
 def actualizar_info_usuario(username):
     """
     Este método permite actualizar los datos que pertenecen a un usuario
     :param username: El username del usuario al que se le actualizaran los datos
     """
-    for (path, ficheros, archivos) in os.walk(os.path.join(BASE_DIR, "data-example", username)):
-        fecha_inicial_analisis = datetime.today() - timedelta(days=365)
+    db = Database()
+    usuario = User.objects.get(username=username)
+    fincas = models_finca.Finca.objects.filter(usuario=usuario)
+    lotes_usuario = []
+    for finca in fincas:
+        lotes_finca_actual = models_lote.Lote.objects.filter(finca=finca.id)
 
-        if os.path.basename(path).startswith("finca"):
-            for fichero in ficheros:
+        for lote in lotes_finca_actual:
+            detalle_lote_actual = lote.obtener_detalle_lote_actual()
 
-                day = int(fichero[0:2])
-                month = int(fichero[2:4])
-                year = int(fichero[4:8])
-                hour = int(fichero[8:10])
-                minute = int(fichero[10:12])
-                second = int(fichero[12:14])
-                fecha_formato_python = datetime(year, month, day, hour, minute, second)
+            if not detalle_lote_actual:
+                fecha_inicial = datetime(2016, 1, 1)
+            else:
+                fecha_inicial = detalle_lote_actual.obtener_fecha_formato_python()
 
-                if fecha_formato_python > fecha_inicial_analisis:
-                    for elemento in os.listdir(os.path.join(path, fichero)):
-                        path_archivo = os.path.join(path, fichero, elemento, elemento + ".json")
-                        archivo = open(path_archivo)
-                        contenido_archivo = archivo.read()
-                        archivo.close()
-                        datos_json = json.loads(contenido_archivo)
-                        tasks.registrar_detalle_lote(fecha_inicial_busqueda=fecha_inicial_analisis,
-                                                           datos_json=datos_json,
-                                                           path_info_sensores=os.path.join(os.path.dirname(path_archivo),
-                                                                        os.path.basename(path_archivo)),
-                                                           path_fotos=os.path.join(os.path.dirname(path_archivo))
-                                                           )
+            new_lot_data = db.obtener_lot_data_usuario(username,lote.id ,fecha_inicial)
+            for detalle_lote in new_lot_data:
+                try: # Debido a que por ahora no todos los detalles tienen los path de las plantas
+                    path_fotos = detalle_lote["plant_1"]
+                    path_fotos = os.path.dirname(path_fotos)
+                    path_sensores = os.path.join(path_fotos, os.path.basename(path_fotos) + ".json")
+                    tasks.registrar_detalle_lote(lote.id, path_sensores, path_fotos)
+                except:
+                    pass
+    db.cerrar_conexion()

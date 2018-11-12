@@ -13,6 +13,7 @@ class Finca(models.Model):
     def __str__(self):
         return self.nombre if self.nombre else str(self.id)
 
+    id = models.AutoField(primary_key=True)
     nombre = models.CharField(null=True, blank=True, max_length=50)
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     promedio_estado_lotes = models.PositiveIntegerField(default=0, choices=ETAPA_ROYA)

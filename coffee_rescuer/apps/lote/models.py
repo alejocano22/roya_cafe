@@ -12,11 +12,12 @@ import tzlocal
 from apps.lote.ETAPA_ROYA import ETAPA_ROYA
 from apps.lote.formato_fecha import dar_formato_fecha
 from django.db import models
-from modelo_de_clasificacion.modelo_keras import obtener_promedio_diagnostico
-from celery.result import AsyncResult
+from coffee_rescuer.views import predict_document
+
 
 
 class Lote(models.Model):
+    id = models.AutoField(primary_key=True)
     finca = models.ForeignKey(Finca, on_delete=models.CASCADE)
     nombre = models.CharField(max_length=50, null=True, blank=True)
     ultimo_estado_hongo = models.PositiveIntegerField(default=0,
@@ -106,9 +107,9 @@ class DetalleLote(models.Model):
     """
     etapa_hongo = models.PositiveIntegerField(default=0, choices=ETAPA_ROYA)
     lote = models.ForeignKey(Lote, on_delete=models.CASCADE)
-    info_sensores = models.FilePathField(path=os.path.join(BASE_DIR, ''), match='.*.json$', recursive=True,
+    info_sensores = models.FilePathField(path=os.path.join(BASE_DIR, 'data'), match='.*.json$', recursive=True,
                                          allow_files=True, unique=True)  # poner data
-    fotos = models.FilePathField(path=os.path.join(BASE_DIR, ''), match='lot.*', recursive=True, allow_folders=True,
+    fotos = models.FilePathField(path=os.path.join(BASE_DIR, 'data'), match='lot_.*', recursive=True, allow_folders=True,
                                  allow_files=False, unique=True)
 
     def obtener_fecha_formato_python(self):
@@ -158,45 +159,53 @@ def actualizar_etapa_detalle_lote(id_detalle_lote):
     """
     Se encarga de usar el modelo de diagnostico para actualizar la etapa del hongo de la roya de un detalle_lote.
     Si el ultimo_estado_hongo de un lote es distinto a la etapa diagnosticada aqui se actualizará y
-    tambien se enviará un correo si la etapa diagnosticada aqui es mayor a 2 o mayor y el usuario tiene correo
+    tambien se enviará un correo si la etapa diagnosticada aqui es igual a 2 o mayor y el usuario tiene correo
     :param id_detalle_lote: detalle_lote a actualizar
     """
     try:
         detalle_lote = DetalleLote.objects.get(id=id_detalle_lote)
-        result_task = obtener_promedio_diagnostico.delay(imgs_path=detalle_lote.fotos)
+        archivo = open(detalle_lote.info_sensores)
+        contenido_archivo = archivo.read()
+        archivo.close()
+        documento = json.loads(contenido_archivo)
+        result_task = predict_document.delay(documento)
         etapa_hongo = int(result_task.get(disable_sync_subtasks=False))
         DetalleLote.objects.filter(id=id_detalle_lote).update(etapa_hongo=etapa_hongo)
 
         usuario = detalle_lote.lote.finca.usuario
         correo = usuario.email
         nombre_finca = detalle_lote.lote.finca.nombre
-
+        nombre_lote  = detalle_lote.lote.nombre
         if detalle_lote.lote.ultimo_estado_hongo != etapa_hongo:
             detalle_lote.lote.ultimo_estado_hongo = etapa_hongo  # Actualización último_estado_hongo del lote
             detalle_lote.lote.save()
             if correo and etapa_hongo >= ETAPA_ROYA[2][0]:  # Se debe enviar el correo solo en etapa 2 o mayor
                 if not nombre_finca:
                     nombre_finca = "con id: " + str(detalle_lote.lote.finca.id)
+                if not nombre_lote:
+                    nombre_lote = "con id: " + str(detalle_lote.lote.id)
                 asunto = 'Notificación automática de Coffee Rescuer'
                 fecha = detalle_lote.obtener_fecha_formato_python()
-                mensaje = __construir_mensaje(nombre_finca, usuario, fecha)
+                mensaje = __construir_mensaje(nombre_finca, nombre_lote,usuario, fecha)
                 enviar_mail.delay(asunto, mensaje, correo)
     except Exception as e:
         print("Ha ocurrido un error:", e)
 
 
-def __construir_mensaje(finca, usuario, fecha):
+def __construir_mensaje(finca, lote, usuario, fecha):
     """
-    Se encarga de construir el mensaje de notificacion para un usuario
+    Se encarga de construir el mensaje de notificación para un usuario
     :param finca: La finca que requiere la atencion del usuario
     :param usuario: El username del usuario
     :param fecha: La fecha en la que se tomaron los datos
     :return: un string con el mensaje construido
     """
-    mensaje = '{}{}{}{}{}{}{}'.format(
+    mensaje = '{}{}{}{}{}{}{}{}{}'.format(
         'Usuario ',
         usuario,
-        '\nLe informamos que el estado de desarrollo del hongo de la roya en uno de sus lotes de la finca ',
+        '\nLe informamos que el estado de desarrollo del hongo de la roya en el lote ',
+        lote,
+        ' de la finca ',
         finca,
         ' ha cambiado. Le recomendamos revisar la plataforma\n',
         dar_formato_fecha(fecha),
@@ -243,12 +252,9 @@ def post_save_lote(sender, instance, **kwargs):
 
     promedio_estado_lotes = 0
     for lote in lotes:
-        detalle_lote_actual = lote.obtener_detalle_lote_actual()
-        if detalle_lote_actual:
-            promedio_estado_lotes += detalle_lote_actual.etapa_hongo
-        else:
-            promedio_estado_lotes += lote.ultimo_estado_hongo
+        promedio_estado_lotes += lote.ultimo_estado_hongo
 
     promedio_estado_lotes = int(promedio_estado_lotes / len(lotes))
+    
     instance.finca.promedio_estado_lotes = promedio_estado_lotes
     instance.finca.save()
