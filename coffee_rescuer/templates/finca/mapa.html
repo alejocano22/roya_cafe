@@ -5,7 +5,7 @@
 
 {% endblock extrastatic %}
 {% block content %}
-<canvas id="circle_finca" width="100" height="120"></canvas>
+<canvas id="circle_finca" width="120" height="120"></canvas>
 <SPAN style="position: absolute; top: 80 px; left 100 px; font-size: xx-large;">
     <br>
     {% if finca.nombre %}
@@ -24,12 +24,13 @@
      <div class="col-2 py-2">
 
     <a class="btn btn-success" href="{% url 'finca:editor' finca.id%}">Crear Mapa</a>
+          <button style="display:none;" type="button" id="showModal" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"></button>
      </div>
     </div>
     <br>
 <div class="container">
         <div class="row">
-            <div class="col-12 pre-scrollable" >
+            <div class="col-12 pre-scrollable" style="min-height: 1000px;" >
                 <div style="">
                 <canvas id="canva_mapa"  style="position:relative; border:1px solid #7B7B7B;" >
     Your browser does not support the HTML5 canvas tag.</canvas>
@@ -37,21 +38,37 @@
         </div>
 
 </div>
-<!-- <a href="#openModal">Lanzar el modal</a> -->
 
-
-<!--<div id="openModal" class="modalDialog">-->
-    <!--<div>-->
-        <!--<a href="#close" title="Close" class="close">X</a>-->
-        <!--<iframe src="http:/10.161.39.219:8000/lote/4/" frameborder="0"></iframe>-->
-    <!--</div>-->
-<!--</div>-->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog w-100" role="document" style="min-height: 800px; ">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Información de lote</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" >
+        <iframe id="loteFrame" class="w-100" style="min-height: 500px;"  frameborder="0"></iframe>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
     var jsonContextoCoordenadas = "{{coordenadas}}".replace(/(&quot\;)/g,"\"");
     var jsonContextoEtapas = "{{etapas}}".replace(/(&quot\;)/g,"\"");
     var jsonContextoLotes = "{{lotes}}".replace(/(&quot\;)/g,"\"");
     var prom = "{{finca.promedio_estado_lotes}}";
+
+    function f(i) {
+        var frame = document.getElementById('loteFrame');
+        frame.src ="http://sinroya.dis.eafit.edu.co/lote/"+i;
+        document.getElementById("showModal").click();
+    }
 </script>
 <script src="{%static 'js/canvas.js'%}"></script>
 <script src="{%static 'js/mapa.js'%}"></script>

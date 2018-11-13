@@ -1,28 +1,67 @@
 {% extends "base/base.html" %}
 {% block content %}
-    <img src="https://preview.ibb.co/duMHYe/Imagen1.png" height="100" width="100">
-    <h1>Editor de Mapas</h1>
-    <div>
+{% load json_filters %}
+        <img src="https://preview.ibb.co/duMHYe/Imagen1.png" height="100" width="100">
+        <h1>Editor de Mapas</h1>
+        <form>
+            <select id="mySelect" class="custom-select">
+                            {% for lote in lotes %}
+                                <option value="{{lote.id}}">{{lote}}</option>
+                            {% endfor %}
+            </select>
+        </form>
+        <h2 id="pintarLote"></h2>
+        <button class="btn btn-primary mt-1" onclick="revertir()">Revertir</button>
         <form method="post">{% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" class="btn btn-primary" onclick="myFunction()">Exportar</button>
+            <button type="submit" class="btn btn-primary mt-1" onclick="myFunction()">Exportar</button>
         </form>
-    </div>
-    <br><br><br>
+        <br><br><br>
 
 
-    <div class="container">
-        <div class="row">
-            <div class="col-12 pre-scrollable">
-                <div style="">
-                    <canvas id="canvas" style="position:relative; border:1px solid #7B7B7B;">
-                        Your browser does not support the HTML5 canvas tag.
-                    </canvas>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 pre-scrollable" style="min-height: 1000px;">
+                    <div style="">
+                        <canvas id="canvas" style="position:relative; border:1px solid #7B7B7B;">
+                            Your browser does not support the HTML5 canvas tag.
+                        </canvas>
+                    </div>
                 </div>
-            </div>
 
         </div>
-        <script>
+        </div>
+
+        <script >
+            var currentId=-1;
+            var currentName="";
+            var pastId;
+            var pastName;
+            var pastX;
+            var pastY;
+            var pastW;
+            var pastH;
+            var historial = "{{lotes |jsonify }}".replace(/(&quot\;)/g, "\"");
+            historial = JSON.parse(historial);
+            function removerSeleccionado(x,y,w,h){
+                var listaDesplegable = document.getElementById("mySelect");
+                currentId = listaDesplegable.value;
+                currentName = listaDesplegable.text;
+                for (var i=0; i<listaDesplegable.length; i++){
+                    if (listaDesplegable.options[i].value == currentId ){
+                        pastId = currentId;
+                        pastName = historial[currentId-1]["fields"]["nombre"];
+                        pastX=x;
+                        pastY=y;
+                        pastW=w;
+                        pastH=h;
+                        listaDesplegable.remove(i);
+                    }
+                }
+                currentId = parseInt(currentId);
+
+            }
+
             function rgbToHex(rgb) {
                 var hex = Number(rgb).toString(16);
                 if (hex.length < 2) {
@@ -31,12 +70,26 @@
                 return hex;
             }
 
+
+
             const canvas = document.getElementById('canvas');
             const ctx = canvas.getContext('2d');
             canvas.width = 1000;
             canvas.height = 500;
 
-
+            function revertir() {
+                if(pastId!=null){
+                    var listaDesplegable = document.getElementById("mySelect");
+                    var opt1 = document.createElement("option");
+                    opt1.value = pastId;
+                    opt1.text = pastName;
+                    listaDesplegable.add(opt1, null);
+                    ctx.beginPath();
+                    ctx.fillStyle = "#FFFFFF";
+                    ctx.fillRect(pastX[pastX.length-1], pastY[pastY.length-1],pastW[pastW.length-1], pastH[pastH.length-1]);
+                    ctx.fill();
+                }
+            }
             var i = 0;
             var coordX = new Array(2);
             var coordY = new Array(2);
@@ -83,7 +136,8 @@
                     dataY[cont] = coordY[0];
                     dataW[cont] = coordX[1] - coordX[0];
                     dataH[cont] = coordY[1] - coordY[0];
-                    names[cont] = prompt("Por favor ingresa el id del lote", "");
+                    removerSeleccionado(dataX,dataY,dataW,dataH);
+                    names[cont] = currentId;
                     cont++;
                     i = 0;
                 }
