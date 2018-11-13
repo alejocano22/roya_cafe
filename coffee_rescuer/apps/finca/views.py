@@ -58,5 +58,8 @@ def editor_view(request,id_finca):
             Coordenada.objects.create(lote=lote, x=coordenada["x"], y=coordenada["y"], width=coordenada["w"],height=coordenada["h"])
         return redirect("finca:mapa", id_finca)
     form = EditorForm()
-    context = {"finca": id_finca,"form":form}
+    lotes = Lote.objects.filter(finca=id_finca)
+   # lotes = serializers.serialize('json', lotes, fields=["id", "nombre"])
+
+    context = {"finca": id_finca,"form":form, "lotes": lotes}
     return render(request, "finca/editorMapa.html", context)
