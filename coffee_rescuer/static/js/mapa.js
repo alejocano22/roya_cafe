@@ -92,7 +92,7 @@ let canva_mapa = new Canvas("canva_mapa");
 ancho_actual = document.getElementById('canva_mapa').offsetWidth;
 alto_actual = document.getElementById('canva_mapa').offsetHeight;
 canva_mapa.c.width = 1000;
-canva_mapa.c.height = 500;
+canva_mapa.c.height = 1000;
 let informacion =  new Informacion(jsonContextoCoordenadas,jsonContextoEtapas,jsonContextoLotes);
 pintarMapa();
 
