@@ -1,7 +1,8 @@
-{% extends "base/base.html" %}
-{% load staticfiles %}a
-{% block content %}
-
+{% load staticfiles %}
+<head>
+   <link rel="stylesheet" href="{%static 'css/bootstrap.min.css'%}">
+</head>
+<body>
     <div class="row">
         <div class="col-2 mb-1">
             <canvas id="canva_lote" width="100" height="120"></canvas>
@@ -16,7 +17,7 @@
     {% if messages %}
         <ul class="messages">
             {% for message in messages %}
-                <h4{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                <h4>{% if message.tags %} class="{{ message.tags }}"{% endif %}>
                     {{ message }} </h4>
             {% endfor %}
         </ul>
@@ -26,12 +27,12 @@
         <h1>Temperatura: {{ info_sensores.env_temperature }}</h1>
         <h1>Humedad: {{ info_sensores.env_humidity }}</h1>
         <h1>Ph: {{ info_sensores.ph }}</h1>
-        <a href="historial_lote" class="btn btn-primary">Ver historial</a>
+        <a href="historial_lote" target="_blank" class="btn btn-primary">Ver historial</a>
     {% endif %}
     <script> var etapa = '{{etapa_hongo}}';</script>
     <script src="{% static 'js/canvas.js' %}"></script>
     <script src="{% static 'js/vistalote.js' %}"></script>
-{% endblock content %}
+</body>
 
 
 

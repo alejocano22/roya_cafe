@@ -22,8 +22,8 @@
   {% endblock %}
 </head>
 
-<body>
-  <div class="container">
+<body style="background-image: url('{% static 'img/background.jpg' %}');">
+  <div class="container" style=" min-height: 500px; background-image: url('{% static 'img/bg2.jpg' %}');">
     {% block navbar %}
     <!-- Aca debemos crear el menu de navegacion -->
     {% endblock navbar %}
@@ -37,7 +37,6 @@
   </div>
  <script src="{%static 'js/jquery.min.js'%}"></script>
   <script src="{%static 'js/main.js'%}"></script>
-  
   <script src="{%static 'js/bootstrap.min.js'%}"></script>
   {% block extrajs %}
   <!--Nuestros archivos js -->
