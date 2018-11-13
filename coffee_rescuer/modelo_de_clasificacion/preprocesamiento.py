@@ -55,7 +55,7 @@ class ProcesamientoDatos:
         x = image.img_to_array(img)
         return np.expand_dims(x, axis=0)
 
-    def _procesar_imagenes(self, img_paths, alto=640, ancho=480):
+    def _procesar_imagenes(self, img_paths, alto=224, ancho=224):
         """
          Este método permite procesar varias imagenes en el formato que requiere el modelo de machine learning
         :param alto: El alto de las imagenes objetivo
@@ -79,7 +79,7 @@ class ProcesamientoDatos:
         labels = []
         for (path, ficheros, archivos) in os.walk(dir_path):
             for elemento in os.listdir(path):
-                if join(path, elemento).endswith(".png") or join(path, elemento).endswith(".jpg"):
+                if join(path, elemento).endswith(".jpeg") or join(path, elemento).endswith(".jpg") or join(path, elemento).endswith(".JPG")  or join(path, elemento).endswith(".JPEG"):
                     path_imagenes.append(join(path, elemento))
                     labels.append(int(path[-1]))
         x_set = self._procesar_imagenes(path_imagenes)

@@ -15,8 +15,8 @@ from tensorflow.python.saved_model import tag_constants
 from tensorflow.python.saved_model.signature_def_utils_impl import predict_signature_def
 
 
-def _construir_modelo(ruta_modelo_guardado="modelo_de_clasificacion/modelo_en_h5/modelo_construido.h5", ancho=640,
-                      alto=480, batch_size=3):
+def _construir_modelo(ruta_modelo_guardado="modelo_de_clasificacion/modelo_en_h5/modelo_construido.h5", ancho=224,
+                      alto=224, batch_size=32):
     """
     Este método se encarga de construir el modelo de machine learning y guardarlo en formato.h5
     :param ruta_modelo_guardado: Es el path completo del archivo que contendrá el modelo de machine learning y se creará

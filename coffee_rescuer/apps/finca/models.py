@@ -34,7 +34,7 @@ def obtener_coordenadas(id_finca):
             coordenada = {"x": coordenada.x,"y": coordenada.y, "w": coordenada.width, "h": coordenada.height}
             coordenadas[lote.id] = coordenada
         except Exception as e:
-            print(e,"nalga")
+            pass
 
     return coordenadas
 

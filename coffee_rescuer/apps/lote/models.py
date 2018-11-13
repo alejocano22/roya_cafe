@@ -250,12 +250,11 @@ def post_save_lote(sender, instance, **kwargs):
     @param instance: El lote que se ha agregado o cambiado en la base de datos
     """
     lotes = Lote.objects.filter(finca=instance.finca)
-
+    
     promedio_estado_lotes = 0
     for lote in lotes:
         promedio_estado_lotes += lote.ultimo_estado_hongo
 
-    promedio_estado_lotes = int(promedio_estado_lotes / len(lotes))
-    
+    promedio_estado_lotes = int(round(promedio_estado_lotes / len(lotes)))
     instance.finca.promedio_estado_lotes = promedio_estado_lotes
     instance.finca.save()

@@ -80,5 +80,5 @@ def predict_document(documento):
     procesador = ProcesamientoDatos()
     input = procesador.preprocesar_detalle_lote(documento)
     promedio_prediccion_imagenes = modelo_keras.hacer_diagnostico(input)
-    return promedio_prediccion_imagenes
+    return int(round(promedio_prediccion_imagenes))
 
