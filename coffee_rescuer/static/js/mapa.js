@@ -81,8 +81,6 @@ function handleClick(e){
         if(posx <= x+w && posx >= x && posy <= y+h && posy >=y){
 
             f(i);
-
-
         }
 
     }
