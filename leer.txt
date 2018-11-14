@@ -1,0 +1,6 @@
+source env_coffee/bin/activate   // para activar el entorno virtual
+python manage.py runserver 192.168.10.115:3600 // Ejecutar este comando para iniciar el proceso web de django. Se debe realizar dentro de roya_cafe/coffee_rescuer
+
+./redis-server // Ejecutar este comando para iniciar el proceso de redis que permite la ejecucion de la libreria celery . Se debe realizar dentro de redis-stable/src
+
+celery worker -A coffee_rescuer.celery -B --loglevel=info // Ejecutar este comando para iniciar el proceso de celery que hace tareas de manera asincrona, como lo es envio de correos o la actualizacion automatica de datos en la mongodb
