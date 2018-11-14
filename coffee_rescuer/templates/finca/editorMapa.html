@@ -50,7 +50,13 @@
                 for (var i=0; i<listaDesplegable.length; i++){
                     if (listaDesplegable.options[i].value == currentId ){
                         pastId = currentId;
-                        pastName = historial[currentId-1]["fields"]["nombre"];
+                        var name;
+                        for (var j=0;j<historial.length;j++){
+                            if(historial[j]["pk"]+""==(currentId+"")){
+                                name =historial[j]["fields"]["nombre"];
+                            }
+                        }
+                        if(name!=null)pastName = name;
                         pastX=x;
                         pastY=y;
                         pastW=w;
@@ -78,7 +84,7 @@
             canvas.height = 500;
 
             function revertir() {
-                if(pastId!=null&&pastName!=null){
+                if(pastId!=null){
                     var listaDesplegable = document.getElementById("mySelect");
                     var opt1 = document.createElement("option");
                     opt1.value = pastId;
@@ -128,7 +134,6 @@
                 i++;
 
                 if (i == 2) {
-
                     var r = Math.floor((Math.random() * 255) + 1);
                     var g = Math.floor((Math.random() * 255) + 1);
                     var b = Math.floor((Math.random() * 255) + 1);
