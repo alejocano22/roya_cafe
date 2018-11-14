@@ -78,16 +78,23 @@
             canvas.height = 500;
 
             function revertir() {
-                if(pastId!=null){
+                if(pastId!=null&&pastName!=null){
                     var listaDesplegable = document.getElementById("mySelect");
                     var opt1 = document.createElement("option");
                     opt1.value = pastId;
-                    opt1.text = pastName;
+                    if(pastName!=null)opt1.text = pastName;
+                    else opt1.text = pastId;
                     listaDesplegable.add(opt1, null);
                     ctx.beginPath();
                     ctx.fillStyle = "#FFFFFF";
                     ctx.fillRect(pastX[pastX.length-1], pastY[pastY.length-1],pastW[pastW.length-1], pastH[pastH.length-1]);
                     ctx.fill();
+                    pastId = null;
+                    pastName = null;
+                    pastX=null;
+                    pastY=null;
+                    pastW=null;
+                    pastH=null;
                 }
             }
             var i = 0;
