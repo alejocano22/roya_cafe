@@ -38,7 +38,8 @@ def registrar_detalle_lote(id_lote, path_info_sensores):
     :param path_info_sensores: La dirección del .json con la información de los sensores
     """
     lote = models.Lote.objects.get(id=id_lote)
-    models.DetalleLote.objects.create(lote=lote, info_sensores=path_info_sensores)
+    if len(models.DetalleLote.objects.filter(info_sensores=path_info_sensores)) == 0:
+        models.DetalleLote.objects.create(lote=lote, info_sensores=path_info_sensores)
 
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):

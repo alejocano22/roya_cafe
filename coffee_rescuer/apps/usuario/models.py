@@ -8,7 +8,7 @@ from apps.lote import models as models_lote
 from apps.finca import models as models_finca
 import os
 from coffee_rescuer.celery import app
-
+import pytz
 
 class PerfilUsuario(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -38,16 +38,36 @@ def actualizar_info_usuario(username):
                 fecha_inicial = datetime(2016, 1, 1)
             else:
                 fecha_inicial = detalle_lote_actual.obtener_fecha_formato_python()
-
-            new_lot_data = db.obtener_lot_data_usuario(username,lote.id ,fecha_inicial)
+                fecha_inicial = fecha_inicial.replace(tzinfo=pytz.utc)
+            new_lot_data = db.obtener_lot_data_usuario(username,lote.id, fecha_inicial)
             for detalle_lote in new_lot_data:
-                usuario = detalle_lote["owner_id"]
-                finca = detalle_lote["farm_id"]
-                timestamp = detalle_lote["timestamp"]
-                lot_number = detalle_lote["lot_number"]
+                usuario = str(detalle_lote["owner_id"])
+                finca = str(detalle_lote["farm_id"])
+                fecha  = detalle_lote["timestamp"].replace(tzinfo=pytz.utc)
+                fecha = fecha.astimezone(pytz.timezone("America/Bogota"))
+                day   = str(fecha.day)
+                day   = darle_formato_str(day)
+                month = str(fecha.month)
+                month   = darle_formato_str(month)
+                year  = str(fecha.year)
+                year = darle_formato_str(year)
+                hour  = str(fecha.hour)
+                hour = darle_formato_str(hour)
+                minute = str(fecha.minute)
+                minute = darle_formato_str(minute)
+                second = str(fecha.second)
+                second = darle_formato_str(second)
+                timestamp = day + month + year + hour + minute + second 
+                lot_number = str(detalle_lote["lot_number"])
                 path_sensores = os.path.join("data",usuario,finca,
                                               timestamp,"lot_" + lot_number,"lot_" + lot_number + ".json")
+                
                 if os.path.exists(path_sensores):
                     tasks.registrar_detalle_lote(lote.id, path_sensores)
 
     db.cerrar_conexion()
+
+def darle_formato_str(string_fecha):
+    if len(string_fecha) < 2:
+        string_fecha  = "0" + string_fecha
+    return string_fecha

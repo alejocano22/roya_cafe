@@ -3,8 +3,9 @@ from tqdm import tqdm
 import numpy as np
 
 import os
-from os.path import join,exists
-
+from os.path import join,exists,dirname,basename
+from PIL import ImageFile
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 class ProcesamientoDatos:
 
@@ -30,25 +31,17 @@ class ProcesamientoDatos:
                 datos_sensores[key] = documento[key]
         imgs_procesadas = None
         espectral_imgs_procesadas = None
-
-        for img in imgs_paths:
-            if img is None:
-                imgs_paths.remove(img)
-                continue
-            if not exists(img): #Nos aseguramos que el archivo exista
-                imgs_paths.remove(img)
+        imgs_paths = [img for img in imgs_paths if img is not None and exists(img)]
+        espectral_imgs_paths = [img for img in espectral_imgs_paths if img is not None and exists(img)]
 
         for img in espectral_imgs_paths:
-            if img is None:
-                imgs_paths.remove(img)
-                continue
             if not exists(img):
                 espectral_imgs_paths.remove(img)
-
         if imgs_paths:
             imgs_procesadas = self._procesar_imagenes(imgs_paths)
         if espectral_imgs_paths:
-            espectral_imgs_procesadas = self._procesar_imagenes(espectral_imgs_paths, 4000, 3000)
+            
+            espectral_imgs_procesadas = self._procesar_imagenes(espectral_imgs_paths)
 
         # Aquí se deberia agregar el codigo correspondiente para preprocesar los datos de los sensores
 
