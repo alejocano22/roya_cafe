@@ -13,11 +13,7 @@ app.conf.update(
     BROKER_URL = 'redis://localhost:6379/0'
 )
 
-
-
-
-
-# app.conf.timezone ='America/Bogota'
+app.conf.timezone ='America/Bogota'
 # app.conf.beat_schedule = {
 #     'every_monday_morning': {
 #         'task': 'apps.lote.tasks.every_monday_morning',

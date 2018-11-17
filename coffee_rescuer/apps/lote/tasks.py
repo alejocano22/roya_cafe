@@ -30,68 +30,76 @@ def actualizar_detalles_lote():
 
 
 @app.task
-def registrar_detalle_lote(id_lote, path_info_sensores, path_fotos):
+def registrar_detalle_lote(id_lote, path_info_sensores):
     """
     Este método que se envía a la pila de tareas de celery, busca agregar, un nuevo detalle de lote.
 
     :param id_lote: El id del lote al que le añadirá un nuevo detalle de lote
     :param path_info_sensores: La dirección del .json con la información de los sensores
-    :param path_fotos: La direccion del fichero dónde se localizan las fotos del detalle de lote
     """
     lote = models.Lote.objects.get(id=id_lote)
-    models.DetalleLote.objects.create(lote=lote, info_sensores=path_info_sensores,
-                                        fotos=path_fotos)
-
+    models.DetalleLote.objects.create(lote=lote, info_sensores=path_info_sensores)
 
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
+    """
+    Este método permite ejecutar tareas periódicas usando celery.
+    """
     # Calls actualizar_detalles_lote('hello') every 10 seconds.
-   # sender.add_periodic_task(10.0, actualizar_detalles_lote.s(), name='add every 10')
+    # sender.add_periodic_task(10.0, actualizar_detalles_lote.s(), name='add every 10')
 
     # Executes every day at 1 a.m.
     sender.add_periodic_task(
         crontab(hour=1, minute=0),
         actualizar_detalles_lote.s(),
+        name='Actualizar info at 1 am'
     )
 
     # Executes every day at 4 a.m.
     sender.add_periodic_task(
         crontab(hour=4, minute=0),
         actualizar_detalles_lote.s(),
+        name='Actualizar info at 4 am'
     )
 
     # Executes every day at 7:30 a.m.
     sender.add_periodic_task(
         crontab(hour=7, minute=30),
         actualizar_detalles_lote.s(),
+        name='Actualizar info at 7 30 am'
     )
 
     # Executes every day at 10 a.m.
     sender.add_periodic_task(
         crontab(hour=10, minute=0),
         actualizar_detalles_lote.s(),
+        name='Actualizar info at 10 am'
     )
 
     # Executes every day at 1 p.m.
     sender.add_periodic_task(
-        crontab(hour=1, minute=0),
+        crontab(hour=13, minute=0),
         actualizar_detalles_lote.s(),
+        name='Actualizar info at 1 pm'
     )
 
     # Executes every day at 4 p.m.
     sender.add_periodic_task(
         crontab(hour=16, minute=0),
         actualizar_detalles_lote.s(),
+        name='Actualizar info at 4 pm'
     )
 
-    # Executes every day at 6 p.m.
+    # Executes every day at 5:30 p.m.
     sender.add_periodic_task(
-        crontab(hour=18, minute=0),
+        crontab(hour=17, minute=30),
         actualizar_detalles_lote.s(),
+        name='Actualizar info at 5 30 pm'
     )
 
     # Executes every day at 10 p.m.
     sender.add_periodic_task(
         crontab(hour=22, minute=0),
         actualizar_detalles_lote.s(),
+        name='Actualizar info at 10 pm'
     )

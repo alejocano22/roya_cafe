@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+
+from django.conf.global_settings import STATIC_ROOT
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -108,6 +110,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'es-mx'
 
+TIME_ZONE = 'America/Bogota'
+CELERY_TIMEZONE = 'America/Bogota'
+
 USE_I18N = True
 
 USE_L10N = True
@@ -120,7 +125,7 @@ USE_L10N = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR,'static'),)  
-
+STATIC_ROOT = os.path.join(BASE_DIR,'static_root')
 EMAIL_USE_SSL = True
 
 EMAIL_HOST = 'smtp.gmail.com'

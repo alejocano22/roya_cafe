@@ -28,7 +28,6 @@ def actualizar_info_usuario(username):
     db = Database()
     usuario = User.objects.get(username=username)
     fincas = models_finca.Finca.objects.filter(usuario=usuario)
-    lotes_usuario = []
     for finca in fincas:
         lotes_finca_actual = models_lote.Lote.objects.filter(finca=finca.id)
 
@@ -42,12 +41,13 @@ def actualizar_info_usuario(username):
 
             new_lot_data = db.obtener_lot_data_usuario(username,lote.id ,fecha_inicial)
             for detalle_lote in new_lot_data:
-                try: # Debido a que por ahora no todos los detalles tienen los path de las plantas
-                    path_fotos = detalle_lote["plant_1"]
-                    path_fotos = os.path.dirname(path_fotos)
-                    path_sensores = os.path.join(path_fotos, os.path.basename(path_fotos) + ".json")
-                    if os.path.exists(path_sensores):
-                        tasks.registrar_detalle_lote(lote.id, path_sensores, path_fotos)
-                except:
-                    pass
+                usuario = detalle_lote["owner_id"]
+                finca = detalle_lote["farm_id"]
+                timestamp = detalle_lote["timestamp"]
+                lot_number = detalle_lote["lot_number"]
+                path_sensores = os.path.join("data",usuario,finca,
+                                              timestamp,"lot_" + lot_number,"lot_" + lot_number + ".json")
+                if os.path.exists(path_sensores):
+                    tasks.registrar_detalle_lote(lote.id, path_sensores)
+
     db.cerrar_conexion()

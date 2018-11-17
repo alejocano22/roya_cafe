@@ -5,7 +5,7 @@ from modelo_de_clasificacion.preprocesamiento import ProcesamientoDatos
 from modelo_de_clasificacion import modelo_keras
 from coffee_rescuer.celery import app
 from os import walk
-from os.path import join,basename
+from os.path import join,basename,exists
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 def mostrar_index(request):
@@ -51,6 +51,7 @@ def predict(request):
     if request.method == 'POST':
          info_request = json.loads(request.body)
          path_timestamp_folder = info_request["data"]
+         #Ignoramos coffee_leaf_rust_diagnosis porque lo que tenemos es un acceso directo a data
          path_timestamp_folder = path_timestamp_folder[len("coffee_leaf_rust_diagnosis//")-1:]
          path_timestamp_folder = join(BASE_DIR, path_timestamp_folder)
          for (path, ficheros, archivos) in walk(path_timestamp_folder):

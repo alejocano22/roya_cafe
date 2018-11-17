@@ -3,7 +3,7 @@ from tqdm import tqdm
 import numpy as np
 
 import os
-from os.path import join
+from os.path import join,exists
 
 
 class ProcesamientoDatos:
@@ -14,14 +14,14 @@ class ProcesamientoDatos:
         Convierte las imágenes de las plantas y las imágenes multiespectrales en una lista de tensores 3d con shape
         (alto, ancho, 3), *************falta implementar el procesamiento a los datos de los sensores
         :param documento: Es un diccionario que contiene la informacion del archivo json de los datos de los sensores.
-        :return: Una tupla de tres matrices dónde la primera matriz corresponde a los datos de los sensores
-    procesador, el segundo las imágenes de las plantas procesadas, y el tercero las imágenes multiespectrales procedas.
+        :return: Una tupla de tres matrices dónde la primera matriz corresponde a los datos de los sensores procesados,
+         el segundo las imágenes de las plantas procesadas, y el tercero las imágenes multiespectrales procesadas.
         """
         imgs_paths = []
         espectral_imgs_paths = []
         datos_sensores = {}
         for key in documento.keys():
-            if key.startswith("plant"):  # Se revisan los paths de las imagenes que empiezan de esta forma
+            if key.startswith("plant"):  # Se revisan los paths de las imágenes que empiezan de esta forma
                 imgs_paths.append(documento[key])
             elif key.startswith("re") or key.startswith("rgn"):
                 espectral_imgs_paths.append(documento[key])
@@ -30,6 +30,21 @@ class ProcesamientoDatos:
                 datos_sensores[key] = documento[key]
         imgs_procesadas = None
         espectral_imgs_procesadas = None
+
+        for img in imgs_paths:
+            if img is None:
+                imgs_paths.remove(img)
+                continue
+            if not exists(img): #Nos aseguramos que el archivo exista
+                imgs_paths.remove(img)
+
+        for img in espectral_imgs_paths:
+            if img is None:
+                imgs_paths.remove(img)
+                continue
+            if not exists(img):
+                espectral_imgs_paths.remove(img)
+
         if imgs_paths:
             imgs_procesadas = self._procesar_imagenes(imgs_paths)
         if espectral_imgs_paths:
@@ -79,7 +94,7 @@ class ProcesamientoDatos:
         labels = []
         for (path, ficheros, archivos) in os.walk(dir_path):
             for elemento in os.listdir(path):
-                if join(path, elemento).endswith(".jpeg") or join(path, elemento).endswith(".jpg") or join(path, elemento).endswith(".JPG")  or join(path, elemento).endswith(".JPEG"):
+                if join(path, elemento).lower().endswith(".jpeg") or join(path, elemento).endswith(".jpg"):
                     path_imagenes.append(join(path, elemento))
                     labels.append(int(path[-1]))
         x_set = self._procesar_imagenes(path_imagenes)

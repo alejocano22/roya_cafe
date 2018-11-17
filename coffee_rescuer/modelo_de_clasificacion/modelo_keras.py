@@ -24,6 +24,7 @@ def _construir_modelo(ruta_modelo_guardado="modelo_de_clasificacion/modelo_en_h5
     :param ancho: El ancho de las imágenes que serán pasadas por este modelo.
     :param alto: El alto de la imágenes que serán pasadas por este modelo.
     :param batch_size: Controla el tamaño de cada grupo de datos que van a pasar a través de la red neuronal.
+    Es importante que si la potencia del procesador no es grande, no se ponga un batch_size muy grande.
     """
     sess = tf.Session()
     K.set_session(sess)
@@ -99,26 +100,36 @@ def _convertir_modelo_pb(ruta_modelo_guardado="modelo_de_clasificacion/modelo_en
     print("Modelo convertido correctamente")
 
 
-def hacer_diagnostico(inputs, ruta_modelo_guardado_pb="modelo_de_clasificacion/modelo_en_pb"):
+def _cargar_modelo(ruta_modelo_guardado_pb="modelo_de_clasificacion/modelo_en_pb"):
+    """
+    Este método carga el modelo de machine learning que está construido en tensor flow bajo un formato .pb .
+    :param ruta_modelo_guardado_pb: Es la dirección de la carpeta dónde se guardará el modelo en .pb
+    :return: Una tupla de tres elementos dónde el primero es la sesion de tensorflow, el segundo el tensor de datos
+    en x y el tercero el tensor de datos en y.
+    """
+    sess = tf.Session()
+    K.set_session(sess)
+    meta_graph_def = tf.saved_model.loader.load(sess, [tag_constants.SERVING], ruta_modelo_guardado_pb)
+    signature = meta_graph_def.signature_def
+    x1_tensor_name = signature['predict'].inputs['images'].name
+    y_tensor_name = signature['predict'].outputs["scores"].name
+    x_tensor = sess.graph.get_tensor_by_name(x1_tensor_name)
+    y_tensor = sess.graph.get_tensor_by_name(y_tensor_name)
+    return sess, x_tensor, y_tensor
+
+
+def hacer_diagnostico(inputs):
     """
     Se encarga de hacer el diagnostico del hongo de la roya de las imágenes de plantas procesadas que estén en el input
     :param inputs: Es una tupla de tres matrices dónde la primera matriz corresponde a los datos de los sensores
     procesador, el segundo las imágenes de las plantas procesadas, y el tercero las imágenes multiespectrales procedas.
-    :param ruta_modelo_guardado_pb: Es la dirección de la carpeta dónde se guardará el modelo en .pb
-    :return: Una el promedio de los diagnósticos que se hicieron a las fotos procesadas que contenía el input
+    :return: El promedio de los diagnósticos que se hicieron a las fotos procesadas que contenía el input
     """
     imagenes_procesadas = inputs[1]
     if imagenes_procesadas is None:
         return 0
-    with tf.Session() as sess:
-        K.set_session(sess)
-        meta_graph_def = tf.saved_model.loader.load(sess, [tag_constants.SERVING], ruta_modelo_guardado_pb)
-        signature = meta_graph_def.signature_def
-        x1_tensor_name = signature['predict'].inputs['images'].name
-        y_tensor_name = signature['predict'].outputs["scores"].name
-        x1 = sess.graph.get_tensor_by_name(x1_tensor_name)
-        y = sess.graph.get_tensor_by_name(y_tensor_name)
 
-        results = sess.run(y, feed_dict={x1: imagenes_procesadas})
-        results = np.argmax(results, axis=1)
-        return np.mean(results)
+    sess, x_tensor, y_tensor = _cargar_modelo()
+    results = sess.run(y_tensor, feed_dict={x_tensor: imagenes_procesadas})
+    results = np.argmax(results, axis=1)
+    return np.mean(results)
